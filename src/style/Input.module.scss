@@ -1,0 +1,36 @@
+@import './variables';
+
+.input {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;
+
+  @media only screen and (min-width: $bp-smallest) {
+    margin: 1rem 0;
+  }
+
+  @media only screen and (min-width: $bp-small) {
+    margin: 1.5rem 0;
+  }
+
+  &__label {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    padding-left: 0.2rem;
+  }
+
+  &__field {
+    border: 1px solid $color-grey;
+    font-size: 1.6rem;
+    background-color: $color-grey-light-1;
+    padding: 1rem;
+    border-radius: 0.5rem;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0.5rem $color-blue-3;
+      border: 1px solid $color-blue-3;
+    }
+  } 
+}

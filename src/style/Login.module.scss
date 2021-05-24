@@ -1,0 +1,18 @@
+@import './variables';
+
+.login {
+  background-color: $color-white;
+  width: 80%;
+  margin: 5rem auto;
+  padding: 2.4rem 1.6rem;
+  border-radius: 0.3rem;
+
+  @media only screen and (min-width: $bp-smallest) {
+    width: 60%;
+  }
+
+  @media only screen and (min-width: $bp-medium) {
+    width: 40%;
+  }
+
+}
