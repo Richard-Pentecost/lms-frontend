@@ -1,0 +1,47 @@
+@import './variables';
+
+.radioButton {
+  display: flex;
+  margin: 1rem 0;
+
+  @media only screen and (min-width: $bp-smallest) {
+    margin: 0 0 1.5rem 0;
+  }
+
+  &__input {
+    display: none;
+
+    &:checked + label {
+      background-color: $color-green-dark;
+      box-shadow: none;
+      color: $color-grey-light-2;
+      cursor: default;
+    }
+  }
+
+  &__label {
+    width: 10rem;
+    background-color: $color-grey-light-2;
+    color: $color-green-dark;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.2rem 1.6rem;
+    margin-right: -1px;
+    border: 1px solid $color-green-dark;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:first-of-type {
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-of-type {
+      border-radius: 0 4px 4px 0;
+      border-left: 1px solid $color-grey-light-2;
+    }
+  }
+}

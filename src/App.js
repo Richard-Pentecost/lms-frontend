@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import CreateFarm from './pages/CreateFarm';
 import CreateUser from './pages/CreateUser';
 import AuthRoute from './components/AuthRoute';
 import Layout from './components/Layout';
@@ -32,6 +33,12 @@ const App = props => {
             exact
             path='/home'
             component={Home}
+            authenticate={isLoggedIn}
+          />
+          <AuthRoute
+            exact
+            path='/create-farm'
+            component={CreateFarm}
             authenticate={isLoggedIn}
           />
           <AuthRoute 

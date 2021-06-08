@@ -25,7 +25,7 @@ const CreateUser = () => {
       </form>
     </div>
   )
-}
+};
 
 export default CreateUser;
 
