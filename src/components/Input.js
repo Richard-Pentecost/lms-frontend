@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from '../style/Input.module.scss';
 
-const Input = React.forwardRef(({ children, type }, ref) => (
+const Input = React.forwardRef(({ children, type, defaultValue }, ref) => (
   <div className={classes.input}>
     <label className={classes.input__label}>{children}</label>
     <input 
@@ -9,6 +9,7 @@ const Input = React.forwardRef(({ children, type }, ref) => (
       className={classes.input__field}
       type={type}
       ref={ref}
+      defaultValue={defaultValue}
     />
   </div>
 ));

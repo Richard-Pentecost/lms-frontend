@@ -15,11 +15,13 @@ const Navbar = ({ token, setToken }) => {
       <div className={classes.logo}>
         <Link to='/home' className={classes.logo__link}>LMS</Link>
       </div>
-      {token && (
-        <div className={classes.logout}>
-          <Link to='/' className={classes.logout__link} onClick={handleLogout}>Logout</Link>
-        </div>
-      )}
+      {
+        token && (
+          <div className={classes.logout}>
+            <Link to='/' className={classes.logout__link} onClick={handleLogout}>Logout</Link>
+          </div>
+        )
+      }
     </>
   )
 }

@@ -1,6 +1,10 @@
 @import './variables';
 
 .layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
   &__navbar {
     border-bottom: 1px solid $color-grey;
     background: $color-white;
@@ -9,12 +13,10 @@
   }
 
   &__main {
-
+    flex: 1;
   }
 
   &__footer {
-    position: absolute;
-    bottom: 0;
     border-top: 1px solid $color-grey;
     background: $color-white;
     font-size: 3rem;

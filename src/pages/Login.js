@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import Input from '../components/Input';
-import Button from '../components/Button';
+import FormButton from '../components/FormButton';
 import classes from '../style/Login.module.scss';
 // import Form from '../components/Form';
 
@@ -22,7 +22,7 @@ const Login = ({ history, setToken }) => {
       <form onSubmit={formSubmit}>
         <Input type='text' ref={emailRef}>Email</Input>
         <Input type='password' ref={passwordRef}>Password</Input>
-        <Button type='submit'>Login</Button>
+        <FormButton type='submit'>Login</FormButton>
       </form>
     </div>
   );

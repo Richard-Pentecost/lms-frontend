@@ -1,15 +1,20 @@
 import React, { useRef } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { createFarm } from '../store/actions/farmActions';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFarm } from '../store/actions/farmActions';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
 import classes from '../style/farmForm.module.scss';
 
-const CreateFarm = () => {
+const EditFarm = () => {
   const history = useHistory();
+  const { id } = useParams();
+
   const dispatch = useDispatch();
+  const farm = useSelector(state => {
+    return state.farmState.farms.find(farm => farm.id === +id);
+  });
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -28,26 +33,26 @@ const CreateFarm = () => {
       accessCodes: accessCodesRef.current.value,
       comments: commentsRef.current.value,
     };
-    dispatch(createFarm(farm));
-  };
+    dispatch(updateFarm(farm, id));
+  }
 
   return (
     <div className={classes.farmForm}>
       <div className={classes.farmFormHeading}>
-        <span className={classes.farmFormHeading__title}>Create Farm</span>
+        <span className={classes.farmFormHeading__title}>Edit Farm</span>
         <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
       </div>
       <form onSubmit={formSubmit}>
-        <Input type='text' ref={farmNameRef}>Farm Name:</Input>
-        <Input type='text' ref={postcodeRef}>Postcode:</Input>
-        <Input type='text' ref={contactNameRef}>Contact Name:</Input>
-        <Input type='text' ref={contactNumberRef}>Contact Number:</Input>
-        <TextArea rows='2' ref={accessCodesRef}>Access Codes:</TextArea>
-        <TextArea rows='2' ref={commentsRef}>Comments:</TextArea>
-        <FormButton type='submit'>Create Farm</FormButton> 
+        <Input type='text' ref={farmNameRef} defaultValue={farm.farmName}>Farm Name:</Input>
+        <Input type='text' ref={postcodeRef} defaultValue={farm.postcode}>Postcode:</Input>
+        <Input type='text' ref={contactNameRef} defaultValue={farm.contactName}>Contact Name:</Input>
+        <Input type='text' ref={contactNumberRef} defaultValue={farm.contactNumber}>Contact Number:</Input>
+        <TextArea rows='2' ref={accessCodesRef} defaultValue={farm.accessCodes}>Access Codes:</TextArea>
+        <TextArea rows='2' ref={commentsRef} defaultValue={farm.comments}>Comments:</TextArea>
+        <FormButton type='submit'>Edit Farm</FormButton> 
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default CreateFarm;
+export default EditFarm;

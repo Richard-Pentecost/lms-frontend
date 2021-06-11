@@ -1,0 +1,43 @@
+@import './variables';
+
+.farmHeader {
+  display: flex;
+  border-bottom: 1px solid $color-grey;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1.4rem;
+  }
+
+  &__text {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-right: 1rem;
+
+    @media only screen and (min-width: $bp-smallest) {
+      font-size: 2.6rem;
+    }
+  }
+
+  &__link {
+    color: $color-blue-1;
+    font-size: 1rem;
+
+    @media only screen and (min-width: $bp-smallest) {
+      font-size: 1.8rem;
+    }
+  }
+
+  &__info {
+    padding-right: 1rem;
+    font-size: 1rem;
+
+    @media only screen and (min-width: $bp-smallest) {
+      font-size: 1.4rem;
+    }
+  }
+}

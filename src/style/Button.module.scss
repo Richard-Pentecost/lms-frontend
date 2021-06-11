@@ -1,29 +1,81 @@
 @import './variables';
 
-.button {
-  margin: 1rem 0;
+.btn {
+  background: $color-grey-light-1;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 
-  &__btn {
-    width: 100%;
-    background: $color-grey-light-1;
-    color: $color-green-dark;
-    border-radius: 0.5rem;
-    border: 1px solid $color-green-dark;
-    height: 4rem;
-    padding: 1rem;
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &__icon {
+    padding: 0 0.5rem;
+  }
+
+  &__text {
+    padding: 0 0.5rem;
+    padding-bottom: 1px;
+  }
+
+  &__small {
+    padding: 0.3rem 0.1rem;
+    font-size: 1.2rem;
+    transition: all 0.1s ease-in-out;
+  }
+
+  &__medium {
+    padding: 0.6rem 1rem;
     font-size: 1.4rem;
-    font-weight: 600;
-    cursor: pointer;
-    vertical-align: center;
     transition: all 0.3s ease-in-out;
+  }
+
+  &__green {
+    color: $color-green-dark;
+    border: 1px solid $color-green-dark;
+    opacity: 0.7;
 
     &:hover {
-      background: $color-green-dark;
-      color: $color-grey-light-1;
+      opacity: 1;
+      background: $color-white;
     }
+  }
 
-    &:focus {
-      outline: none;
+  &__disable {
+    color: $color-red-disable;
+    border: 1px solid $color-red-disable;
+    opacity: 0.7;
+    // width: 7rem;
+    
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__enable {
+    color: $color-green-enable;
+    border: 1px solid $color-green-enable;
+    opacity: 0.7;
+    // width: 7rem;
+    
+    &:hover {
+      opacity: 1
+    } 
+  }
+
+  &__hide {
+    @media only screen and (max-width: $bp-smallest) {
+      display: none !important;
     }
   }
 }

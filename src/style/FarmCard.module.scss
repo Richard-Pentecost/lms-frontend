@@ -1,0 +1,96 @@
+@import './variables';
+
+.farmCard {
+  border: 1px solid $color-grey;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  border-radius: 1px;
+  background: $color-white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media only screen and (min-width: $bp-smallest) {
+    padding: 1rem;
+  } 
+
+  &__header {
+    border-bottom: 1px solid $color-grey;
+    font-weight: 500;
+    font-size: 1.6rem;
+
+    @media only screen and (min-width: $bp-smallest) {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    };
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    font-size: 1.2rem;
+
+    @media only screen and (min-width: $bp-smallest) {
+      font-size: 1.4rem;
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    @media only screen and (min-width: 400px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    @media only screen and (min-width: $bp-smallest) {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  &__item {
+    @media only screen and (min-width: $bp-smallest) {
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__text {
+    margin-left: 0.5rem;
+  }
+
+  &__btnContainer {
+    display: flex;
+  }
+  
+  &__link {
+    color: $color-blue-1;
+    font-size: 1rem;
+    text-decoration: none;
+
+    @media only screen and (min-width: $bp-smallest) {
+      font-size: 1.2rem;
+    }
+    
+    &:hover {
+      color: $color-blue-2;
+      text-decoration: underline;
+    }
+    
+  }
+}

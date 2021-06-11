@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Input from '../components/Input';
-import Button from '../components/Button';
+import FormButton from '../components/FormButton';
 import classes from '../style/CreateUser.module.scss';
 
 const CreateUser = () => {
@@ -21,7 +21,7 @@ const CreateUser = () => {
         <Input type='email' ref={emailRef}>Email</Input>
         <Input type='password' ref={passwordRef}>Password</Input>
         <Input type='passowrd' ref={confirmPasswordRef}>Confirm Password</Input>
-        <Button type='submit'>Create User</Button>
+        <FormButton type='submit'>Create User</FormButton>
       </form>
     </div>
   )
