@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import FarmHeading from '../components/FarmHeading';
+import Table from '../components/Table';
 import classes from '../style/Farm.module.scss';
 
 const Farm = () => {
@@ -14,6 +15,7 @@ const Farm = () => {
   return (
     <div className={classes.farm}>
       <FarmHeading farm={farm} />
+      <Table />
     </div>
   );
 }

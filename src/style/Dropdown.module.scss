@@ -1,0 +1,43 @@
+@import './variables';
+
+.menuContainer {
+  position: relative;
+  border-left: 1px solid $color-grey;
+  margin: 2px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 5.6rem;
+  right: 0rem;
+  width: 30rem;
+  transform: translateX(-15%);
+  background-color: $color-white;
+  box-shadow: -1rem 2rem 6rem rgba(black, 0.2);
+  border-radius: 5px;
+  padding: 1rem;
+  overflow: hidden;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.menu {
+  height: 100%;
+  padding: 1rem 5rem 1rem 4rem;
+  font-size: 1.4rem;
+  font-weight: 400;
+  background: inherit;
+  border: none;
+  cursor: pointer;
+  display: flex;
+
+  
+  &__text {
+    align-self: center;
+    padding-right: 0.5rem;
+  }
+
+  &__icon {
+    align-self: center;
+  }
+}

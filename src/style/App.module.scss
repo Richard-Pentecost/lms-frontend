@@ -1,4 +1,4 @@
-@import './variables';
+ @import './variables';
 
 *,
 *::after,
@@ -21,6 +21,8 @@ body {
   font-family: "Roboto", "Segoe UI", "Oxygen",
   "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
   sans-serif;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
   font-weight: 300;
   line-height: 1.5;
   background: $color-grey-light-2;
