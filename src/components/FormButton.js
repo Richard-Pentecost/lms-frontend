@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from '../style/FormButton.module.scss';
 
 const Button = ({ children, type }) => (

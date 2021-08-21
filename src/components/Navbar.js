@@ -1,7 +1,5 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import lmsLogo from '../lmsLogo.png';
 import classes from '../style/Navbar.module.scss';
 

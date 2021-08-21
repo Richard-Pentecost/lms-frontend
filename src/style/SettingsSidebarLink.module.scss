@@ -1,0 +1,60 @@
+@import './variables';
+
+.sidebarLink {
+  font-size: 1.2rem;
+  cursor: pointer;
+  flex: 1;
+  border-left: 1px solid $color-grey;
+
+  @media only screen and (min-width: $bp-medium) {
+    border-bottom: 1px solid $color-grey;
+    border-left: none;
+    font-size: 1.6rem;
+  }
+
+  &:last-child {
+    @media only screen and (min-width: $bp-medium) {      
+      border-bottom: none;
+      border-radius: 0.5rem;
+    }
+  }
+
+  &:hover {
+    background-color: $color-grey-light-1;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $color-grey-dark-1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    
+    @media only screen and (min-width: $bp-medium) {
+      border-left: 2px solid transparent;
+      padding: 0.8rem 1rem;
+      border-bottom-right-radius: 0.5rem;
+      justify-content: flex-start;
+    }
+    
+    &.active {
+      border-bottom: 2px solid $color-green-dark;
+      background: $color-grey-light-1;
+
+      @media only screen and (min-width: $bp-medium) {
+        border-bottom: none;
+        border-left: 2px solid $color-green-dark;
+      }
+    }
+  }
+
+  &__text {
+    text-align: center;
+    padding: 0rem 0.5rem;
+
+    @media only screen and (min-width: $bp-medium) {
+      text-align: left;
+    }
+  }
+}

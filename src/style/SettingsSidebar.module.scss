@@ -1,0 +1,48 @@
+@import './variables';
+
+.sidebar {
+  border: 1px solid $color-grey;
+  border-radius: 0.2rem;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  border-left: none;
+
+  @media only screen and (min-width: $bp-smallest) {
+    border-left: 1px solid $color-grey;
+  }
+
+  @media only screen and (min-width: $bp-medium) {
+    flex-direction: column;
+    margin-bottom: none;
+    border-radius: 0.5rem;
+  }
+
+  &__list {
+    list-style-type: none;
+  }
+}
+
+.sidebarHeading {
+  display: none;
+
+  @media only screen and (min-width: $bp-smallest) {
+    padding: 0.2rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media only screen and (min-width: $bp-medium) {
+    border-bottom: 1px solid $color-grey;
+    padding: 0.8rem 1.6rem;
+  }
+
+  &__name {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  &__text {
+    font-size: 1.2rem;
+  }
+}

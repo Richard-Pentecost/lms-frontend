@@ -19,6 +19,10 @@
   overflow: hidden;
   z-index: 100;
   box-sizing: border-box;
+
+  &__list {
+    list-style-type: none;
+  }
 }
 
 .menu {

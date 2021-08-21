@@ -2,27 +2,56 @@
 
 .home {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex: 1;
 }
 
 .homeSidebar {
-
+  flex: 2;
 }
 
 .homeBody {
-
-
-  &__header {
-    padding: 1rem 0;
-    margin: 0 2.5rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    border-bottom: 1px solid $color-grey;
-  }
+  flex: 9;
 }
 
+.header {
+  padding: 1rem 0;
+  margin: 0 2.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 1px solid $color-grey;
+
+  &__sort {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+
+    @media only screen and (min-width: $bp-smallest) {
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+  
+  &__search {
+    display: flex;
+    flex: 3;
+    justify-content: flex-start;
+    padding: 0 2rem;
+
+    @media only screen and (min-width: 400px) {
+      flex: 4;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    flex: 2;
+    justify-content: flex-end;
+  }
+}
 
 .farmList {
   margin: 1rem 2rem;

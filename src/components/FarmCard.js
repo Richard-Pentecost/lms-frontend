@@ -1,9 +1,8 @@
-import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from '../style/FarmCard.module.scss';
 
-const FarmCard = ({ farm, clickHandler }) => {
+const FarmCard = ({ farm }) => {
   const history = useHistory();
   const {
     id,
@@ -15,7 +14,6 @@ const FarmCard = ({ farm, clickHandler }) => {
   } = farm;
 
   const handleClick = () => history.push(`/farms/${id}`);
-
 
   return (
     <div className={classes.farmCard} onClick={handleClick}>
@@ -52,7 +50,7 @@ const FarmCard = ({ farm, clickHandler }) => {
             pathname: `farms/${farm.id}/edit-farm`,
             state: { selectedFarm: farm },
           }}
-          onClick={() => {}}
+          onClick={event => event.stopPropagation()}
           className={classes.farmCard__link}
         >
           Edit Farm Details

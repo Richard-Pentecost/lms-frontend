@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import DropdownLink from './DropdownLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from '../style/Dropdown.module.scss';
@@ -38,9 +38,9 @@ const Dropdown = ({ setToken }) => {
       { 
         isActive && (
           <nav className={classes.dropdown} ref={dropdownRef}>
-            <ul>
+            <ul className={classes.dropdown__list}>
               <DropdownLink link='/' handleClick={handleClick}>Home</DropdownLink>
-              <DropdownLink link='/settings' handleClick={handleClick}>Profile</DropdownLink>
+              <DropdownLink link='/settings/profile' handleClick={handleClick}>Profile</DropdownLink>
               <DropdownLink link='/settings/create-user' handleClick={handleClick}>Create User</DropdownLink>
               <DropdownLink link='/settings/users' handleClick={handleClick}>Users</DropdownLink>
               <DropdownLink link='/settings/farms' handleClick={handleClick}>Farms</DropdownLink>

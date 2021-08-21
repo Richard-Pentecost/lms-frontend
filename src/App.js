@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import CreateFarm from './pages/CreateFarm';
 import EditFarm from './pages/EditFarm';
-import CreateUser from './pages/CreateUser';
+import Settings from './pages/Settings';
 import Farm from './pages/Farm';
 import AuthRoute from './components/AuthRoute';
 import Layout from './components/Layout';
@@ -13,6 +13,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 import './style/App.module.scss';
+import AddData from './pages/AddData';
 
 library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner);
 
@@ -56,16 +57,22 @@ const App = props => {
           />
           <AuthRoute 
             exact
+            path='/farms/:id/add-data'
+            component={AddData}
+            authenticate={isLoggedIn}
+          />
+          <AuthRoute 
+            exact
             path='/farms/:id/edit-farm'
             component={EditFarm}
             authenticate={isLoggedIn}
           />
           <AuthRoute 
-            exact
-            path='/settings/create-user'
-            component={CreateUser}
+            path='/settings'
+            component={Settings}
             authenticate={isLoggedIn}
           />
+          <Redirect to='/' />
         </Switch>
       </Layout>   
     </>
