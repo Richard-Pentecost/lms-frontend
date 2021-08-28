@@ -1,29 +1,39 @@
 @import './variables';
 
-.button {
+.buttonContainer {
   margin: 1rem 0;
+}
 
-  &__btn {
-    width: 100%;
-    background: $color-grey-light-1;
-    color: $color-green-dark;
-    border-radius: 0.5rem;
-    border: 1px solid $color-green-dark;
-    height: 4rem;
-    padding: 1rem;
-    font-size: 1.4rem;
-    font-weight: 600;
-    cursor: pointer;
-    vertical-align: center;
-    transition: all 0.3s ease-in-out;
+.button {
+  width: 100%;
+  background: $color-grey-light-1;
+  color: $color-green-dark;
+  border-radius: 0.5rem;
+  border: 1px solid $color-green-dark;
+  height: 4rem;
+  padding: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  vertical-align: center;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: $color-green-dark;
+    color: $color-grey-light-1;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled { 
+    border: 1px solid #888;
+    color: #888;
+    background: $color-grey-light-2;
 
     &:hover {
-      background: $color-green-dark;
-      color: $color-grey-light-1;
-    }
-
-    &:focus {
-      outline: none;
+      background: $color-grey-light-2;
     }
   }
 }

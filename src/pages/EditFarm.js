@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFarm } from '../store/actions/farmActions';
+import { editFarm } from '../store/actions/farmActions';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
@@ -9,11 +9,11 @@ import classes from '../style/farmForm.module.scss';
 
 const EditFarm = () => {
   const history = useHistory();
-  const { id } = useParams();
+  const { uuid } = useParams();
 
   const dispatch = useDispatch();
   const farm = useSelector(state => {
-    return state.farmState.farms.find(farm => farm.id === +id);
+    return state.farmState.farms.find(farm => farm.uuid === uuid);
   });
 
   const farmNameRef = useRef();
@@ -33,7 +33,7 @@ const EditFarm = () => {
       accessCodes: accessCodesRef.current.value,
       comments: commentsRef.current.value,
     };
-    dispatch(updateFarm(farm, id));
+    dispatch(editFarm(farm, uuid));
   }
 
   return (

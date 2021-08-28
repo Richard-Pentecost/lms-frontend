@@ -4,9 +4,9 @@
   display: flex;
   margin: 1rem 0;
 
-  @media only screen and (min-width: $bp-smallest) {
-    margin: 0 0 1.5rem 0;
-  }
+  // @media only screen and (min-width: $bp-smallest) {
+  //   margin: 0 0 1.5rem 0;
+  // }
 
   &__input {
     display: none;

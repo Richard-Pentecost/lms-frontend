@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import CreateFarm from './pages/CreateFarm';
@@ -17,24 +17,23 @@ import AddData from './pages/AddData';
 
 library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner);
 
-const App = props => {
-  const [token, setToken] = useState(false);
-  
+const App = () => {
+  const { token } = useSelector(state => state.authState)
+
   const isLoggedIn = () => {
-    return Boolean(token);
-    // return Boolean(props.token) && isTokenValid();
+    return Boolean(token) && isTokenValid();
   };
 
   return (
     <>
-      <Layout token={token} setToken={setToken} >
+      <Layout>
         <Switch>
           <Route 
             exact
             path='/'
             render={props => (isLoggedIn() ?
               <Redirect to='/home' /> :
-              <Login {...props} setToken={setToken} />  
+              <Login { ...props }/>  
             )}
           />
           <AuthRoute 
@@ -51,19 +50,19 @@ const App = props => {
           />
           <AuthRoute
             exact
-            path='/farms/:id'
+            path='/farms/:uuid'
             component={Farm}
             authenticate={isLoggedIn}
           />
           <AuthRoute 
             exact
-            path='/farms/:id/add-data'
+            path='/farms/:uuid/add-data'
             component={AddData}
             authenticate={isLoggedIn}
           />
           <AuthRoute 
             exact
-            path='/farms/:id/edit-farm'
+            path='/farms/:uuid/edit-farm'
             component={EditFarm}
             authenticate={isLoggedIn}
           />

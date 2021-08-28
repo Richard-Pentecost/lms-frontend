@@ -1,0 +1,17 @@
+
+@import './variables.scss';
+
+.alert {
+    background-color: $alert-color-background;
+    border: 1px solid $alert-color-border;
+    color: $alert-color-text;
+    font-weight: 400;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 1.4rem;
+
+    @media only screen and (min-width: $bp-small) {
+      margin-top: 1.5rem;
+    }
+  };

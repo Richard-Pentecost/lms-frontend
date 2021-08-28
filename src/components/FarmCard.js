@@ -5,7 +5,7 @@ import classes from '../style/FarmCard.module.scss';
 const FarmCard = ({ farm }) => {
   const history = useHistory();
   const {
-    id,
+    uuid,
     farmName,
     postcode,
     contactName,
@@ -13,7 +13,7 @@ const FarmCard = ({ farm }) => {
     comments
   } = farm;
 
-  const handleClick = () => history.push(`/farms/${id}`);
+  const handleClick = () => history.push(`/farms/${uuid}`);
 
   return (
     <div className={classes.farmCard} onClick={handleClick}>

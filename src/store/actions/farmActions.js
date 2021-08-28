@@ -4,26 +4,42 @@ import { farmActions } from '../slices/farmSlice';
 const URL = 'http://localhost:3000';
 
 export const createFarm = farm => {
+  console.log('create farm');
   return async dispatch => {
-    const response = await axios.post(`${URL}/farms`, { farm });
-    console.log(response);
+    try {
+      dispatch(farmActions.addFarmStart());
+      const response = await axios.post(`${URL}/farms`, { farm });
+      console.log(response);
+      dispatch(farmActions.addFarmSuccess());
+    } catch (error) {
+      console.error(error);
+      dispatch(farmActions.addFarmFail('Error adding farm'));
+    }
   };
 };
 
-export const fetchFarms = () => {
+export const fetchActiveFarms = () => {
   return async dispatch => {
     try {
+      dispatch(farmActions.fetchFarmsStart());
       const { data: farms } = await axios.get(`${URL}/farms`);
-      dispatch(farmActions.fetchFarms(farms));
-    } catch (err) {
-      console.log(err);
+      dispatch(farmActions.fetchFarmsSuccess(farms));
+    } catch (error) {
+      console.error(error);
+      dispatch(farmActions.fetchFarmsFail('Error fetching active farms'));
     }
   }
 };
 
-export const updateFarm = (farm, id) => {
+export const editFarm = (farm, uuid) => {
   return async dispatch => {
-    const response = await axios.patch(`${URL}/farms/${id}`, { farm });
-    console.log(response);
+    try {
+      dispatch(farmActions.addFarmStart());
+      await axios.patch(`${URL}/farms/${uuid}`, { farm });
+      dispatch(farmActions.addFarmSuccess());
+    } catch (error) {
+      console.error(error);
+      dispatch(farmActions.addFarmFail('Error adding farm'));
+    }
   }
 }

@@ -6,12 +6,12 @@ import Table from '../components/Table';
 import classes from '../style/Farm.module.scss';
 
 const Farm = () => {
-  const { id } = useParams();
+  const { uuid } = useParams();
   const history = useHistory();
   const { pathname } = useLocation();
 
   const farm = useSelector(state => {
-    return state.farmState.farms.find(farm => farm.id === +id);
+    return state.farmState.farms.find(farm => farm.uuid === uuid);
   });
 
   return (

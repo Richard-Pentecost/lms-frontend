@@ -1,29 +1,40 @@
 import { useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../store/actions/authActions';
+import Alert from '../components/Alert';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import classes from '../style/Login.module.scss';
 // import Form from '../components/Form';
 
-const Login = ({ history, setToken }) => {
+const Login = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { errorMessage, loading } = useSelector(state => state.authState);
+
   const emailRef = useRef();
   const passwordRef = useRef();
 
   const formSubmit = event => {
     event.preventDefault()
-    
-    if (emailRef.current.value === 'Richard' && passwordRef.current.value === 'asdf') {
-      setToken(true);
-      history.push('/home');
-    }
+    dispatch(loginUser({ 
+      email: emailRef.current.value,
+      password: passwordRef.current.value, 
+    }));  
+    history.push('/home');
   };
+
+  
 
   return (
     <div className={classes.login}>
       <form onSubmit={formSubmit}>
         <Input type='text' ref={emailRef}>Email</Input>
         <Input type='password' ref={passwordRef}>Password</Input>
-        <FormButton type='submit'>Login</FormButton>
+        <FormButton type='submit' loading={loading}>Login</FormButton>
       </form>
+      { errorMessage && <Alert>{errorMessage}</Alert> }
     </div>
   );
 }

@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import DropdownLink from './DropdownLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { logoutUser } from '../store/actions/authActions';
 import classes from '../style/Dropdown.module.scss';
 
-const Dropdown = ({ setToken }) => {
+const Dropdown = () => {
   const dropdownRef = useRef();
+  const dispatch = useDispatch();
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
@@ -26,7 +29,7 @@ const Dropdown = ({ setToken }) => {
   };
 
   const handleLogout = () => {
-    setToken(false);
+    dispatch(logoutUser());
   };
 
   return (

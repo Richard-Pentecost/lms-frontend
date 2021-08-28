@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchFarms } from '../store/actions/farmActions';
+import { fetchActiveFarms } from '../store/actions/farmActions';
 import FarmCard from '../components/FarmCard';
 import Sidebar from '../components/Sidebar';
 import SearchBar from '../components/SearchBar';
@@ -14,7 +14,7 @@ const Home = () => {
   const { farms } = useSelector(state => state.farmState);
 
   useEffect(() => {
-    dispatch(fetchFarms());
+    dispatch(fetchActiveFarms());
   }, [dispatch]);
 
   return (
