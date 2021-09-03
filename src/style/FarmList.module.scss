@@ -1,0 +1,10 @@
+@import './variables';
+
+.farmList {
+  margin: 1rem;
+  font-size: 1.2rem;
+
+  @media only screen and (min-width: $bp-largeSmall) {
+    font-size: 1.4rem;
+  }
+}

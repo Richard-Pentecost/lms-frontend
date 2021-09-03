@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createFarm } from '../store/actions/farmActions';
+import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farmActions';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
@@ -11,7 +11,7 @@ import Alert from '../components/Alert';
 const CreateFarm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { errorMessage, loading } = useSelector(state => state.farmState);
+  const { errorMessage, loading, addFarmSuccess } = useSelector(state => state.farmState);
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -19,6 +19,16 @@ const CreateFarm = () => {
   const contactNumberRef = useRef();
   const accessCodesRef = useRef();
   const commentsRef = useRef();
+
+  useEffect(() => {
+    if (addFarmSuccess) {
+      history.goBack();
+    }
+    return () => {
+      dispatch(clearSuccessFlag());
+      dispatch(clearErrors());
+    }
+  }, [dispatch, history, addFarmSuccess]);
 
   const formSubmit = event => {
     event.preventDefault();
@@ -46,7 +56,7 @@ const CreateFarm = () => {
         <Input type='text' ref={contactNumberRef}>Contact Number:</Input>
         <TextArea rows='2' ref={accessCodesRef}>Access Codes:</TextArea>
         <TextArea rows='2' ref={commentsRef}>Comments:</TextArea>
-        <FormButton type='submit'>Create Farm</FormButton> 
+        <FormButton type='submit' loading={loading}>Create Farm</FormButton> 
       </form>
       { errorMessage && <Alert>{errorMessage}</Alert> }
     </div>

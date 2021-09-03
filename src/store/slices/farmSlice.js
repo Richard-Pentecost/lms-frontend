@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { clearSuccessFlag } from '../actions/farmActions';
 
 const initialState = {
   farms: [],
   loading: false,
   errorMessage: '',
-  addFarmSuccess: '',
+  addFarmSuccess: false,
 };
 
 const farmSlice = createSlice({
@@ -21,7 +22,7 @@ const farmSlice = createSlice({
     },
     fetchFarmsFail(state, action) {
       state.loading = false;
-      state.error = action.payload
+      state.errorMessage = action.payload
     },
     addFarmStart(state) {
       state.loading = true;
@@ -34,9 +35,16 @@ const farmSlice = createSlice({
     },
     addFarmFail(state, action) {
       state.loading = false;
-      state.error = action.payload;
+      state.errorMessage = action.payload;
       state.addFarmSuccess = false;
     },
+    clearErrors(state) {
+      state.loading = false;
+      state.errorMessage = '';
+    },
+    clearSuccessFlag(state) {
+      state.addFarmSuccess = false;
+    }
   }
 });
 

@@ -10,12 +10,41 @@ export const createUser = user => {
   }
 }
 
-export const fetchUserById = id => {
+export const fetchUserByUuid = uuid => {
   return async dispatch => {
     try {
-      const { user } = await axios.get(`${URL}/users/${id}`);
-    } catch (err) {
-      console.log(err);
+      dispatch(userActions.fetchUserByUuidStart());
+      const { data } = await axios.get(`${URL}/users/${uuid}`);
+      dispatch(userActions.fetchUserByUuidSuccess(data.user));
+    } catch (error) {
+      console.error(error);
+      dispatch(userActions.fetchUserByUuidFail('There was an error getting the user'));
+    }
+  }
+};
+
+export const fetchUsers = () => {
+  return async dispatch => {
+    try {
+      dispatch(userActions.fetchUsersStart());
+      const { data: users } = await axios.get(`${URL}/users`);
+      dispatch(userActions.fetchUsersSuccess(users));
+    } catch (error) {
+      console.error(error);
+      dispatch(userActions.fetchUsersFail('There was an error fetching users'));
+    }
+  }
+}
+
+export const editUser = (user, uuid) => {
+  return async dispatch => {
+    try {
+      dispatch(userActions.addUserStart());
+      await axios.patch(`${URL}/users/${uuid}`, { user });
+      dispatch(userActions.addUserSuccess());
+    } catch (error) {
+      console.error(error);
+      dispatch(userActions.addUserFail('Error adding a user'));
     }
   }
 }

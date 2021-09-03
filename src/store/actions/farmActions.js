@@ -4,12 +4,10 @@ import { farmActions } from '../slices/farmSlice';
 const URL = 'http://localhost:3000';
 
 export const createFarm = farm => {
-  console.log('create farm');
   return async dispatch => {
     try {
       dispatch(farmActions.addFarmStart());
-      const response = await axios.post(`${URL}/farms`, { farm });
-      console.log(response);
+      await axios.post(`${URL}/farms`, { farm });
       dispatch(farmActions.addFarmSuccess());
     } catch (error) {
       console.error(error);
@@ -22,11 +20,26 @@ export const fetchActiveFarms = () => {
   return async dispatch => {
     try {
       dispatch(farmActions.fetchFarmsStart());
+      // End point needs altering!
       const { data: farms } = await axios.get(`${URL}/farms`);
       dispatch(farmActions.fetchFarmsSuccess(farms));
     } catch (error) {
       console.error(error);
       dispatch(farmActions.fetchFarmsFail('Error fetching active farms'));
+    }
+  }
+};
+
+
+export const fetchFarms = () => {
+  return async dispatch => {
+    try {
+      dispatch(farmActions.fetchFarmsStart());
+      const { data: farms } = await axios.get(`${URL}/farms`);
+      dispatch(farmActions.fetchFarmsSuccess(farms));
+    } catch (error) {
+      console.error(error);
+      dispatch(farmActions.fetchFarmsFail('Error fetching farms'));
     }
   }
 };
@@ -39,7 +52,19 @@ export const editFarm = (farm, uuid) => {
       dispatch(farmActions.addFarmSuccess());
     } catch (error) {
       console.error(error);
-      dispatch(farmActions.addFarmFail('Error adding farm'));
+      dispatch(farmActions.addFarmFail('Error updating farm'));
     }
+  }
+}
+
+export const clearErrors = () => {
+  return dispatch => {
+    dispatch(farmActions.clearErrors());
+  }
+}
+
+export const clearSuccessFlag = () => {
+  return dispatch => {
+    dispatch(farmActions.clearSuccessFlag());
   }
 }

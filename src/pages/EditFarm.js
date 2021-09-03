@@ -1,20 +1,19 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { editFarm } from '../store/actions/farmActions';
+import { editFarm, clearSuccessFlag, clearErrors, fetchActiveFarms } from '../store/actions/farmActions';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
 import classes from '../style/farmForm.module.scss';
+import Alert from '../components/Alert';
 
 const EditFarm = () => {
-  const history = useHistory();
   const { uuid } = useParams();
-
+  const history = useHistory();
   const dispatch = useDispatch();
-  const farm = useSelector(state => {
-    return state.farmState.farms.find(farm => farm.uuid === uuid);
-  });
+  const farm = useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
+  const { errorMessage, loading, addFarmSuccess } = useSelector(state => state.farmState);
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -22,6 +21,17 @@ const EditFarm = () => {
   const contactNumberRef = useRef();
   const accessCodesRef = useRef();
   const commentsRef = useRef();
+
+  useEffect(() => {
+    if(addFarmSuccess) {
+      history.goBack();
+    }
+    return () => {
+      dispatch(fetchActiveFarms());
+      dispatch(clearSuccessFlag());
+      dispatch(clearErrors());
+    }
+  }, [dispatch, history, addFarmSuccess])
 
   const formSubmit = event => {
     event.preventDefault();
@@ -49,8 +59,9 @@ const EditFarm = () => {
         <Input type='text' ref={contactNumberRef} defaultValue={farm.contactNumber}>Contact Number:</Input>
         <TextArea rows='2' ref={accessCodesRef} defaultValue={farm.accessCodes}>Access Codes:</TextArea>
         <TextArea rows='2' ref={commentsRef} defaultValue={farm.comments}>Comments:</TextArea>
-        <FormButton type='submit'>Edit Farm</FormButton> 
+        <FormButton type='submit' loading={loading}>Edit Farm</FormButton> 
       </form>
+      { errorMessage && <Alert>{errorMessage}</Alert>}
     </div>
   )
 }

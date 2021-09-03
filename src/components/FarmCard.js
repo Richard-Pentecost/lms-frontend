@@ -47,7 +47,7 @@ const FarmCard = ({ farm }) => {
       <div className={classes.farmCard__btnContainer}>
         <Link
           to={{
-            pathname: `farms/${farm.id}/edit-farm`,
+            pathname: `farms/${farm.uuid}/edit-farm`,
             state: { selectedFarm: farm },
           }}
           onClick={event => event.stopPropagation()}

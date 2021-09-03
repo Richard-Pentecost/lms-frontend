@@ -16,7 +16,8 @@ const authSlice = createSlice({
       state.errorMessage = '';
     },
     loginUserSuccess(state, action) {
-      state = { ...initialState };
+      state.token = action.payload;
+      state.loading = true;
       state.errorMessage = '';
     },
     loginUserFail(state, action) {
@@ -24,8 +25,9 @@ const authSlice = createSlice({
       state.errorMessage = action.payload;
     },
     logoutUser(state) {
-      state = { ...initialState };
       state.token = null;
+      state.loading = false;
+      state.errorMessage = '';
     }
   }
 });
