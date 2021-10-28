@@ -5,14 +5,21 @@ import FarmHeading from '../components/FarmHeading';
 import Button from '../components/Button'
 import Table from '../components/Table';
 import classes from '../style/Farm.module.scss';
+import { fetchData } from '../store/actions/dataActions';
 
 const Farm = () => {
   const { uuid } = useParams();
   const { pathname } = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
   
   const farm = useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
-  console.log(farm)
+  const data = useSelector(state => state.dataState);
+
+  console.log(data);
+  useEffect(() => {
+    dispatch(fetchData(uuid));
+  }, [dispatch]);
 
   return (
     <div className={classes.farm}>

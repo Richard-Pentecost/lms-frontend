@@ -12,7 +12,7 @@ export const createFarm = farm => {
     } catch (error) {
       console.error(error);
       dispatch(farmActions.addFarmFail('Error adding farm'));
-    }
+    };
   };
 };
 
@@ -26,8 +26,8 @@ export const fetchActiveFarms = () => {
     } catch (error) {
       console.error(error);
       dispatch(farmActions.fetchFarmsFail('Error fetching active farms'));
-    }
-  }
+    };
+  };
 };
 
 
@@ -40,8 +40,8 @@ export const fetchFarms = () => {
     } catch (error) {
       console.error(error);
       dispatch(farmActions.fetchFarmsFail('Error fetching farms'));
-    }
-  }
+    };
+  };
 };
 
 export const editFarm = (farm, uuid) => {
@@ -53,18 +53,18 @@ export const editFarm = (farm, uuid) => {
     } catch (error) {
       console.error(error);
       dispatch(farmActions.addFarmFail('Error updating farm'));
-    }
-  }
-}
+    };
+  };
+};
 
 export const clearErrors = () => {
   return dispatch => {
     dispatch(farmActions.clearErrors());
-  }
-}
+  };
+};
 
 export const clearSuccessFlag = () => {
   return dispatch => {
     dispatch(farmActions.clearSuccessFlag());
-  }
-}
+  };
+};

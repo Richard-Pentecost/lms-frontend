@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { clearSuccessFlag } from '../actions/farmActions';
 
 const initialState = {
   farms: [],

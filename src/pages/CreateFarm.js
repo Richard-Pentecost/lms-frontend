@@ -5,8 +5,8 @@ import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farm
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
-import classes from '../style/farmForm.module.scss';
 import Alert from '../components/Alert';
+import classes from '../style/farmForm.module.scss';
 
 const CreateFarm = () => {
   const history = useHistory();
