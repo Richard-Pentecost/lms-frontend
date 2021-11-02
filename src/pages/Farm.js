@@ -3,7 +3,7 @@ import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import FarmHeading from '../components/FarmHeading';
 import Button from '../components/Button'
-import Table from '../components/Table';
+import DataTable from '../components/DataTable';
 import classes from '../style/Farm.module.scss';
 import { fetchData } from '../store/actions/dataActions';
 
@@ -14,20 +14,30 @@ const Farm = () => {
   const dispatch = useDispatch();
   
   const farm = useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
-  const data = useSelector(state => state.dataState);
+  const { data } = useSelector(state => state.dataState);
 
-  console.log(data);
   useEffect(() => {
     dispatch(fetchData(uuid));
-  }, [dispatch]);
+  }, [dispatch, uuid]);
+
+  const handleRowClick = () => {
+    console.log("clicked!");
+  };
 
   return (
     <div className={classes.farm}>
       <FarmHeading farm={farm} />
+      { 
+        data.length === 0 ? 
+          <p>No data found</p> :
+          data.map(d => {
+            return <p>{d.date}</p>
+          })
+      }
       <Button 
         handleClick={() => history.push(`${pathname}/add-data`)}
       >Add Data</Button>
-      <Table />
+      <DataTable data={data} clickHandler={handleRowClick} />
     </div>
   );
 }

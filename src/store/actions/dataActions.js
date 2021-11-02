@@ -18,15 +18,11 @@ export const addData = data => {
 };
 
 export const fetchData = farmId => {
-  console.log("*********")
-  console.log(farmId);
-  console.log("***********");
   return async dispatch => {
     try {
       dispatch(dataActions.fetchDataStart());
-      const { data } = await axios.get(`${URL}/${farmId}/data`)
-      console.log(data);
-      dispatch(dataActions.fetchDataSuccess(data));
+      const response = await axios.get(`${URL}/${farmId}/data`);
+      dispatch(dataActions.fetchDataSuccess(response.data.data));
     } catch (error) {
       console.error(error);
       dispatch(dataActions.fetchDataFail('Error fetching data'));
