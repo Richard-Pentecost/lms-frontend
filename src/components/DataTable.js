@@ -1,20 +1,36 @@
 import React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from '../style/DataTable.module.scss';
 
 const DataTable = ({ data, clickHandler }) => {
   const tableBody = data.map(d => {
+    const objectKeys = Object.keys(d).filter(inputKey => inputKey !== 'uuid' && inputKey !== 'farmFk');
     return (
       <tr className={classes.tableBody} key={d.uuid} onClick={() => clickHandler(d)}>
         {
-          Object.keys(d).map(inputKey => {
-            return <td className={classes.tableBody__cell} key={`${inputKey}-${d.uuid}`}>{ d[inputKey] }</td>
+          objectKeys.map(inputKey => {
+            if (inputKey === 'date') {
+              return <td className={classes.tableBody__cell} key={`${inputKey}-${d.uuid}`}>{ dayjs(d[inputKey]).format('ddd, DD-MM-YYYY') }</td>
+            } else {
+              return <td className={classes.tableBody__cell} key={`${inputKey}-${d.uuid}`}>{ d[inputKey] }</td>
+            }
           })
         }
+        <td className={classes.tableBody__cell}>
+          <div 
+            onClick={event => {
+              event.stopPropagation();
+              console.log('click');
+            }}
+          >
+            <span className={classes.tableIcon}><FontAwesomeIcon icon={[ 'far', 'trash-alt' ]}/></span>
+          </div>
+        </td>
       </tr>
     )
-  })
+  });
+
   return (
     <div className={classes.tableContainer}>
       <table className={classes.table}>

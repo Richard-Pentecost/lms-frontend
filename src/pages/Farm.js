@@ -27,17 +27,14 @@ const Farm = () => {
   return (
     <div className={classes.farm}>
       <FarmHeading farm={farm} />
-      { 
-        data.length === 0 ? 
-          <p>No data found</p> :
-          data.map(d => {
-            return <p>{d.date}</p>
-          })
-      }
       <Button 
         handleClick={() => history.push(`${pathname}/add-data`)}
       >Add Data</Button>
-      <DataTable data={data} clickHandler={handleRowClick} />
+      { 
+        data.length === 0 ? 
+          <p>No data found</p> :    
+          <DataTable data={data} clickHandler={handleRowClick} />
+      }
     </div>
   );
 }

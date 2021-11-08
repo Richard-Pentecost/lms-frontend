@@ -1,5 +1,5 @@
 import decode from 'jwt-decode';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export const setToken = token => {
   window.localStorage.setItem('apiToken', token);
@@ -14,7 +14,7 @@ export const getTokenPayload = () => {
 
 export const isTokenValid = () => {
   const token = getTokenPayload();
-  return Boolean(token && ((!token.exp) || (moment().unix() < token.exp)));
+  return Boolean(token && ((!token.exp) || (dayjs().unix() < token.exp)));
 };
 
 export const removeToken = () => {
