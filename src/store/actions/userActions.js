@@ -49,3 +49,39 @@ export const editUser = (user, uuid) => {
   }
 }
 
+export const updatePassword = (data, uuid) => {
+  const { oldPassword, password, confirmPassword } = data; 
+  return async dispatch => {
+    if (oldPassword && password && password === confirmPassword) {
+      try {
+        dispatch(userActions.addUserStart());
+        const passwordData = {
+          existingPassword: oldPassword,
+          newPassword: password, 
+        };
+        await axios.patch(`${URL}/users/${uuid}/security`, passwordData);
+        dispatch(userActions.addUserSuccess());
+      } catch (error) {
+        dispatch(userActions.addUserFail(error.response.data.error));
+      }
+    } else {
+      if(!password || !oldPassword) {
+        dispatch(userActions.addUserFail('All fields must be filled out'));
+      } else {
+        dispatch(userActions.addUserFail('New password and confirm password must match'));
+      }
+    };
+  };
+};
+
+export const clearErrors = () => {
+  return dispatch => {
+    dispatch(userActions.clearErrors());
+  };
+};
+
+export const clearSuccessFlag = () => {
+  return dispatch => {
+    dispatch(userActions.clearSuccessFlag());
+  }
+}

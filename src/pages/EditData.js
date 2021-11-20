@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addData, clearErrors, clearSuccessFlag } from '../store/actions/dataActions';
+import { editData, clearErrors, clearSuccessFlag } from '../store/actions/dataActions';
 import DatePicker from 'react-datepicker';
 import Alert from '../components/Alert';
 import classes from '../style/AddData.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const AddData = () => {
-  const [date, setDate] = useState(new Date());
+const EditData = () => {
   const history = useHistory()
   const dispatch = useDispatch();
-  const { uuid } = useParams();
+  const { uuid, dataId } = useParams();
+  const data = useSelector(state => state.dataState.data.find(data => data.uuid === dataId));
+  const [date, setDate] = useState(new Date(data.date));
   const { errorMessage, loading, addDataSuccess } = useSelector(state => state.dataState);
 
   const noOfCowsRef = useRef();
@@ -53,7 +54,7 @@ const AddData = () => {
       floatAfterDelivery: parseInt(floatAfterRef.current.value),
       comments: commentsRef.current.value,
     }
-    dispatch(addData(data))
+    dispatch(editData(data, dataId))
   }
 
   const handleCancel = () => {
@@ -74,11 +75,11 @@ const AddData = () => {
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Number of Cows:</label>
-            <input type='number' ref={noOfCowsRef} className={classes.dataInput__input} />
+            <input type='number' ref={noOfCowsRef} defaultValue={data.noOfCows} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Product:</label>
-            <select ref={productRef} className={classes.dataInput__input}>
+            <select ref={productRef}  defaultValue={data.product} className={classes.dataInput__input}>
               <option value='blank'></option>
               <option value='Acid'>Acid</option>
               <option value='Chlorine'>Chlorine</option>
@@ -86,45 +87,45 @@ const AddData = () => {
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Quantity:</label>
-            <input type='number' ref={quantityRef} className={classes.dataInput__input} />
+            <input type='number' ref={quantityRef} defaultValue={data.quantity}className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Meter Reading:</label>
-            <input type='number' ref={meterReadingRef} className={classes.dataInput__input} />
+            <input type='number' ref={meterReadingRef} defaultValue={data.meterReading} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Water Usage:</label>
-            <input type='number' ref={waterUsageRef} className={classes.dataInput__input} />
+            <input type='number' ref={waterUsageRef} defaultValue={data.waterUsage} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Pump Dial:</label>
-            <input type='number' ref={pumpDialRef} className={classes.dataInput__input} />
+            <input type='number' ref={pumpDialRef} defaultValue={data.pumpDial} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Float Before Delivery:</label>
-            <input type='number' ref={floatBeforeRef} className={classes.dataInput__input} />
+            <input type='number' ref={floatBeforeRef} defaultValue={data.floatBeforeDelivery} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>kg Actual:</label>
-            <input type='number' ref={kgActualRef} className={classes.dataInput__input} />
+            <input type='number' ref={kgActualRef} defaultValue={data.kgActual} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Target Feed Rate:</label>
-            <input type='number' ref={targetFeedRateRef} className={classes.dataInput__input} />
+            <input type='number' ref={targetFeedRateRef} defaultValue={data.targetFeedRate} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Float After Delivery:</label>
-            <input type='number' ref={floatAfterRef} className={classes.dataInput__input} />
+            <input type='number' ref={floatAfterRef} defaultValue={data.floatAfterDelivery} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Comments:</label>
-            <textarea className={classes.dataInput__comments} rows='3' ref={commentsRef} />
+            <textarea className={classes.dataInput__comments} rows='3' ref={commentsRef} defaultValue={data.comments} />
           </div>
           <div className={classes.btnContainer}>
             <button 
               type='submit' 
               className={`${classes.addDataBtn} ${classes.btn}`}
-            >Add Data</button>
+            >Save Data</button>
             <button
               type='button' 
               onClick={handleCancel}
@@ -137,4 +138,4 @@ const AddData = () => {
   );
 };
 
-export default AddData;
+export default EditData;

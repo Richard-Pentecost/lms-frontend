@@ -14,7 +14,7 @@ const Profile = () => {
   const emailRef = useRef();
 
   const formSubmit = event => {
-    event.preventDefault();
+    event.preventDefault(); 
     const data = { name: nameRef.current.value };
     const { uuid } = currentUser;
     dispatch(editUser(data, uuid));

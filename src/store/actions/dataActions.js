@@ -17,6 +17,19 @@ export const addData = data => {
   };
 };
 
+export const editData = (data, dataId) => {
+  return async dispatch => {
+    try {
+      const { farmFk: farmId } = data;
+      await axios.patch(`${URL}/${farmId}/data/${dataId}`, { data });
+      dispatch(dataActions.addDataSuccess());
+    } catch (error) {
+      console.error(error);
+      dispatch(dataActions.addDataFail('There was an error updating data'));
+    }
+  }
+}
+
 export const fetchData = farmId => {
   return async dispatch => {
     try {

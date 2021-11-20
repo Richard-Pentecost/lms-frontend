@@ -14,6 +14,7 @@ import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner } from 
 import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 import './style/App.module.scss';
 import AddData from './pages/AddData';
+import EditData from './pages/EditData';
 
 library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner);
 
@@ -56,14 +57,20 @@ const App = () => {
           />
           <AuthRoute 
             exact
+            path='/farms/:uuid/edit-farm'
+            component={EditFarm}
+            authenticate={isLoggedIn}
+          />
+          <AuthRoute 
+            exact
             path='/farms/:uuid/add-data'
             component={AddData}
             authenticate={isLoggedIn}
           />
           <AuthRoute 
             exact
-            path='/farms/:uuid/edit-farm'
-            component={EditFarm}
+            path='/farms/:uuid/edit-data/:dataId'
+            component={EditData}
             authenticate={isLoggedIn}
           />
           <AuthRoute 

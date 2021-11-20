@@ -20,8 +20,8 @@ const Farm = () => {
     dispatch(fetchData(uuid));
   }, [dispatch, uuid]);
 
-  const handleRowClick = () => {
-    console.log("clicked!");
+  const handleRowClick = input => {
+    history.push(`${pathname}/edit-data/${input.uuid}`);
   };
 
   return (

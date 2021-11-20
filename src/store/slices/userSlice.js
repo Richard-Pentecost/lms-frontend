@@ -38,22 +38,27 @@ const userSlice = createSlice({
       state.errorMessage = action.payload;
     },
     addUserStart(state) {
-      state.loading = true;
       state.errorMessage = '';
       state.addUserSuccess = false;
       state.showButtonSpinner = true;
     },
     addUserSuccess(state) {
-      state.loading = false;
       state.addUserSuccess = true;
       state.showButtonSpinner = false;
     },
     addUserFail(state, action) {
-      state.loading = false;
-      state.erroMessage = action.payload
-      state.addFarmSuccess = false;
+      state.errorMessage = action.payload
+      state.addUserSuccess = false;
       state.showButtonSpinner = false;
     },
+    clearErrors(state) {
+      state.loading = false;
+      state.erroeMessage = '';
+      state.showButtonSpinner = false;
+    },
+    clearSuccessFlag(state) {
+      state.addUserSuccess = false;
+    }
   }
 });
 
