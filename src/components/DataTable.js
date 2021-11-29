@@ -3,29 +3,32 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from '../style/DataTable.module.scss';
 
-const DataTable = ({ data, clickHandler }) => {
-  const tableBody = data.map(d => {
-    const objectKeys = Object.keys(d).filter(inputKey => inputKey !== 'uuid' && inputKey !== 'farmFk');
+const DataTable = ({ data, clickHandler, openModalHandler, isAdmin }) => {
+
+  const disableDeleteButton = isAdmin ? undefined : { display: 'none' };
+
+  const tableBody = data.map(rowData => {
+    const objectKeys = Object.keys(rowData).filter(inputKey => inputKey !== 'uuid' && inputKey !== 'farmFk');
     return (
-      <tr className={classes.tableBody} key={d.uuid} onClick={() => clickHandler(d)}>
+      <tr className={classes.tableBody} key={rowData.uuid} onClick={() => clickHandler(rowData)}>
         {
           objectKeys.map(inputKey => {
             if (inputKey === 'date') {
-              return <td className={classes.tableBody__cell} key={`${inputKey}-${d.uuid}`}>{ dayjs(d[inputKey]).format('ddd, DD-MM-YYYY') }</td>
+              return <td className={classes.tableBody__cell} key={`${inputKey}-${rowData.uuid}`}>{ dayjs(rowData[inputKey]).format('ddd, DD-MM-YYYY') }</td>
             } else {
-              return <td className={classes.tableBody__cell} key={`${inputKey}-${d.uuid}`}>{ d[inputKey] }</td>
+              return <td className={classes.tableBody__cell} key={`${inputKey}-${rowData.uuid}`}>{ rowData[inputKey] }</td>
             }
           })
         }
-        <td className={classes.tableBody__cell}>
-          <div 
-            onClick={event => {
-              event.stopPropagation();
-              console.log('click');
-            }}
-          >
-            <span className={classes.tableIcon}><FontAwesomeIcon icon={[ 'far', 'trash-alt' ]}/></span>
-          </div>
+        <td 
+          className={classes.tableBody__cell}
+          style={disableDeleteButton}
+          onClick={event => {
+            event.stopPropagation();
+            openModalHandler(rowData.uuid);
+          }}
+        >
+          <div className={classes.tableIcon}><FontAwesomeIcon icon={[ 'far', 'trash-alt' ]}/></div>
         </td>
       </tr>
     )

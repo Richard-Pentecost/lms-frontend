@@ -48,7 +48,7 @@ const ChangePassword = () => {
             <FormButton type='submit' loading={showButtonSpinner}>Change Password</FormButton>
           </div>
         </form>
-        { errorMessage && <Alert>{errorMessage}</Alert>}
+        { errorMessage && <Alert>{errorMessage}</Alert> }
       </div>
     </>
   );

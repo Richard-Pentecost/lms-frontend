@@ -40,7 +40,7 @@ const Home = () => {
         <div className={classes.farmList}>
           {
             farms && farms.map(farm => (
-              <div className={classes.farmList__card} key={farm.id}>
+              <div className={classes.farmList__card} key={farm.uuid}>
                 <FarmCard farm={farm} />
               </div>
             ))

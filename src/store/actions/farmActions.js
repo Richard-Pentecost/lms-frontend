@@ -20,8 +20,7 @@ export const fetchActiveFarms = () => {
   return async dispatch => {
     try {
       dispatch(farmActions.fetchFarmsStart());
-      // End point needs altering!
-      const { data: farms } = await axios.get(`${URL}/farms`);
+      const { data: farms } = await axios.get(`${URL}/farms/active`);
       dispatch(farmActions.fetchFarmsSuccess(farms));
     } catch (error) {
       console.error(error);

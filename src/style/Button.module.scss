@@ -47,7 +47,17 @@
 
     &:hover {
       opacity: 1;
-      background: $color-white;
+      // background: $color-white;
+    }
+  }
+
+  &__red {
+    color: $color-red;
+    border: 1px solid $color-red;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
     }
   }
 

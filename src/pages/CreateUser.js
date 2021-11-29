@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUser } from '../store/actions/userActions';
+import { createUser, clearSuccessFlag, clearErrors } from '../store/actions/userActions';
 import Alert from '../components/Alert';
 import FormButton from '../components/FormButton';
 import HeaderSection from '../components/HeaderSection';
@@ -11,29 +11,37 @@ import classes from '../style/SettingsForm.module.scss';
 
 const CreateUser = () => {
   const [permissionLevel, setPermissionLevel] = useState('user');
-  // const history = useHistory();
   const dispatch = useDispatch();
-  // const { errorMessage, loading } = useSelector(state => state.farmState);
+  const { errorMessage, showButtonSpinner, addUserSuccess } = useSelector(state => state.userState); 
 
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
+  useEffect(() => {
+    nameRef.current.value = '';
+    emailRef.current.value = '';
+    passwordRef.current.value = '';
+    confirmPasswordRef.current.value = '';
+    setPermissionLevel('user');
+
+    return () => {
+      dispatch(clearSuccessFlag());
+      dispatch(clearErrors());
+    }
+  }, [dispatch, addUserSuccess]);
+
   const formSubmit = event => {
     event.preventDefault();
-    
-    if (passwordRef.current.value === confirmPasswordRef.current.value) {
-      const user = {
-        name: nameRef.current.value,
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-        permissionLevel
-      };
-      dispatch(createUser(user));
-    } else {
-      console.log('error');
-    }
+    const user = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      confirmPassword: confirmPasswordRef.current.value,
+      permissionLevel
+    };
+    dispatch(createUser(user));
   };
 
   const handlePermissionChange = (event) => {
@@ -58,10 +66,10 @@ const CreateUser = () => {
             handleChange={handlePermissionChange}
           />
           <div className={classes.settingsForm__btnContainer}>
-            <FormButton type='submit'>Create User</FormButton>
+            <FormButton type='submit' loading={showButtonSpinner}>Create User</FormButton>
           </div>
         </form>
-        {/* { errorMessage && <Alert>{errorMessage}</Alert> } */}
+        { errorMessage && <Alert>{errorMessage}</Alert> }
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import SettingsSidebarLink from './SettingsSidebarLink';
 import classes from '../style/SettingsSidebar.module.scss';
 
-const SettingsSidebar = ({ name }) => (
+const SettingsSidebar = ({ name, isAdmin }) => (
   <nav className={classes.sidebar}>
     <ul className={classes.sidebar__list}>
       <li className={classes.sidebarHeading}>
@@ -10,9 +10,16 @@ const SettingsSidebar = ({ name }) => (
       </li>
       <SettingsSidebarLink link='/settings/profile'>Profile</SettingsSidebarLink>
       <SettingsSidebarLink link='/settings/security'>Change Password</SettingsSidebarLink>
-      <SettingsSidebarLink link='/settings/create-user'>Create User</SettingsSidebarLink>
-      <SettingsSidebarLink link='/settings/users'>Users</SettingsSidebarLink>
-      <SettingsSidebarLink link='/settings/farms'>Farms</SettingsSidebarLink>
+      { 
+        isAdmin && 
+        (
+          <>
+            <SettingsSidebarLink link='/settings/create-user'>Create User</SettingsSidebarLink>
+            <SettingsSidebarLink link='/settings/users'>Users</SettingsSidebarLink>
+            <SettingsSidebarLink link='/settings/farms'>Farms</SettingsSidebarLink>
+          </>
+        )
+      }
     </ul>
   </nav>
 );

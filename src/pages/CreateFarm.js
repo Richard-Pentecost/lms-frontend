@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farmActions';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
+import Select from '../components/Select';
 import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
 import classes from '../style/farmForm.module.scss';
@@ -12,13 +13,14 @@ const CreateFarm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { errorMessage, loading, addFarmSuccess } = useSelector(state => state.farmState);
-
+  
   const farmNameRef = useRef();
   const postcodeRef = useRef();
   const contactNameRef = useRef();
   const contactNumberRef = useRef();
   const accessCodesRef = useRef();
   const commentsRef = useRef();
+  const regionRef = useRef();
 
   useEffect(() => {
     if (addFarmSuccess) {
@@ -39,9 +41,12 @@ const CreateFarm = () => {
       contactNumber: contactNumberRef.current.value,
       accessCodes: accessCodesRef.current.value,
       comments: commentsRef.current.value,
+      region: regionRef.current.value,
     };
     dispatch(createFarm(farm));
   };
+  
+  const opts = ['North West', 'South East'];
 
   return (
     <div className={classes.farmForm}>
@@ -56,6 +61,7 @@ const CreateFarm = () => {
         <Input type='text' ref={contactNumberRef}>Contact Number:</Input>
         <TextArea rows='2' ref={accessCodesRef}>Access Codes:</TextArea>
         <TextArea rows='2' ref={commentsRef}>Comments:</TextArea>
+        <Select options={opts} ref={regionRef}>Region</Select>
         <FormButton type='submit' loading={loading}>Create Farm</FormButton> 
       </form>
       { errorMessage && <Alert>{errorMessage}</Alert> }

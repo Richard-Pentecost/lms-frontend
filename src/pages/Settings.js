@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import AdminRoute from '../components/AdminRoute';
 import SettingsSidebar from '../components/SettingsSidebar';
 import Profile from './Profile';
 import CreateUser from './CreateUser';
@@ -17,6 +18,7 @@ const Settings = () => {
   const { path } = useRouteMatch();
   const { uuid } = useSelector(state => state.authState.token);
   const { loading, currentUser } = useSelector(state => state.userState);
+  const isAdmin = useSelector(state => state.authState.token.permissionLevel === 'admin');
 
   useEffect(() => {
     dispatch(fetchUserByUuid(uuid));
@@ -30,15 +32,15 @@ const Settings = () => {
     content = (
       <>
         <div className={classes.settings__sidebar}>
-          <SettingsSidebar name={currentUser.name} />
+          <SettingsSidebar name={currentUser.name} isAdmin={isAdmin} />
         </div>
         <div className={classes.settings__main}>
           <Switch>
             <Route path={`${path}/profile`} component={Profile} />
             <Route path={`${path}/security`} component={ChangePassword} />
-            <Route path={`${path}/create-user`} component={CreateUser} />
-            <Route path={`${path}/users`} component={Users} />
-            <Route path={`${path}/farms`} component={FarmList} />
+            <AdminRoute path={`${path}/create-user`} component={CreateUser} isAdmin={isAdmin} />
+            <AdminRoute path={`${path}/users`} component={Users} isAdmin={isAdmin} />
+            <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={isAdmin} />
             <Redirect to={`${path}/profile`} />
           </Switch>
         </div>
