@@ -1,0 +1,51 @@
+@import './variables';
+
+.regions {
+  padding: 1rem;
+  font-size: 1.4rem;
+}
+
+.listContainer {
+  margin-top: 2rem;
+  background: $color-white;
+  padding: 1rem;
+  max-width: 100vw;
+  max-height: 75vh;
+  overflow-y: scroll;
+}
+
+.list {
+  border-collapse: collapse;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.listTitle {
+  font-size: 1.4rem;
+
+  &__style {
+    border-bottom: 2px solid $color-grey-light-3;
+    padding: 0.2rem 1.5rem;
+    text-align: left;
+  }
+}
+
+.listBody {
+  border-bottom: 1px solid $color-grey-light-3;
+  height: 3.5rem;
+  cursor: pointer;
+  transition: all 0.1s linear;
+
+  &__cell {
+    padding: 0.2rem 1.5rem;
+    width: 100%;
+
+    // &:last-child {
+    //   text-align: right;
+    // }
+  }
+
+  &:hover {
+    background: $color-grey-light-2;
+  }
+}

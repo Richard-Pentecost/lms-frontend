@@ -3,6 +3,7 @@ import farmReducer from './slices/farmSlice';
 import authReducer from './slices/authSlice';
 import userReducer from './slices/userSlice';
 import dataReducer from './slices/dataSlice';
+import regionReducer from './slices/regionSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     authState: authReducer,
     userState: userReducer,
     dataState: dataReducer,
+    regionState: regionReducer,
   }
 });
 

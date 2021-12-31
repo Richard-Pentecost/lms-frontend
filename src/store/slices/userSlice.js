@@ -27,7 +27,7 @@ const userSlice = createSlice({
     },
     fetchUsersStart(state) {
       state.loading = true;
-      state.errorMessage = false;
+      state.errorMessage = '';
     },
     fetchUsersSuccess(state, action) {
       state.users = action.payload;
@@ -53,7 +53,7 @@ const userSlice = createSlice({
     },
     clearErrors(state) {
       state.loading = false;
-      state.erroeMessage = '';
+      state.errorMessage = '';
       state.showButtonSpinner = false;
     },
     clearSuccessFlag(state) {

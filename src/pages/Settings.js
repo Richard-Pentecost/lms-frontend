@@ -4,13 +4,16 @@ import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import AdminRoute from '../components/AdminRoute';
 import SettingsSidebar from '../components/SettingsSidebar';
 import Profile from './Profile';
+import AddRegion from './AddRegion';
 import CreateUser from './CreateUser';
 import ChangePassword from './ChangePassword';
 import FarmList from './FarmList';
 import Users from './Users';
 import Spinner from '../components/Spinner';
+import RegionList from './RegionList';
 import { fetchUserByUuid, fetchUsers } from '../store/actions/userActions';
 import { fetchFarms } from '../store/actions/farmActions';
+import { fetchRegions } from '../store/actions/regionActions';
 import classes from '../style/Settings.module.scss';
 
 const Settings = () => {
@@ -18,12 +21,13 @@ const Settings = () => {
   const { path } = useRouteMatch();
   const { uuid } = useSelector(state => state.authState.token);
   const { loading, currentUser } = useSelector(state => state.userState);
-  const isAdmin = useSelector(state => state.authState.token.permissionLevel === 'admin');
+  const isAdmin = useSelector(state => state.authState.token.isAdmin);
 
   useEffect(() => {
     dispatch(fetchUserByUuid(uuid));
     dispatch(fetchUsers());
     dispatch(fetchFarms());
+    dispatch(fetchRegions());
   }, [dispatch, uuid]);
 
   let content = <Spinner />;
@@ -41,6 +45,7 @@ const Settings = () => {
             <AdminRoute path={`${path}/create-user`} component={CreateUser} isAdmin={isAdmin} />
             <AdminRoute path={`${path}/users`} component={Users} isAdmin={isAdmin} />
             <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={isAdmin} />
+            <AdminRoute path={`${path}/regions`} component={RegionList} isAdmin={isAdmin} />
             <Redirect to={`${path}/profile`} />
           </Switch>
         </div>

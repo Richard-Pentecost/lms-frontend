@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchActiveFarms } from '../store/actions/farmActions';
+import { fetchRegions } from '../store/actions/regionActions';
 import FarmCard from '../components/FarmCard';
 import Sidebar from '../components/Sidebar';
 import SearchBar from '../components/SearchBar';
@@ -12,9 +13,18 @@ const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { farms } = useSelector(state => state.farmState);
-
+  console.log('**** farms ****');
+  console.log(farms);
+  farms.map((farm) => {
+    if (farm.region) {
+      console.log("*******")
+      console.log(farm.region);
+    }
+    return farm
+  })
   useEffect(() => {
     dispatch(fetchActiveFarms());
+    dispatch(fetchRegions());
   }, [dispatch]);
 
   return (

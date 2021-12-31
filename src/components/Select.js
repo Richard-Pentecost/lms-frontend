@@ -11,7 +11,7 @@ const Select = React.forwardRef(({ children, defaultValue, options }, ref) => (
     >
       <option></option>
       {
-        options && options.map((option, index) => <option key={index}>{option}</option>)
+        options && options.map((option, index) => <option value={option.uuid} key={index}>{option.regionName}</option>)
       }
     </select>
   </div>

@@ -7,6 +7,8 @@ import EditFarm from './pages/EditFarm';
 import Settings from './pages/Settings';
 import Farm from './pages/Farm';
 import AuthRoute from './components/AuthRoute';
+import AdminRoute from './components/AdminRoute';
+import AddRegion from './pages/AddRegion';
 import Layout from './components/Layout';
 import { isTokenValid } from './utils/token-manager';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -19,7 +21,7 @@ import EditData from './pages/EditData';
 library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner);
 
 const App = () => {
-  const { token } = useSelector(state => state.authState)
+  const { token } = useSelector(state => state.authState);
 
   const isLoggedIn = () => {
     return Boolean(token) && isTokenValid();
@@ -77,6 +79,16 @@ const App = () => {
             path='/settings'
             component={Settings}
             authenticate={isLoggedIn}
+          />
+          <AdminRoute 
+            path='/create-region'
+            component={AddRegion}
+            isAdmin={token && token.isAdmin}
+          />
+          <AdminRoute  
+            path='/edit-region/:uuid'
+            component={AddRegion} 
+            isAdmin={token && token.isAdmin}
           />
           <Redirect to='/' />
         </Switch>

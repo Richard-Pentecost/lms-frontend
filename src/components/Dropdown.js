@@ -9,7 +9,7 @@ const Dropdown = () => {
   const dropdownRef = useRef();
   const dispatch = useDispatch();
   const [isActive, setIsActive] = useState(false);
-  const isAdmin = useSelector(state => state.authState.token.permissionLevel === 'admin');
+  const isAdmin = useSelector(state => state.authState.token.isAdmin);
 
   useEffect(() => {
     const pageClickEvent = event => {

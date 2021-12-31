@@ -5,8 +5,9 @@ import { editFarm, clearSuccessFlag, clearErrors, fetchActiveFarms } from '../st
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
-import classes from '../style/farmForm.module.scss';
 import Alert from '../components/Alert';
+import Select from '../components/Select';
+import classes from '../style/FarmForm.module.scss';
 
 const EditFarm = () => {
   const { uuid } = useParams();
@@ -14,6 +15,7 @@ const EditFarm = () => {
   const dispatch = useDispatch();
   const farm = useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
   const { errorMessage, loading, addFarmSuccess } = useSelector(state => state.farmState);
+  const { regions } = useSelector(state => state.regionState);
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -21,6 +23,7 @@ const EditFarm = () => {
   const contactNumberRef = useRef();
   const accessCodesRef = useRef();
   const commentsRef = useRef();
+  const regionRef = useRef();
 
   useEffect(() => {
     if(addFarmSuccess) {
@@ -35,6 +38,8 @@ const EditFarm = () => {
 
   const formSubmit = event => {
     event.preventDefault();
+    console.log("**** submit ****");
+    console.log(regionRef.current.value);
     const farm = {
       farmName: farmNameRef.current.value,
       postcode: postcodeRef.current.value,
@@ -42,6 +47,7 @@ const EditFarm = () => {
       contactNumber: contactNumberRef.current.value,
       accessCodes: accessCodesRef.current.value,
       comments: commentsRef.current.value,
+      regionFk: regionRef.current.value,
     };
     dispatch(editFarm(farm, uuid));
   }
@@ -59,9 +65,10 @@ const EditFarm = () => {
         <Input type='text' ref={contactNumberRef} defaultValue={farm.contactNumber}>Contact Number:</Input>
         <TextArea rows='2' ref={accessCodesRef} defaultValue={farm.accessCodes}>Access Codes:</TextArea>
         <TextArea rows='2' ref={commentsRef} defaultValue={farm.comments}>Comments:</TextArea>
+        <Select options={regions} ref={regionRef} defaultValue={farm.regionFk}>Region:</Select>
         <FormButton type='submit' loading={loading}>Edit Farm</FormButton> 
       </form>
-      { errorMessage && <Alert>{errorMessage}</Alert>}
+      { errorMessage && <Alert>{errorMessage}</Alert> }
     </div>
   )
 }

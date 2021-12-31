@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUser, clearSuccessFlag, clearErrors } from '../store/actions/userActions';
 import Alert from '../components/Alert';
