@@ -47,3 +47,22 @@
     }
   }
 }
+
+.farmFormRegion {
+  display: flex;
+
+  &__link {
+    color: $color-blue-1;
+    font-size: 1.4rem;
+    cursor: 2px;
+    align-self: flex-start;
+    padding-left: 2rem;
+    margin-top: 5rem;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-blue-2;
+      text-decoration: underline;
+    }
+  }
+}

@@ -4,6 +4,7 @@ import authReducer from './slices/authSlice';
 import userReducer from './slices/userSlice';
 import dataReducer from './slices/dataSlice';
 import regionReducer from './slices/regionSlice';
+import productReducer from './slices/productSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     userState: userReducer,
     dataState: dataReducer,
     regionState: regionReducer,
+    productState: productReducer,
   }
 });
 

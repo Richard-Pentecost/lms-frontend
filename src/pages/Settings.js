@@ -4,17 +4,18 @@ import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import AdminRoute from '../components/AdminRoute';
 import SettingsSidebar from '../components/SettingsSidebar';
 import Profile from './Profile';
-import AddRegion from './AddRegion';
 import CreateUser from './CreateUser';
 import ChangePassword from './ChangePassword';
 import FarmList from './FarmList';
 import Users from './Users';
 import Spinner from '../components/Spinner';
 import RegionList from './RegionList';
+import ProductList from './ProductList';
 import { fetchUserByUuid, fetchUsers } from '../store/actions/userActions';
 import { fetchFarms } from '../store/actions/farmActions';
 import { fetchRegions } from '../store/actions/regionActions';
 import classes from '../style/Settings.module.scss';
+import { fetchProducts } from '../store/actions/productActions';
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Settings = () => {
     dispatch(fetchUsers());
     dispatch(fetchFarms());
     dispatch(fetchRegions());
+    dispatch(fetchProducts());
   }, [dispatch, uuid]);
 
   let content = <Spinner />;
@@ -46,6 +48,7 @@ const Settings = () => {
             <AdminRoute path={`${path}/users`} component={Users} isAdmin={isAdmin} />
             <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={isAdmin} />
             <AdminRoute path={`${path}/regions`} component={RegionList} isAdmin={isAdmin} />
+            <AdminRoute path={`${path}/products`} component={ProductList} isAdmin={isAdmin} />
             <Redirect to={`${path}/profile`} />
           </Switch>
         </div>

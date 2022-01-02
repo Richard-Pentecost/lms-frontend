@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farmActions';
 import Input from '../components/Input';
@@ -14,7 +14,6 @@ const CreateFarm = () => {
   const dispatch = useDispatch();
   const { errorMessage, loading, addFarmSuccess } = useSelector(state => state.farmState);
   const { regions } = useSelector(state => state.regionState);
-  const options = regions.map(region => region.regionName);
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -47,7 +46,6 @@ const CreateFarm = () => {
       comments: commentsRef.current.value,
       regionFk: region.uuid,
     };
-    console.log(farm);
     dispatch(createFarm(farm));
   };
 
@@ -64,7 +62,10 @@ const CreateFarm = () => {
         <Input type='text' ref={contactNumberRef}>Contact Number:</Input>
         <TextArea rows='2' ref={accessCodesRef}>Access Codes:</TextArea>
         <TextArea rows='2' ref={commentsRef}>Comments:</TextArea>
-        <Select options={options} ref={regionRef}>Region:</Select>
+        <div className={classes.farmFormRegion}>
+          <Select options={regions} ref={regionRef}>Region:</Select>
+          <Link to={'/create-region'} className={classes.farmFormRegion__link}>Add new region</Link>
+        </div>
         <FormButton type='submit' loading={loading}>Create Farm</FormButton> 
       </form>
       { errorMessage && <Alert>{errorMessage}</Alert> }

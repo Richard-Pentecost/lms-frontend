@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { editFarm, clearSuccessFlag, clearErrors, fetchActiveFarms } from '../store/actions/farmActions';
 import Input from '../components/Input';
@@ -38,8 +38,6 @@ const EditFarm = () => {
 
   const formSubmit = event => {
     event.preventDefault();
-    console.log("**** submit ****");
-    console.log(regionRef.current.value);
     const farm = {
       farmName: farmNameRef.current.value,
       postcode: postcodeRef.current.value,
@@ -65,7 +63,10 @@ const EditFarm = () => {
         <Input type='text' ref={contactNumberRef} defaultValue={farm.contactNumber}>Contact Number:</Input>
         <TextArea rows='2' ref={accessCodesRef} defaultValue={farm.accessCodes}>Access Codes:</TextArea>
         <TextArea rows='2' ref={commentsRef} defaultValue={farm.comments}>Comments:</TextArea>
-        <Select options={regions} ref={regionRef} defaultValue={farm.regionFk}>Region:</Select>
+        <div className={classes.farmFormRegion}>
+          <Select options={regions} ref={regionRef} defaultValue={farm.regionFk}>Region:</Select>
+          <Link to={'/create-region'} className={classes.farmFormRegion__link}>Add new region</Link>
+        </div>
         <FormButton type='submit' loading={loading}>Edit Farm</FormButton> 
       </form>
       { errorMessage && <Alert>{errorMessage}</Alert> }

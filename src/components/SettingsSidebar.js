@@ -18,6 +18,7 @@ const SettingsSidebar = ({ name, isAdmin }) => (
             <SettingsSidebarLink link='/settings/users'>Users</SettingsSidebarLink>
             <SettingsSidebarLink link='/settings/farms'>Farms</SettingsSidebarLink>
             <SettingsSidebarLink link='/settings/regions'>Regions</SettingsSidebarLink>
+            <SettingsSidebarLink link='/settings/products'>Products</SettingsSidebarLink>
           </>
         )
       }
