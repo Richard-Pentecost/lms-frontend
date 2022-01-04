@@ -38,9 +38,9 @@ export const editRegion = (region, uuid) => {
     } catch (error) {
       console.error(error);
       dispatch(regionActions.addRegionFail('Error upating region'));
-    }
-  }
-}
+    };
+  };
+};
 
 export const deleteRegion = uuid => {
   return async dispatch => {
@@ -49,9 +49,9 @@ export const deleteRegion = uuid => {
       dispatch(fetchRegions());
     } catch (error) {
       console.error(error);
-    }
-  }
-}
+    };
+  };
+};
 
 export const clearErrors = () => {
   return dispatch => {

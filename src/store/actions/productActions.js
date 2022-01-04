@@ -15,3 +15,14 @@ export const fetchProducts = () => {
     };
   };
 };
+
+export const deleteProduct = uuid => {
+  return async dispatch => {
+    try {
+      await axios.delete(`${URL}/products/${uuid}`);
+      dispatch(fetchProducts());
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
