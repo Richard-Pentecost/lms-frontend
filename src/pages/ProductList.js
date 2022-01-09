@@ -34,7 +34,9 @@ const ProductList = () => {
     <>
       <HeaderSection>Products</HeaderSection>
       <div className={classes.regions}>
-        <Button>Add Products</Button>
+        <Button
+          handleClick={() => history.push('/create-product')}
+        >Add Products</Button>
         <div className={classes.listContainer}>
           <table className={classes.list}>
             <thead className={classes.list__head}> 
@@ -54,7 +56,7 @@ const ProductList = () => {
                       <Button
                         styling='disable'
                         handleClick={event => {
-                          event.stopPropagations();
+                          event.stopPropagation();
                           openModal(product);
                         }}
                       >Delete</Button>
@@ -77,7 +79,7 @@ const ProductList = () => {
         )
       }
     </>
-  )
-}
+  );
+};
 
 export default ProductList;

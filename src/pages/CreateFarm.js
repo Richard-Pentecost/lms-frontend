@@ -1,19 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farmActions';
+import { fetchProducts } from '../store/actions/productActions';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import Select from '../components/Select';
 import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
+import ProductSelect from '../components/ProductSelect';
 import classes from '../style/FarmForm.module.scss';
 
 const CreateFarm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const { errorMessage, loading, addFarmSuccess } = useSelector(state => state.farmState);
   const { regions } = useSelector(state => state.regionState);
+  const { products } = useSelector(state => state.productState);
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -22,7 +26,11 @@ const CreateFarm = () => {
   const accessCodesRef = useRef();
   const commentsRef = useRef();
   const regionRef = useRef();
+  const productsRef = useRef([]);
 
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     if (addFarmSuccess) {
@@ -36,7 +44,10 @@ const CreateFarm = () => {
 
   const formSubmit = event => {
     event.preventDefault();
-    const region = regions.find(region => region.regionName === regionRef.current.value);
+    let region;
+    if (regionRef.current.value) {
+      region = regions.find(region => region.regionName === regionRef.current.value);
+    }
     const farm = {
       farmName: farmNameRef.current.value,
       postcode: postcodeRef.current.value,
@@ -44,9 +55,12 @@ const CreateFarm = () => {
       contactNumber: contactNumberRef.current.value,
       accessCodes: accessCodesRef.current.value,
       comments: commentsRef.current.value,
-      regionFk: region.uuid,
+      regionFk: region && region.uuid,
     };
-    dispatch(createFarm(farm));
+
+    const products = productsRef.current.map(product => product.value);
+  
+    dispatch(createFarm(farm, products));
   };
 
   return (
@@ -66,6 +80,7 @@ const CreateFarm = () => {
           <Select options={regions} ref={regionRef}>Region:</Select>
           <Link to={'/create-region'} className={classes.farmFormRegion__link}>Add new region</Link>
         </div>
+        <ProductSelect options={products} ref={productsRef}>Products:</ProductSelect>
         <FormButton type='submit' loading={loading}>Create Farm</FormButton> 
       </form>
       { errorMessage && <Alert>{errorMessage}</Alert> }

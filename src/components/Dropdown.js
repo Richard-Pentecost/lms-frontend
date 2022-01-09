@@ -51,6 +51,8 @@ const Dropdown = () => {
                     <DropdownLink link='/settings/create-user' handleClick={handleClick}>Create User</DropdownLink>
                     <DropdownLink link='/settings/users' handleClick={handleClick}>Users</DropdownLink>
                     <DropdownLink link='/settings/farms' handleClick={handleClick}>Farms</DropdownLink>
+                    <DropdownLink link='/settings/regions' handleClick={handleClick}>Regions</DropdownLink>
+                    <DropdownLink link='/settings/products' handleClick={handleClick}>Products</DropdownLink>
                   </>
                 )
               }

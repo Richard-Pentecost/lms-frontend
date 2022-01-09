@@ -6,17 +6,18 @@ import CreateFarm from './pages/CreateFarm';
 import EditFarm from './pages/EditFarm';
 import Settings from './pages/Settings';
 import Farm from './pages/Farm';
+import AddData from './pages/AddData';
+import EditData from './pages/EditData';
+import AddRegion from './pages/AddRegion';
+import AddProduct from './pages/AddProduct';
 import AuthRoute from './components/AuthRoute';
 import AdminRoute from './components/AdminRoute';
-import AddRegion from './pages/AddRegion';
 import Layout from './components/Layout';
 import { isTokenValid } from './utils/token-manager';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 import './style/App.module.scss';
-import AddData from './pages/AddData';
-import EditData from './pages/EditData';
 
 library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner);
 
@@ -88,6 +89,11 @@ const App = () => {
           <AdminRoute  
             path='/edit-region/:uuid'
             component={AddRegion} 
+            isAdmin={token && token.isAdmin}
+          />
+          <AdminRoute 
+            path='/create-product'
+            component={AddProduct}
             isAdmin={token && token.isAdmin}
           />
           <Redirect to='/' />

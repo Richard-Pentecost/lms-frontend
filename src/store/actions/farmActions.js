@@ -3,11 +3,11 @@ import { farmActions } from '../slices/farmSlice';
 
 const URL = 'http://localhost:3000';
 
-export const createFarm = farm => {
+export const createFarm = (farm, products) => {
   return async dispatch => {
     try {
       dispatch(farmActions.addFarmStart());
-      await axios.post(`${URL}/farms`, { farm });
+      await axios.post(`${URL}/farms`, { farm, products });
       dispatch(farmActions.addFarmSuccess());
     } catch (error) {
       console.error(error);
@@ -55,6 +55,17 @@ export const editFarm = (farm, uuid) => {
     };
   };
 };
+
+export const deleteFarm = uuid => {
+  return async dispatch => {
+    try { 
+      await axios.delete(`${URL}/farms/${uuid}`);
+      dispatch(fetchActiveFarms());
+    } catch (error) {
+      console.error(error);
+    }
+  }
+}
 
 export const clearErrors = () => {
   return dispatch => {

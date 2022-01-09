@@ -62,5 +62,5 @@ export const clearErrors = () => {
 export const clearSuccessFlag = () => {
   return dispatch => {
     dispatch(regionActions.clearSuccessFlag());
-  }
-}
+  };
+};

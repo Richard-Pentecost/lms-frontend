@@ -4,7 +4,7 @@ const initialState = {
   products: [],
   loading: false,
   errorMessage: '',
-  addRegionSuccess: false,
+  addProductSuccess: false,
   showButtonSpinner: false,
 };
 
@@ -24,6 +24,28 @@ const productSlice = createSlice({
       state.loading = false;
       state.errorMessage = action.payload;
     },
+    addProductStart(state) {
+      state.errorMessage = '';
+      state.addProductSuccess = false;
+      state.showButtonSpinner = true;
+    },
+    addProductSuccess(state) {
+      state.addProductSuccess = true;
+      state.showButtonSpinner = false;
+    },
+    addProductFail(state, action) {
+      state.errorMessage = action.payload;
+      state.addProductSuccess = false;
+      state.showButtonSpinner = false;
+    },
+    clearErrors(state) {
+      state.loading = false;
+      state.errorMessage = '';
+      state.showButtonSpinner = false;
+    },
+    clearSuccessFlag(state) {
+      state.addProductSuccess = false;
+    }
   }
 });
 

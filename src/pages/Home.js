@@ -13,15 +13,15 @@ const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { farms } = useSelector(state => state.farmState);
-  console.log('**** farms ****');
-  console.log(farms);
-  farms.map((farm) => {
-    if (farm.region) {
-      console.log("*******")
-      console.log(farm.region);
-    }
-    return farm
-  })
+  // console.log('**** farms ****');
+  // console.log(farms);
+  // farms.map((farm) => {
+  //   if (farm.region) {
+  //     console.log("*******")
+  //     console.log(farm.region);
+  //   }
+  //   return farm
+  // })
   useEffect(() => {
     dispatch(fetchActiveFarms());
     dispatch(fetchRegions());
