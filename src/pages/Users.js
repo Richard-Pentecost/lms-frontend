@@ -34,7 +34,7 @@ const Users = (props) => {
     <tr className={classes.tableBody} key={user.uuid}>
       <td className={classes.tableBody__cell}>{user.name}</td>
       <td className={classes.tableBody__cell}>{user.email}</td>
-      <td className={classes.tableBody__cell}>{user.permissionLevel}</td>
+      <td className={classes.tableBody__cell}>{user.isAdmin ? 'Admin' : 'User'}</td>
       <td 
         className={classes.tableBody__cell}
         style={disableDeleteButton}

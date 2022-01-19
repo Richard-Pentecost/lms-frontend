@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from '../style/DataTable.module.scss';
 
 const DataTable = ({ data, clickHandler, openModalHandler, isAdmin }) => {
-
   const disableDeleteButton = isAdmin ? undefined : { display: 'none' };
 
   const tableBody = data.map(rowData => {
@@ -40,8 +39,8 @@ const DataTable = ({ data, clickHandler, openModalHandler, isAdmin }) => {
         <thead>
           <tr className={classes.tableTitle}>
             <th className={classes.tableTitle__style}>Date</th>
-            <th className={classes.tableTitle__style}>Cows</th>
             <th className={classes.tableTitle__style}>Product</th>
+            <th className={classes.tableTitle__style}>Cows</th>
             <th className={classes.tableTitle__style}>Quantity</th>
             <th className={classes.tableTitle__style}>Meter Reading</th>
             <th className={classes.tableTitle__style}>Water Usage</th>

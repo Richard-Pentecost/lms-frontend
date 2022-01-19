@@ -52,10 +52,7 @@ const AddProduct = () => {
         <Input type='text' ref={productNameRef}>Product</Input>
         <Input type='number' step='0.01' ref={specificGravityRef}>Specific Gravity</Input>
         <RadioButtons 
-          firstLabel="Tank"
-          firstValue='Tank'
-          secondLabel='Drum'
-          secondValue='Drum'
+          labels={['Tank', 'Drum', 'IBC']}
           input={deliveryType}
           handleChange={handleDeliveryTypeChange}
         />

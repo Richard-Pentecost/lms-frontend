@@ -8,11 +8,13 @@ import classes from '../style/AddData.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const AddData = () => {
-  const [date, setDate] = useState(new Date());
   const history = useHistory()
   const dispatch = useDispatch();
   const { uuid } = useParams();
-  const { errorMessage, loading, addDataSuccess } = useSelector(state => state.dataState);
+  
+  const [date, setDate] = useState(new Date());
+  const { errorMessage, loading, addDataSuccess, data } = useSelector(state => state.dataState);
+  const { products }= useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
 
   const noOfCowsRef = useRef();
   const productRef = useRef();
@@ -38,7 +40,7 @@ const AddData = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
-    const data = {
+    const newData = {
       date: date,
       farmFk: uuid,
       noOfCows: parseInt(noOfCowsRef.current.value),
@@ -53,7 +55,18 @@ const AddData = () => {
       floatAfterDelivery: parseInt(floatAfterRef.current.value),
       comments: commentsRef.current.value,
     }
-    dispatch(addData(data))
+
+    const previousDataUuids = data
+      .filter(d => d.product === productRef.current.value)
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB > dateA ? 1 : -1;
+      });
+    console.log('previousDataUuids:', previousDataUuids);
+    const previousDataUuid = previousDataUuids.length > 0 && previousDataUuids[0].uuid
+    console.log("previousDataUuid:", previousDataUuid);
+    dispatch(addData(newData, previousDataUuid))
   }
 
   const handleCancel = () => {
@@ -73,16 +86,17 @@ const AddData = () => {
             />
           </div>
           <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Number of Cows:</label>
-            <input type='number' ref={noOfCowsRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Product:</label>
             <select ref={productRef} className={classes.dataInput__input}>
               <option value='blank'></option>
-              <option value='Acid'>Acid</option>
-              <option value='Chlorine'>Chlorine</option>
+              {
+                products.map((product, index) => <option value={product.productName} key={index}>{product.productName}</option>)
+              }
             </select>
+          </div>
+          <div className={classes.dataInput__container}>
+            <label className={classes.dataInput__label}>Number of Cows:</label>
+            <input type='number' ref={noOfCowsRef} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Quantity:</label>

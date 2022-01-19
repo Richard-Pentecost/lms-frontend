@@ -9,7 +9,7 @@ import RadioButtons from '../components/RadioButtons';
 import classes from '../style/SettingsForm.module.scss';
 
 const CreateUser = () => {
-  const [permissionLevel, setPermissionLevel] = useState('user');
+  const [permissionLevel, setPermissionLevel] = useState('User');
   const dispatch = useDispatch();
   const { errorMessage, showButtonSpinner, addUserSuccess } = useSelector(state => state.userState); 
 
@@ -23,7 +23,7 @@ const CreateUser = () => {
     emailRef.current.value = '';
     passwordRef.current.value = '';
     confirmPasswordRef.current.value = '';
-    setPermissionLevel('user');
+    setPermissionLevel('User');
 
     return () => {
       dispatch(clearSuccessFlag());
@@ -38,7 +38,7 @@ const CreateUser = () => {
       email: emailRef.current.value,
       password: passwordRef.current.value,
       confirmPassword: confirmPasswordRef.current.value,
-      permissionLevel
+      isAdmin: permissionLevel === 'Admin' ? true : false,
     };
     dispatch(createUser(user));
   };
@@ -56,11 +56,8 @@ const CreateUser = () => {
           <Input type='email' ref={emailRef}>Email</Input>
           <Input type='password' ref={passwordRef}>Password</Input>
           <Input type='password' ref={confirmPasswordRef}>Confirm Password</Input>
-          <RadioButtons  
-            firstLabel='User'
-            firstValue='user'
-            secondLabel='Admin'
-            secondValue='admin'
+          <RadioButtons
+            labels={['User', 'Admin']}  
             input={permissionLevel}
             handleChange={handlePermissionChange}
           />

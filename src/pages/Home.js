@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchActiveFarms } from '../store/actions/farmActions';
 import { fetchRegions } from '../store/actions/regionActions';
+import { fetchProducts } from '../store/actions/productActions';
+import { fetchUserByUuid } from '../store/actions/userActions';
 import FarmCard from '../components/FarmCard';
 import Sidebar from '../components/Sidebar';
 import SearchBar from '../components/SearchBar';
@@ -12,20 +14,28 @@ import classes from '../style/Home.module.scss';
 const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const { uuid } = useSelector(state => state.authState.token);
+  const { currentUser } = useSelector(state => state.userState);
   const { farms } = useSelector(state => state.farmState);
-  // console.log('**** farms ****');
-  // console.log(farms);
-  // farms.map((farm) => {
-  //   if (farm.region) {
-  //     console.log("*******")
-  //     console.log(farm.region);
-  //   }
-  //   return farm
-  // })
+  const { regions } = useSelector(state => state.regionState);
+  const { products } = useSelector(state => state.productState);
+
   useEffect(() => {
     dispatch(fetchActiveFarms());
-    dispatch(fetchRegions());
   }, [dispatch]);
+
+  useEffect(() => {
+    regions.length === 0 && dispatch(fetchRegions());
+  }, [dispatch, regions]);
+
+  useEffect(() => {
+    products.length === 0 && dispatch(fetchProducts());
+  }, [dispatch, products]);
+
+  useEffect(() => {
+    !currentUser && dispatch(fetchUserByUuid(uuid));
+  }, [dispatch, currentUser, uuid]);
 
   return (
     <div className={classes.home}>

@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { fetchUserByUuid, fetchUsers } from '../store/actions/userActions';
+import { fetchFarms } from '../store/actions/farmActions';
+import { fetchRegions } from '../store/actions/regionActions';
+import { fetchProducts } from '../store/actions/productActions';
 import AdminRoute from '../components/AdminRoute';
 import SettingsSidebar from '../components/SettingsSidebar';
 import Profile from './Profile';
@@ -11,26 +15,36 @@ import Users from './Users';
 import Spinner from '../components/Spinner';
 import RegionList from './RegionList';
 import ProductList from './ProductList';
-import { fetchUserByUuid, fetchUsers } from '../store/actions/userActions';
-import { fetchFarms } from '../store/actions/farmActions';
-import { fetchRegions } from '../store/actions/regionActions';
 import classes from '../style/Settings.module.scss';
-import { fetchProducts } from '../store/actions/productActions';
 
 const Settings = () => {
   const dispatch = useDispatch();
   const { path } = useRouteMatch();
-  const { uuid } = useSelector(state => state.authState.token);
-  const { loading, currentUser } = useSelector(state => state.userState);
-  const isAdmin = useSelector(state => state.authState.token.isAdmin);
+
+  const { uuid, isAdmin } = useSelector(state => state.authState.token);
+  const { loading, currentUser, users } = useSelector(state => state.userState);
+  const { products } = useSelector(state => state.productState);
+  const { regions } = useSelector(state => state.regionState);
 
   useEffect(() => {
-    dispatch(fetchUserByUuid(uuid));
-    dispatch(fetchUsers());
     dispatch(fetchFarms());
-    dispatch(fetchRegions());
-    dispatch(fetchProducts());
-  }, [dispatch, uuid]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    !currentUser && dispatch(fetchUserByUuid(uuid));
+  }, [dispatch, currentUser, uuid]);
+
+  useEffect(() => {
+    users.length === 0 && dispatch(fetchUsers());
+  }, [dispatch, users]);
+
+  useEffect(() => {
+    products.length === 0 && dispatch(fetchProducts());
+  }, [dispatch, products]);
+
+  useEffect(() => {
+    regions.length === 0 && dispatch(fetchRegions());
+  }, [dispatch, regions]);
 
   let content = <Spinner />;
 

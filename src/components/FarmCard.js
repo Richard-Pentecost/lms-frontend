@@ -51,6 +51,18 @@ const FarmCard = ({ farm }) => {
               </div>
             )
           }
+          <div className={classes.farmCard__item}>
+            <span className={classes.farmCard__label}>Region:</span>
+            <span className={classes.farmCard__text}>{farm.region ? farm.region.regionName : 'No region'}</span>
+          </div>
+          <div className={classes.farmCard__item}>
+            <span className={classes.farmCard__label}>Products:</span>
+            {
+              farm.products && farm.products.map(product => (
+                <span key={product.productName} className={classes.farmCard__text}>{product.productName}</span>
+              ))
+            }
+          </div>
         </div>
       </div>
       <div className={classes.farmCard__btnContainer}>

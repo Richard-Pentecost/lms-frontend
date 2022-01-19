@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farmActions';
 import { fetchProducts } from '../store/actions/productActions';
+import { fetchRegions } from '../store/actions/regionActions';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import Select from '../components/Select';
@@ -29,8 +30,12 @@ const CreateFarm = () => {
   const productsRef = useRef([]);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    regions.length === 0 && dispatch(fetchRegions());
+  }, [dispatch, regions, products]);
+
+  useEffect(() => {
+    products.length === 0 && dispatch(fetchProducts());
+  }, [dispatch, products]);
 
   useEffect(() => {
     if (addFarmSuccess) {
@@ -45,9 +50,11 @@ const CreateFarm = () => {
   const formSubmit = event => {
     event.preventDefault();
     let region;
+
     if (regionRef.current.value) {
-      region = regions.find(region => region.regionName === regionRef.current.value);
+      region = regions.find(region => region.uuid === regionRef.current.value);
     }
+
     const farm = {
       farmName: farmNameRef.current.value,
       postcode: postcodeRef.current.value,
@@ -58,8 +65,10 @@ const CreateFarm = () => {
       regionFk: region && region.uuid,
     };
 
-    const products = productsRef.current.map(product => product.value);
-  
+    const products = productsRef.current
+      .filter(product => product && product.value)
+      .map(product => product.value);
+    
     dispatch(createFarm(farm, products));
   };
 

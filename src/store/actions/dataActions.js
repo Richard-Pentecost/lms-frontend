@@ -3,12 +3,12 @@ import { dataActions } from '../slices/dataSlice';
 
 const URL = 'http://localhost:3000';
 
-export const addData = data => {
+export const addData = (data, previousDataUuid) => {
   return async dispatch => {
     try {
       const { farmFk: farmId } = data;
       dispatch(dataActions.addDataStart());
-      await axios.post(`${URL}/farms/${farmId}/data`, { data });
+      await axios.post(`${URL}/farms/${farmId}/data`, { data, previousDataUuid });
       dispatch(dataActions.addDataSuccess());
     } catch (error) {
       console.error(error);

@@ -15,11 +15,11 @@ import AdminRoute from './components/AdminRoute';
 import Layout from './components/Layout';
 import { isTokenValid } from './utils/token-manager';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
 import './style/App.module.scss';
 
-library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner);
+library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner, faTimesCircle);
 
 const App = () => {
   const { token } = useSelector(state => state.authState);
