@@ -96,6 +96,11 @@ const App = () => {
             component={AddProduct}
             isAdmin={token && token.isAdmin}
           />
+          <AdminRoute 
+            path='/edit-product/:uuid'
+            component={AddProduct}
+            isAdmin={token && token.isAdmin}
+          />
           <Redirect to='/' />
         </Switch>
       </Layout>   

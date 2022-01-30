@@ -42,7 +42,7 @@ const ProductSelect = React.forwardRef(({ children, options, defaultValues }, re
             <select 
               className={classes.selectInput__field}
               ref={element => (refs.current[index] = element)}
-              defaultValue={defaultValues[index] && defaultValues[index].uuid}
+              defaultValue={defaultValues && defaultValues[index].uuid}
             >
               <option></option>
               {

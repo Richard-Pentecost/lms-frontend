@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchActiveFarms } from '../store/actions/farmActions';
 import { fetchRegions } from '../store/actions/regionActions';
 import { fetchProducts } from '../store/actions/productActions';
-import { fetchUserByUuid } from '../store/actions/userActions';
+import { fetchLoggedInUser } from '../store/actions/authActions';
 import FarmCard from '../components/FarmCard';
 import Sidebar from '../components/Sidebar';
 import SearchBar from '../components/SearchBar';
@@ -15,8 +15,7 @@ const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { uuid } = useSelector(state => state.authState.token);
-  const { currentUser } = useSelector(state => state.userState);
+  const { loggedInUser, token } = useSelector(state => state.authState);
   const { farms } = useSelector(state => state.farmState);
   const { regions } = useSelector(state => state.regionState);
   const { products } = useSelector(state => state.productState);
@@ -34,8 +33,8 @@ const Home = () => {
   }, [dispatch, products]);
 
   useEffect(() => {
-    !currentUser && dispatch(fetchUserByUuid(uuid));
-  }, [dispatch, currentUser, uuid]);
+    !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
+  }, [dispatch, loggedInUser, token]);
 
   return (
     <div className={classes.home}>

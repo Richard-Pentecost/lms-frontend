@@ -9,7 +9,8 @@ import classes from '../style/SettingsForm.module.scss';
 
 const ChangePassword = () => {
   const dispatch = useDispatch();
-  const { currentUser, errorMessage, showButtonSpinner, addUserSuccess } = useSelector(state => state.userState);
+  const { loggedInUser } = useSelector(state => state.authState);
+  const { errorMessage, showButtonSpinner, addUserSuccess } = useSelector(state => state.userState);
 
   const oldPasswordRef = useRef();
   const passwordRef = useRef();
@@ -33,7 +34,7 @@ const ChangePassword = () => {
       password: passwordRef.current.value,
       confirmPassword: confirmPasswordRef.current.value,
     }
-    dispatch(updatePassword(data, currentUser.uuid));
+    dispatch(updatePassword(data, loggedInUser.uuid));
   }
 
   return (

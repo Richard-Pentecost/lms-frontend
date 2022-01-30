@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { productActions } from '../slices/productSlice';
+import { getToken } from '../../utils/token-manager';
 
 const URL = 'http://localhost:3000';
 
@@ -7,7 +8,8 @@ export const createProduct = product => {
   return async dispatch => {
     try {
       dispatch(productActions.addProductStart());
-      await axios.post(`${URL}/products`, { product });
+      const headers = { Authorization: getToken() };
+      await axios.post(`${URL}/products`, { product }, { headers });
       dispatch(productActions.addProductSuccess());
     } catch (error) {
       console.error(error);
@@ -20,7 +22,8 @@ export const fetchProducts = () => {
   return async dispatch => {
     try {
       dispatch(productActions.fetchProductsStart());
-      const { data: products } = await axios.get(`${URL}/products`);
+      const headers = { Authorization: getToken() };
+      const { data: products } = await axios.get(`${URL}/products`, { headers });
       dispatch(productActions.fetchProductsSuccess(products));
     } catch (error) {
       console.error(error);
@@ -29,10 +32,25 @@ export const fetchProducts = () => {
   };
 };
 
+export const editProduct = (product, uuid) => {
+  return async dispatch => {
+    try {
+      dispatch(productActions.addProductStart());
+      const headers = { Authorization: getToken() };
+      await axios.patch(`${URL}/products/${uuid}`, { product }, { headers });
+      dispatch(productActions.addProductSuccess());
+    } catch (error) {
+      console.error(error);
+      dispatch(productActions.addProductFail('Error updating product'));
+    }
+  }
+}
+
 export const deleteProduct = uuid => {
   return async dispatch => {
     try {
-      await axios.delete(`${URL}/products/${uuid}`);
+      const headers = { Authorization: getToken() };
+      await axios.delete(`${URL}/products/${uuid}`, { headers });
       dispatch(fetchProducts());
     } catch (error) {
       console.error(error);

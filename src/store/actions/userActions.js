@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { userActions } from '../slices/userSlice';
+import { getToken } from '../../utils/token-manager';
 
 const URL = 'http://localhost:3000';
 
@@ -11,7 +12,8 @@ export const createUser = user => {
       try {
         dispatch(userActions.addUserStart());
         const { confirmPassword, ...userData} = user;
-        await axios.post(`${URL}/users`, { user: userData });
+        const headers = { Authorization: getToken() };
+        await axios.post(`${URL}/users`, { user: userData }, { headers });
         dispatch(userActions.addUserSuccess());
         dispatch(fetchUsers());
       } catch (error) { 
@@ -32,7 +34,8 @@ export const fetchUserByUuid = uuid => {
   return async dispatch => {
     try {
       dispatch(userActions.fetchUserByUuidStart());
-      const { data } = await axios.get(`${URL}/users/${uuid}`);
+      const headers = { Authorization: getToken() };
+      const { data } = await axios.get(`${URL}/users/${uuid}`, { headers });
       dispatch(userActions.fetchUserByUuidSuccess(data.user));
     } catch (error) {
       console.error(error);
@@ -45,7 +48,8 @@ export const fetchUsers = () => {
   return async dispatch => {
     try {
       dispatch(userActions.fetchUsersStart());
-      const { data: users } = await axios.get(`${URL}/users`);
+      const headers = { Authorization: getToken() };
+      const { data: users } = await axios.get(`${URL}/users`, { headers });
       dispatch(userActions.fetchUsersSuccess(users));
     } catch (error) {
       console.error(error);
@@ -58,7 +62,8 @@ export const editUser = (user, uuid) => {
   return async dispatch => {
     try {
       dispatch(userActions.addUserStart());
-      await axios.patch(`${URL}/users/${uuid}`, { user });
+      const headers = { Authorization: getToken() };
+      await axios.patch(`${URL}/users/${uuid}`, { user }, { headers });
       dispatch(userActions.addUserSuccess());
       dispatch(fetchUserByUuid(uuid));
     } catch (error) {
@@ -78,7 +83,8 @@ export const updatePassword = (data, uuid) => {
           existingPassword: oldPassword,
           newPassword: password, 
         };
-        await axios.patch(`${URL}/users/${uuid}/security`, passwordData);
+        const headers = { Authorization: getToken() };
+        await axios.patch(`${URL}/users/${uuid}/security`, passwordData, { headers });
         dispatch(userActions.addUserSuccess());
       } catch (error) {
         console.error(error);
@@ -97,7 +103,8 @@ export const updatePassword = (data, uuid) => {
 export const deleteUser = uuid => {
   return async dispatch => {
     try {
-      await axios.delete(`${URL}/users/${uuid}`);
+      const headers = { Authorization: getToken() };
+      await axios.delete(`${URL}/users/${uuid}`, { headers });
       dispatch(fetchUsers());
     } catch (error) {
       console.error(error);

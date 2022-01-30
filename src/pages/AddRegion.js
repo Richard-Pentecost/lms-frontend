@@ -5,21 +5,26 @@ import Alert from '../components/Alert';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import classes from '../style/FarmForm.module.scss';
-import { createRegion, editRegion, clearErrors, clearSuccessFlag } from '../store/actions/regionActions';
+import { createRegion, editRegion, fetchRegions, clearErrors, clearSuccessFlag } from '../store/actions/regionActions';
 
 const AddRegion = () => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { errorMessage, showButtonSpinner, addRegionSuccess } = useSelector(state => state.regionState);
-  const regionObj = useSelector(state => state.regionState.regions.find(region => region.uuid === uuid));
-  const title = regionObj ? 'Edit Region' : 'Create Region';
+  const { errorMessage, showButtonSpinner, addRegionSuccess, regions } = useSelector(state => state.regionState);
+  const regionObj = regions.find(region => region.uuid === uuid);
+  const title = regionObj ? 'Edit Region' : 'Add Region';
   const region = regionObj ? regionObj.regionName : '';
 
   const regionRef = useRef();
 
   useEffect(() => {
+    regions.length === 0 && dispatch(fetchRegions());
+  }, [dispatch, regions]);
+
+  useEffect(() => {
     if (addRegionSuccess) {
+      dispatch(fetchRegions());
       history.goBack();
     }
     return () => {

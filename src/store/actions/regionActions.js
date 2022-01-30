@@ -1,12 +1,15 @@
 import axios from 'axios';
 import { regionActions } from '../slices/regionSlice';
+import { getToken } from '../../utils/token-manager';
 
 const URL = 'http://localhost:3000';
+
 export const createRegion = region => {
   return async dispatch => {
     try {
       dispatch(regionActions.addRegionStart());
-      await axios.post(`${URL}/regions`, { region });
+      const headers = { Authorization: getToken() };
+      await axios.post(`${URL}/regions`, { region }, { headers });
       dispatch(regionActions.addRegionSuccess());
     } catch (error) {
       console.error(error);
@@ -19,7 +22,8 @@ export const fetchRegions = () => {
   return async dispatch => {
     try {
       dispatch(regionActions.fetchRegionsStart());
-      const { data: regions } = await axios.get(`${URL}/regions`);
+      const headers = { Authorization: getToken() };
+      const { data: regions } = await axios.get(`${URL}/regions`, { headers });
       dispatch(regionActions.fetchRegionsSuccess(regions));
     } catch (error) {
       console.error(error);
@@ -29,11 +33,11 @@ export const fetchRegions = () => {
 };
 
 export const editRegion = (region, uuid) => {
-
   return async dispatch => {
     try {
       dispatch(regionActions.addRegionStart());
-      await axios.patch(`${URL}/regions/${uuid}`, { region });
+      const headers = { Authorization: getToken() };
+      await axios.patch(`${URL}/regions/${uuid}`, { region }, { headers });
       dispatch(regionActions.addRegionSuccess());
     } catch (error) {
       console.error(error);
@@ -45,7 +49,8 @@ export const editRegion = (region, uuid) => {
 export const deleteRegion = uuid => {
   return async dispatch => {
     try {
-      await axios.delete(`${URL}/regions/${uuid}`);
+      const headers = { Authorization: getToken() };
+      await axios.delete(`${URL}/regions/${uuid}`, { headers });
       dispatch(fetchRegions());
     } catch (error) {
       console.error(error);

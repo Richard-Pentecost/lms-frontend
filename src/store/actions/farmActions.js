@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { farmActions } from '../slices/farmSlice';
+import { getToken } from '../../utils/token-manager';
 
 const URL = 'http://localhost:3000';
 
@@ -7,7 +8,8 @@ export const createFarm = (farm, products) => {
   return async dispatch => {
     try {
       dispatch(farmActions.addFarmStart());
-      await axios.post(`${URL}/farms`, { farm, products });
+      const headers = { Authorization: getToken() };
+      await axios.post(`${URL}/farms`, { farm, products }, { headers });
       dispatch(farmActions.addFarmSuccess());
     } catch (error) {
       console.error(error);
@@ -20,7 +22,8 @@ export const fetchActiveFarms = () => {
   return async dispatch => {
     try {
       dispatch(farmActions.fetchFarmsStart());
-      const { data: farms } = await axios.get(`${URL}/farms/active`);
+      const headers = { Authorization: getToken() };
+      const { data: farms } = await axios.get(`${URL}/farms/active`, { headers });
       dispatch(farmActions.fetchFarmsSuccess(farms));
     } catch (error) {
       console.error(error);
@@ -34,7 +37,8 @@ export const fetchFarms = () => {
   return async dispatch => {
     try {
       dispatch(farmActions.fetchFarmsStart());
-      const { data: farms } = await axios.get(`${URL}/farms`);
+      const headers = { Authorization: getToken() };
+      const { data: farms } = await axios.get(`${URL}/farms`, { headers });
       dispatch(farmActions.fetchFarmsSuccess(farms));
     } catch (error) {
       console.error(error);
@@ -47,7 +51,8 @@ export const editFarm = (farm, uuid) => {
   return async dispatch => {
     try {
       dispatch(farmActions.addFarmStart());
-      await axios.patch(`${URL}/farms/${uuid}`, { farm });
+      const headers = { Authorization: getToken() };
+      await axios.patch(`${URL}/farms/${uuid}`, { farm }, { headers });
       dispatch(farmActions.addFarmSuccess());
     } catch (error) {
       console.error(error);
@@ -59,7 +64,8 @@ export const editFarm = (farm, uuid) => {
 export const deleteFarm = uuid => {
   return async dispatch => {
     try { 
-      await axios.delete(`${URL}/farms/${uuid}`);
+      const headers = { Authorization: getToken() };
+      await axios.delete(`${URL}/farms/${uuid}`, { headers });
       dispatch(fetchActiveFarms());
     } catch (error) {
       console.error(error);

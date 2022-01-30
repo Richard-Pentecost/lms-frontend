@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   users: [],
-  currentUser: null,
+  selectedUser: null,
   loading: false,
   errorMessage: '',
   addUserSuccess: false,
@@ -18,7 +18,7 @@ const userSlice = createSlice({
       state.errorMessage = ''
     },
     fetchUserByUuidSuccess(state, action) {
-      state.currentUser = action.payload;
+      state.selectedUser = action.payload;
       state.loading = false;
     },
     fetchUserByUuidFail(state, action) {

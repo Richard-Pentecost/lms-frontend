@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { dataActions } from '../slices/dataSlice';
+import { getToken } from '../../utils/token-manager';
 
 const URL = 'http://localhost:3000';
 
@@ -8,7 +9,8 @@ export const addData = (data, previousDataUuid) => {
     try {
       const { farmFk: farmId } = data;
       dispatch(dataActions.addDataStart());
-      await axios.post(`${URL}/farms/${farmId}/data`, { data, previousDataUuid });
+      const headers = { Authorization: getToken() };
+      await axios.post(`${URL}/farms/${farmId}/data`, { data, previousDataUuid }, { headers });
       dispatch(dataActions.addDataSuccess());
     } catch (error) {
       console.error(error);
@@ -21,7 +23,9 @@ export const editData = (data, dataId) => {
   return async dispatch => {
     try {
       const { farmFk: farmId } = data;
-      await axios.patch(`${URL}/farms/${farmId}/data/${dataId}`, { data });
+      dispatch(dataActions.addDataStart());
+      const headers = { Authorization: getToken() };
+      await axios.patch(`${URL}/farms/${farmId}/data/${dataId}`, { data }, { headers });
       dispatch(dataActions.addDataSuccess());
     } catch (error) {
       console.error(error);
@@ -34,7 +38,8 @@ export const fetchData = farmId => {
   return async dispatch => {
     try {
       dispatch(dataActions.fetchDataStart());
-      const response = await axios.get(`${URL}/farms/${farmId}/data`);
+      const headers = { Authorization: getToken() };
+      const response = await axios.get(`${URL}/farms/${farmId}/data`, { headers });
       dispatch(dataActions.fetchDataSuccess(response.data.data));
     } catch (error) {
       console.error(error);
@@ -46,7 +51,8 @@ export const fetchData = farmId => {
 export const deleteData = (farmId, dataId) => {
   return async dispatch => {
     try {
-      await axios.delete(`${URL}/farms/${farmId}/data/${dataId}`);
+      const headers = { Authorization: getToken() };
+      await axios.delete(`${URL}/farms/${farmId}/data/${dataId}`, { headers });
       dispatch(fetchData(farmId));
     } catch (error) {
       console.error(error);

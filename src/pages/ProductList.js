@@ -30,6 +30,10 @@ const ProductList = () => {
     hideModal();
   };
 
+  const handleRowClick = product => {
+    history.push(`/edit-product/${product.uuid}`);
+  }
+
   return (
     <>
       <HeaderSection>Products</HeaderSection>
@@ -49,7 +53,7 @@ const ProductList = () => {
             <tbody className={classes.list__body}>
               {
                 products.map(product => (
-                  <tr className={classes.listBody} key={product.uuid} onClick={() => console.log('clicked row')}>
+                  <tr className={classes.listBody} key={product.uuid} onClick={() => handleRowClick(product)}>
                     <td className={classes.listBody__cell}>{product.productName}</td>
                     <td className={classes.listBody__cell}>{product.specificGravity}</td>
                     <td className={classes.listBody__cell}>

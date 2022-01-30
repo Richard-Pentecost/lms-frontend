@@ -5,6 +5,7 @@ const initialState = {
   token: isTokenValid() ? getTokenPayload() : null,
   loading: false,
   errorMessage: '',
+  loggedInUser: null
 };
 
 const authSlice = createSlice({
@@ -16,9 +17,10 @@ const authSlice = createSlice({
       state.errorMessage = '';
     },
     loginUserSuccess(state, action) {
-      state.token = action.payload;
+      state.token = action.payload.token;
       state.loading = true;
       state.errorMessage = '';
+      state.loggedInUser= action.payload.user;
     },
     loginUserFail(state, action) {
       state.loading = false;
@@ -28,6 +30,19 @@ const authSlice = createSlice({
       state.token = null;
       state.loading = false;
       state.errorMessage = '';
+      state.loggedInUser = null;
+    },
+    fetchLoggedInUserStart(state) {
+      state.loading = true;
+      state.errorMessage = '';
+    },
+    fetchLoggedInUserSuccess(state, action) {
+      state.loading = false;
+      state.loggedInUser = action.payload;
+    },
+    fetchLoggedInUserFaii(state, action) {
+      state.loading = false;
+      state.errorMessage = action.payload;
     }
   }
 });

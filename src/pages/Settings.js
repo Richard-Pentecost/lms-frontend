@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
-import { fetchUserByUuid, fetchUsers } from '../store/actions/userActions';
+import { fetchLoggedInUser } from '../store/actions/authActions';
+import { fetchUsers } from '../store/actions/userActions';
 import { fetchFarms } from '../store/actions/farmActions';
 import { fetchRegions } from '../store/actions/regionActions';
 import { fetchProducts } from '../store/actions/productActions';
@@ -21,8 +22,8 @@ const Settings = () => {
   const dispatch = useDispatch();
   const { path } = useRouteMatch();
 
-  const { uuid, isAdmin } = useSelector(state => state.authState.token);
-  const { loading, currentUser, users } = useSelector(state => state.userState);
+  const { token, loggedInUser } = useSelector(state => state.authState);
+  const { loading, users } = useSelector(state => state.userState);
   const { products } = useSelector(state => state.productState);
   const { regions } = useSelector(state => state.regionState);
 
@@ -31,8 +32,8 @@ const Settings = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    !currentUser && dispatch(fetchUserByUuid(uuid));
-  }, [dispatch, currentUser, uuid]);
+    !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
+  }, [dispatch, loggedInUser, token.uuid]);
 
   useEffect(() => {
     users.length === 0 && dispatch(fetchUsers());
@@ -48,21 +49,21 @@ const Settings = () => {
 
   let content = <Spinner />;
 
-  if (!loading && currentUser) {
+  if (!loading && loggedInUser) {
     content = (
       <>
         <div className={classes.settings__sidebar}>
-          <SettingsSidebar name={currentUser.name} isAdmin={isAdmin} />
+          <SettingsSidebar name={loggedInUser.name} isAdmin={token.isAdmin} />
         </div>
         <div className={classes.settings__main}>
           <Switch>
             <Route path={`${path}/profile`} component={Profile} />
             <Route path={`${path}/security`} component={ChangePassword} />
-            <AdminRoute path={`${path}/create-user`} component={CreateUser} isAdmin={isAdmin} />
-            <AdminRoute path={`${path}/users`} component={Users} isAdmin={isAdmin} />
-            <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={isAdmin} />
-            <AdminRoute path={`${path}/regions`} component={RegionList} isAdmin={isAdmin} />
-            <AdminRoute path={`${path}/products`} component={ProductList} isAdmin={isAdmin} />
+            <AdminRoute path={`${path}/create-user`} component={CreateUser} isAdmin={token.isAdmin} />
+            <AdminRoute path={`${path}/users`} component={Users} isAdmin={token.isAdmin} />
+            <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={token.isAdmin} />
+            <AdminRoute path={`${path}/regions`} component={RegionList} isAdmin={token.isAdmin} />
+            <AdminRoute path={`${path}/products`} component={ProductList} isAdmin={token.isAdmin} />
             <Redirect to={`${path}/profile`} />
           </Switch>
         </div>
