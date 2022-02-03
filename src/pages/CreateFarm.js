@@ -11,14 +11,15 @@ import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
 import ProductSelect from '../components/ProductSelect';
 import classes from '../style/FarmForm.module.scss';
+import LoadingWrapper from '../components/LoadingWrapper';
 
 const CreateFarm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { errorMessage, loading, addFarmSuccess } = useSelector(state => state.farmState);
-  const { regions } = useSelector(state => state.regionState);
-  const { products } = useSelector(state => state.productState);
+  const { errorMessage,loading, addFarmSuccess } = useSelector(state => state.farmState);
+  const { regions, loading: regionsLoading } = useSelector(state => state.regionState);
+  const { products, loading: productsLoading } = useSelector(state => state.productState);
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -68,32 +69,34 @@ const CreateFarm = () => {
     const products = productsRef.current
       .filter(product => product && product.value)
       .map(product => product.value);
-    
+
     dispatch(createFarm(farm, products));
   };
 
   return (
-    <div className={classes.farmForm}>
-      <div className={classes.farmFormHeading}>
-        <span className={classes.farmFormHeading__title}>Create Farm</span>
-        <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
-      </div>
-      <form onSubmit={formSubmit}>
-        <Input type='text' ref={farmNameRef}>Farm Name:</Input>
-        <Input type='text' ref={postcodeRef}>Postcode:</Input>
-        <Input type='text' ref={contactNameRef}>Contact Name:</Input>
-        <Input type='text' ref={contactNumberRef}>Contact Number:</Input>
-        <TextArea rows='2' ref={accessCodesRef}>Access Codes:</TextArea>
-        <TextArea rows='2' ref={commentsRef}>Comments:</TextArea>
-        <div className={classes.farmFormRegion}>
-          <Select options={regions} ref={regionRef}>Region:</Select>
-          <Link to={'/create-region'} className={classes.farmFormRegion__link}>Add new region</Link>
+    <LoadingWrapper loading={regionsLoading || productsLoading}>
+      <div className={classes.farmForm}>
+        <div className={classes.farmFormHeading}>
+          <span className={classes.farmFormHeading__title}>Create Farm</span>
+          <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
         </div>
-        <ProductSelect options={products} ref={productsRef}>Products:</ProductSelect>
-        <FormButton type='submit' loading={loading}>Create Farm</FormButton> 
-      </form>
-      { errorMessage && <Alert>{errorMessage}</Alert> }
-    </div>
+        <form onSubmit={formSubmit}>
+          <Input type='text' ref={farmNameRef}>Farm Name:</Input>
+          <Input type='text' ref={postcodeRef}>Postcode:</Input>
+          <Input type='text' ref={contactNameRef}>Contact Name:</Input>
+          <Input type='text' ref={contactNumberRef}>Contact Number:</Input>
+          <TextArea rows='2' ref={accessCodesRef}>Access Codes:</TextArea>
+          <TextArea rows='2' ref={commentsRef}>Comments:</TextArea>
+          <div className={classes.farmFormRegion}>
+            <Select options={regions} ref={regionRef}>Region:</Select>
+            <Link to={'/create-region'} className={classes.farmFormRegion__link}>Add new region</Link>
+          </div>
+          <ProductSelect options={products} ref={productsRef}>Products:</ProductSelect>
+          <FormButton type='submit' loading={loading}>Create Farm</FormButton> 
+        </form>
+        { errorMessage && <Alert>{errorMessage}</Alert> }
+      </div>
+    </LoadingWrapper>
   );
 };
 

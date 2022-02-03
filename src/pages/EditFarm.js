@@ -68,9 +68,9 @@ const EditFarm = () => {
       regionFk: regionRef.current.value,
     };
 
-    const products = productsRef.current
-      .filter(product => product && product.value)
-      .map(product => product.value);
+    // const products = productsRef.current
+    //   .filter(product => product && product.value)
+    //   .map(product => product.value);
 
     dispatch(editFarm(farm, uuid));
   }
@@ -96,7 +96,7 @@ const EditFarm = () => {
                 <Select options={regions} ref={regionRef} defaultValue={farm.regionFk}>Region:</Select>
                 <Link to={'/create-region'} className={classes.farmFormRegion__link}>Add new region</Link>
               </div>
-              <ProductSelect options={products} ref={productsRef} defaultValues={farm.products}>Products:</ProductSelect>
+              {/* <ProductSelect options={products} ref={productsRef} defaultValues={farm.products}>Products:</ProductSelect> */}
               <FormButton type='submit' loading={farmsLoading}>Edit Farm</FormButton> 
             </form>
             { errorMessage && <Alert>{errorMessage}</Alert> }

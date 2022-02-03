@@ -6,16 +6,24 @@ const URL = 'http://localhost:3000';
 
 export const createFarm = (farm, products) => {
   return async dispatch => {
-    try {
-      dispatch(farmActions.addFarmStart());
-      const headers = { Authorization: getToken() };
-      await axios.post(`${URL}/farms`, { farm, products }, { headers });
-      dispatch(farmActions.addFarmSuccess());
-      dispatch(fetchActiveFarms());
-    } catch (error) {
-      console.error(error);
-      dispatch(farmActions.addFarmFail('Error adding farm'));
-    };
+    if (farm && products.length > 0) {
+      try {
+        dispatch(farmActions.addFarmStart());
+        const headers = { Authorization: getToken() };
+        await axios.post(`${URL}/farms`, { farm, products }, { headers });
+        dispatch(farmActions.addFarmSuccess());
+        dispatch(fetchActiveFarms());
+      } catch (error) {
+        console.error(error);
+        dispatch(farmActions.addFarmFail('Error adding farm'));
+      };
+    } else {
+      if (products.length === 0) {
+        dispatch(farmActions.addFarmFail('At least one product must be included for farm'));
+      } else {
+        dispatch(farmActions.addFarmFail('There was an error'));
+      }
+    }
   };
 };
 
