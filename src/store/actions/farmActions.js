@@ -11,6 +11,7 @@ export const createFarm = (farm, products) => {
       const headers = { Authorization: getToken() };
       await axios.post(`${URL}/farms`, { farm, products }, { headers });
       dispatch(farmActions.addFarmSuccess());
+      dispatch(fetchActiveFarms());
     } catch (error) {
       console.error(error);
       dispatch(farmActions.addFarmFail('Error adding farm'));
@@ -36,13 +37,13 @@ export const fetchActiveFarms = () => {
 export const fetchFarms = () => {
   return async dispatch => {
     try {
-      dispatch(farmActions.fetchFarmsStart());
+      dispatch(farmActions.fetchAllFarmsStart());
       const headers = { Authorization: getToken() };
       const { data: farms } = await axios.get(`${URL}/farms`, { headers });
-      dispatch(farmActions.fetchFarmsSuccess(farms));
+      dispatch(farmActions.fetchAllFarmsSuccess(farms));
     } catch (error) {
       console.error(error);
-      dispatch(farmActions.fetchFarmsFail('Error fetching farms'));
+      dispatch(farmActions.fetchAllFarmsFail('Error fetching farms'));
     };
   };
 };
@@ -54,6 +55,23 @@ export const editFarm = (farm, uuid) => {
       const headers = { Authorization: getToken() };
       await axios.patch(`${URL}/farms/${uuid}`, { farm }, { headers });
       dispatch(farmActions.addFarmSuccess());
+      dispatch(fetchActiveFarms());
+    } catch (error) {
+      console.error(error);
+      dispatch(farmActions.addFarmFail('Error updating farm'));
+    };
+  };
+};
+
+export const disableFarm = (farm, uuid) => {
+  return async dispatch => {
+    try {
+      dispatch(farmActions.addFarmStart());
+      const headers = { Authorization: getToken() };
+      await axios.patch(`${URL}/farms/${uuid}/disable`, { farm }, { headers } );
+      dispatch(farmActions.addFarmSuccess());
+      dispatch(fetchActiveFarms());
+      dispatch(fetchFarms());
     } catch (error) {
       console.error(error);
       dispatch(farmActions.addFarmFail('Error updating farm'));

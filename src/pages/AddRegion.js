@@ -6,12 +6,13 @@ import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import classes from '../style/FarmForm.module.scss';
 import { createRegion, editRegion, fetchRegions, clearErrors, clearSuccessFlag } from '../store/actions/regionActions';
+import LoadingWrapper from '../components/LoadingWrapper';
 
 const AddRegion = () => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { errorMessage, showButtonSpinner, addRegionSuccess, regions } = useSelector(state => state.regionState);
+  const { errorMessage, showButtonSpinner, addRegionSuccess, regions, loading } = useSelector(state => state.regionState);
   const regionObj = regions.find(region => region.uuid === uuid);
   const title = regionObj ? 'Edit Region' : 'Add Region';
   const region = regionObj ? regionObj.regionName : '';
@@ -24,7 +25,6 @@ const AddRegion = () => {
 
   useEffect(() => {
     if (addRegionSuccess) {
-      dispatch(fetchRegions());
       history.goBack();
     }
     return () => {
@@ -43,17 +43,19 @@ const AddRegion = () => {
   }
 
   return (
-    <div className={classes.farmForm}>
-      <div className={classes.farmFormHeading}>
-        <span className={classes.farmFormHeading__title}>{title}</span>
-        <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
+    <LoadingWrapper loading={loading && regionObj}>
+      <div className={classes.farmForm}>
+        <div className={classes.farmFormHeading}>
+          <span className={classes.farmFormHeading__title}>{title}</span>
+          <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
+        </div>
+        <form onSubmit={formSubmit}>
+          <Input type="text" ref={regionRef} defaultValue={region}>Region</Input>
+          <FormButton type='submit' loading={showButtonSpinner}>{title}</FormButton>
+        </form>
+        { errorMessage && <Alert>{errorMessage}</Alert>}
       </div>
-      <form onSubmit={formSubmit}>
-        <Input type="text" ref={regionRef} defaultValue={region}>Region</Input>
-        <FormButton type='submit' loading={showButtonSpinner}>{title}</FormButton>
-      </form>
-      { errorMessage && <Alert>{errorMessage}</Alert>}
-    </div>
+    </LoadingWrapper>
   )
 }
 

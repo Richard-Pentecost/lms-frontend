@@ -18,7 +18,7 @@ const authSlice = createSlice({
     },
     loginUserSuccess(state, action) {
       state.token = action.payload.token;
-      state.loading = true;
+      state.loading = false;
       state.errorMessage = '';
       state.loggedInUser= action.payload.user;
     },
@@ -26,12 +26,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.errorMessage = action.payload;
     },
-    logoutUser(state) {
-      state.token = null;
-      state.loading = false;
-      state.errorMessage = '';
-      state.loggedInUser = null;
-    },
+    logoutUser(state) {},
     fetchLoggedInUserStart(state) {
       state.loading = true;
       state.errorMessage = '';

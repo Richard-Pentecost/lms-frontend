@@ -8,6 +8,7 @@ import Button from '../components/Button'
 import DataTable from '../components/DataTable';
 import Modal from '../components/Modal';
 import classes from '../style/Farm.module.scss';
+import LoadingWrapper from '../components/LoadingWrapper';
 
 const Farm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -17,10 +18,11 @@ const Farm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   
-  const farm = useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
-  const { data } = useSelector(state => state.dataState);
-  const  { isAdmin } = useSelector(state => state.authState.token);
-
+  const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
+  const { data, loading: dataLoading } = useSelector(state => state.dataState);
+  const  { token, loading: userLoading } = useSelector(state => state.authState);
+  const farm = farms.find(farm => farm.uuid === uuid);
+  
   useEffect(() => {
     if (!farm) {
       dispatch(fetchActiveFarms());
@@ -51,32 +53,34 @@ const Farm = () => {
   }
 
   return (
-    <div className={classes.farm}>
-      {
-        farm && (
-          <>
-            <FarmHeading farm={farm} />
-            <Button 
-              handleClick={() => history.push(`${pathname}/add-data`)}
-            >Add Data</Button>
-            { 
-              data.length === 0 ? 
-                <p>No data found</p> :    
-                <DataTable data={data} clickHandler={handleRowClick} openModalHandler={openModal} isAdmin={isAdmin} />
-            }
-            {
-              showModal && 
-                <Modal 
-                  deleteHandler={deleteDataHandler}
-                  cancelHandler={hideModal}
-                >
-                  Are you sure you want to delete data?
-                </Modal>
-            }
-          </>
-        )
-      }
-    </div>
+    <LoadingWrapper loading={farmsLoading || dataLoading || userLoading}>
+      <div className={classes.farm}>
+        {
+          farm && (
+            <>
+              <FarmHeading farm={farm} />
+              <Button 
+                handleClick={() => history.push(`${pathname}/add-data`)}
+              >Add Data</Button>
+              { 
+                data.length === 0 ? 
+                  <p>No data found</p> :    
+                  <DataTable data={data} clickHandler={handleRowClick} openModalHandler={openModal} isAdmin={token.isAdmin} />
+              }
+              {
+                showModal && 
+                  <Modal 
+                    deleteHandler={deleteDataHandler}
+                    cancelHandler={hideModal}
+                  >
+                    Are you sure you want to delete data?
+                  </Modal>
+              }
+            </>
+          )
+        }
+      </div>
+    </LoadingWrapper>
   );
 }
 

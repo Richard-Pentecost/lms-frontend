@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { editFarm, fetchFarms, clearSuccessFlag } from '../store/actions/farmActions';
+import { disableFarm, fetchFarms, clearSuccessFlag } from '../store/actions/farmActions';
 import HeaderSection from '../components/HeaderSection';
 import List from '../components/List';
 import Modal from "../components/Modal";
@@ -10,13 +10,7 @@ const FarmList = () => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [selectedFarm, setSelectedFarm] = useState({});
-  const { farms, addFarmSuccess } = useSelector(state => state.farmState);
-  
-  useEffect(() => { 
-    dispatch(fetchFarms());
-
-    return () => dispatch(clearSuccessFlag());
-  }, [dispatch, addFarmSuccess])
+  const { allFarms } = useSelector(state => state.farmState);
 
   const openModal = farm => {
     setSelectedFarm(farm);
@@ -29,7 +23,7 @@ const FarmList = () => {
   };
 
   const handleBtnClick = () => {
-    dispatch(editFarm({ isActive: !selectedFarm.isActive }, selectedFarm.uuid));
+    dispatch(disableFarm({ isActive: !selectedFarm.isActive }, selectedFarm.uuid));
     hideModal();
   }
 
@@ -52,7 +46,7 @@ const FarmList = () => {
     <>
       <HeaderSection>Farms</HeaderSection>
       <div className={classes.farmList}>
-        <List farms={farms} openModalHandler={openModal} />
+        <List farms={allFarms} openModalHandler={openModal} />
       </div>
       {
         showModal && modal

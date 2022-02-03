@@ -10,19 +10,20 @@ import Sidebar from '../components/Sidebar';
 import SearchBar from '../components/SearchBar';
 import Button from '../components/Button';
 import classes from '../style/Home.module.scss';
+import LoadingWrapper from '../components/LoadingWrapper';
 
 const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { loggedInUser, token } = useSelector(state => state.authState);
-  const { farms } = useSelector(state => state.farmState);
-  const { regions } = useSelector(state => state.regionState);
-  const { products } = useSelector(state => state.productState);
+  const { loggedInUser, token, loading: userLoading } = useSelector(state => state.authState);
+  const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
+  const { regions, loading: regionsLoading } = useSelector(state => state.regionState);
+  const { products, loading: productsLoading } = useSelector(state => state.productState);
 
   useEffect(() => {
-    dispatch(fetchActiveFarms());
-  }, [dispatch]);
+    farms.length === 0 && dispatch(fetchActiveFarms());
+  }, [dispatch, farms]);
 
   useEffect(() => {
     regions.length === 0 && dispatch(fetchRegions());
@@ -37,36 +38,38 @@ const Home = () => {
   }, [dispatch, loggedInUser, token]);
 
   return (
-    <div className={classes.home}>
-      {/* <div className={classes.homeSidebar}>
-        <Sidebar />
-      </div> */}
-      <div className={classes.homeBody}>
-        <div className={classes.header}>
-          <div className={classes.header__sort}></div>
-          <div className={classes.header__search}>
-            <SearchBar />
+    <LoadingWrapper loading={regionsLoading || productsLoading || farmsLoading || userLoading}>
+      <div className={classes.home}>
+        {/* <div className={classes.homeSidebar}>
+          <Sidebar />
+        </div> */}
+        <div className={classes.homeBody}>
+          <div className={classes.header}>
+            <div className={classes.header__sort}></div>
+            <div className={classes.header__search}>
+              <SearchBar />
+            </div>
+            <div className={classes.header__btn}>
+              <Button
+                handleClick={() => history.push('/farms/create-farm')}
+                icon='plus'
+              >
+                Create Farm
+              </Button>
+            </div>
           </div>
-          <div className={classes.header__btn}>
-            <Button
-              handleClick={() => history.push('/farms/create-farm')}
-              icon='plus'
-            >
-              Create Farm
-            </Button>
+          <div className={classes.farmList}>
+            {
+              farms && farms.map(farm => (
+                <div className={classes.farmList__card} key={farm.uuid}>
+                  <FarmCard farm={farm} />
+                </div>
+              ))
+            }
           </div>
-        </div>
-        <div className={classes.farmList}>
-          {
-            farms && farms.map(farm => (
-              <div className={classes.farmList__card} key={farm.uuid}>
-                <FarmCard farm={farm} />
-              </div>
-            ))
-          }
         </div>
       </div>
-    </div>
+    </LoadingWrapper>
   );
 };
 

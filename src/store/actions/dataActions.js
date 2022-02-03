@@ -12,6 +12,7 @@ export const addData = (data, previousDataUuid) => {
       const headers = { Authorization: getToken() };
       await axios.post(`${URL}/farms/${farmId}/data`, { data, previousDataUuid }, { headers });
       dispatch(dataActions.addDataSuccess());
+      dispatch(fetchData(farmId));
     } catch (error) {
       console.error(error);
       dispatch(dataActions.addDataFail('Error adding data'));
@@ -27,6 +28,7 @@ export const editData = (data, dataId) => {
       const headers = { Authorization: getToken() };
       await axios.patch(`${URL}/farms/${farmId}/data/${dataId}`, { data }, { headers });
       dispatch(dataActions.addDataSuccess());
+      dispatch(fetchData(farmId));
     } catch (error) {
       console.error(error);
       dispatch(dataActions.addDataFail('There was an error updating data'));

@@ -1,6 +1,12 @@
+import classes from '../style/Spinner.module.scss';
 
 const Spinner = () => (
-  <div>Spinner</div>
+  <div className={classes.ldsEllipsis}>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 );
 
 export default Spinner;

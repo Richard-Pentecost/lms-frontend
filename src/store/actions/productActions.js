@@ -11,6 +11,7 @@ export const createProduct = product => {
       const headers = { Authorization: getToken() };
       await axios.post(`${URL}/products`, { product }, { headers });
       dispatch(productActions.addProductSuccess());
+      dispatch(fetchProducts());
     } catch (error) {
       console.error(error);
       dispatch(productActions.addProductFail('Error adding product'));
@@ -39,6 +40,7 @@ export const editProduct = (product, uuid) => {
       const headers = { Authorization: getToken() };
       await axios.patch(`${URL}/products/${uuid}`, { product }, { headers });
       dispatch(productActions.addProductSuccess());
+      dispatch(fetchProducts())
     } catch (error) {
       console.error(error);
       dispatch(productActions.addProductFail('Error updating product'));

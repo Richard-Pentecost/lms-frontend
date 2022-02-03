@@ -11,6 +11,7 @@ export const createRegion = region => {
       const headers = { Authorization: getToken() };
       await axios.post(`${URL}/regions`, { region }, { headers });
       dispatch(regionActions.addRegionSuccess());
+      dispatch(fetchRegions());
     } catch (error) {
       console.error(error);
       dispatch(regionActions.addRegionFail('Error adding region'));
@@ -39,6 +40,7 @@ export const editRegion = (region, uuid) => {
       const headers = { Authorization: getToken() };
       await axios.patch(`${URL}/regions/${uuid}`, { region }, { headers });
       dispatch(regionActions.addRegionSuccess());
+      dispatch(fetchRegions());
     } catch (error) {
       console.error(error);
       dispatch(regionActions.addRegionFail('Error upating region'));

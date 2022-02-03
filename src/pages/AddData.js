@@ -43,16 +43,16 @@ const AddData = () => {
     const newData = {
       date: date,
       farmFk: uuid,
-      noOfCows: parseInt(noOfCowsRef.current.value),
+      noOfCows: +noOfCowsRef.current.value,
       product: productRef.current.value,
-      quantity: parseInt(quantityRef.current.value),
-      meterReading: parseInt(meterReadingRef.current.value),
-      waterUsage: parseInt(waterUsageRef.current.value),
-      pumpDial: parseInt(pumpDialRef.current.value),
-      floatBeforeDelivery: parseInt(floatBeforeRef.current.value),
-      kgActual: parseInt(kgActualRef.current.value),
-      targetFeedRate: parseInt(targetFeedRateRef.current.value),
-      floatAfterDelivery: parseInt(floatAfterRef.current.value),
+      quantity: +quantityRef.current.value,
+      meterReading: +meterReadingRef.current.value,
+      waterUsage: +waterUsageRef.current.value,
+      pumpDial: +pumpDialRef.current.value,
+      floatBeforeDelivery: +floatBeforeRef.current.value,
+      kgActual: +kgActualRef.current.value,
+      targetFeedRate: +targetFeedRateRef.current.value,
+      floatAfterDelivery: +floatAfterRef.current.value,
       comments: commentsRef.current.value,
     }
 
@@ -63,9 +63,8 @@ const AddData = () => {
         const dateB = new Date(b.date).getTime();
         return dateB > dateA ? 1 : -1;
       });
-    console.log('previousDataUuids:', previousDataUuids);
+
     const previousDataUuid = previousDataUuids.length > 0 && previousDataUuids[0].uuid
-    console.log("previousDataUuid:", previousDataUuid);
     dispatch(addData(newData, previousDataUuid))
   }
 
@@ -100,11 +99,11 @@ const AddData = () => {
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Quantity:</label>
-            <input type='number' ref={quantityRef} className={classes.dataInput__input} />
+            <input type='number' step='0.1' ref={quantityRef} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Meter Reading:</label>
-            <input type='number' ref={meterReadingRef} className={classes.dataInput__input} />
+            <input type='number' step='0.1' ref={meterReadingRef} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Water Usage:</label>
@@ -120,7 +119,7 @@ const AddData = () => {
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>kg Actual:</label>
-            <input type='number' ref={kgActualRef} className={classes.dataInput__input} />
+            <input type='number' step='0.01' ref={kgActualRef} className={classes.dataInput__input} />
           </div>
           <div className={classes.dataInput__container}>
             <label className={classes.dataInput__label}>Target Feed Rate:</label>

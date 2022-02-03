@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   farms: [],
+  allFarms: [],
   loading: false,
   errorMessage: '',
   addFarmSuccess: false,
@@ -22,6 +23,18 @@ const farmSlice = createSlice({
     fetchFarmsFail(state, action) {
       state.loading = false;
       state.errorMessage = action.payload
+    },
+    fetchAllFarmsStart(state) {
+      state.loading = true;
+      state.errorMessage = '';
+    },
+    fetchAllFarmsSuccess(state, action) {
+      state.allFarms = action.payload;
+      state.loading = false;
+    },
+    fetchAllFarmsFail(state, action) {
+      state.loading = false;
+      state.errorMessage = action.payload;
     },
     addFarmStart(state) {
       state.loading = true;

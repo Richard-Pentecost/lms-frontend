@@ -7,17 +7,17 @@ import FormButton from '../components/FormButton';
 import RadioButtons from '../components/RadioButtons';
 import { createProduct, editProduct, clearSuccessFlag, clearErrors, fetchProducts } from '../store/actions/productActions';
 import classes from '../style/FarmForm.module.scss';
+import LoadingWrapper from '../components/LoadingWrapper';
 
 const AddProduct = () => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { errorMessage, showButtonSpinner, addProductSuccess, products } = useSelector(state => state.productState);
+  const { errorMessage, showButtonSpinner, addProductSuccess, products, loading } = useSelector(state => state.productState);
   const productObj = products.find(product => product.uuid === uuid);
   const title = productObj ? 'Edit Product' : 'Add Product'
   const productName = productObj ? productObj.productName.split('-')[0] : '';
-  const [deliveryType, setDeliveryType] = useState();
-
+  const [deliveryType, setDeliveryType] = useState('Tank');
   const productNameRef = useRef();
   const specificGravityRef = useRef();
 
@@ -29,14 +29,11 @@ const AddProduct = () => {
     if (productObj) {
       const deliveryMethod = productObj.productName.split('-')[1];
       setDeliveryType(deliveryMethod);
-    } else {
-      setDeliveryType('Tank');
-    }
+    } 
   }, [productObj]);
 
   useEffect(() => {
     if (addProductSuccess) {
-      dispatch(fetchProducts());
       history.goBack();
     }
     return () => {
@@ -63,23 +60,25 @@ const AddProduct = () => {
   }
   
   return (
-    <div className={classes.farmForm}>
-      <div className={classes.farmFormHeading}>
-        <span className={classes.farmFormHeading__title}>{title}</span>
-        <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
+    <LoadingWrapper loading={loading && productObj}>
+      <div className={classes.farmForm}>
+        <div className={classes.farmFormHeading}>
+          <span className={classes.farmFormHeading__title}>{title}</span>
+          <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
+        </div>
+        <form onSubmit={formSubmit}>
+          <Input type='text' ref={productNameRef} defaultValue={productName}>Product</Input>
+          <Input type='number' step='0.01' ref={specificGravityRef} defaultValue={productObj && productObj.specificGravity}>Specific Gravity</Input>
+          <RadioButtons 
+            labels={['Tank', 'Drum', 'IBC']}
+            input={deliveryType}
+            handleChange={handleDeliveryTypeChange}
+          />
+          <FormButton type='submit' loading={showButtonSpinner}>{title}</FormButton>
+        </form>
+        { errorMessage && <Alert>{errorMessage}</Alert>}
       </div>
-      <form onSubmit={formSubmit}>
-        <Input type='text' ref={productNameRef} defaultValue={productName}>Product</Input>
-        <Input type='number' step='0.01' ref={specificGravityRef} defaultValue={productObj && productObj.specificGravity}>Specific Gravity</Input>
-        <RadioButtons 
-          labels={['Tank', 'Drum', 'IBC']}
-          input={deliveryType}
-          handleChange={handleDeliveryTypeChange}
-        />
-        <FormButton type='submit' loading={showButtonSpinner}>{title}</FormButton>
-      </form>
-      { errorMessage && <Alert>{errorMessage}</Alert>}
-    </div>
+    </LoadingWrapper>
   )
 }
 

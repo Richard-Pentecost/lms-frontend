@@ -17,19 +17,21 @@ import Spinner from '../components/Spinner';
 import RegionList from './RegionList';
 import ProductList from './ProductList';
 import classes from '../style/Settings.module.scss';
+import LoadingWrapper from '../components/LoadingWrapper';
 
 const Settings = () => {
   const dispatch = useDispatch();
   const { path } = useRouteMatch();
 
   const { token, loggedInUser } = useSelector(state => state.authState);
-  const { loading, users } = useSelector(state => state.userState);
-  const { products } = useSelector(state => state.productState);
-  const { regions } = useSelector(state => state.regionState);
+  const { users, loading: userLoading } = useSelector(state => state.userState);
+  const { products, loading: productsLoading } = useSelector(state => state.productState);
+  const { regions, loading: regionsLoading } = useSelector(state => state.regionState);
+  const { allFarms, loading: farmsLoading } = useSelector(state => state.farmState);
 
   useEffect(() => {
-    dispatch(fetchFarms());
-  }, [dispatch]);
+    allFarms.length === 0 && dispatch(fetchFarms());
+  }, [dispatch, allFarms]);
 
   useEffect(() => {
     !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
@@ -46,35 +48,29 @@ const Settings = () => {
   useEffect(() => {
     regions.length === 0 && dispatch(fetchRegions());
   }, [dispatch, regions]);
-
-  let content = <Spinner />;
-
-  if (!loading && loggedInUser) {
-    content = (
-      <>
-        <div className={classes.settings__sidebar}>
-          <SettingsSidebar name={loggedInUser.name} isAdmin={token.isAdmin} />
-        </div>
-        <div className={classes.settings__main}>
-          <Switch>
-            <Route path={`${path}/profile`} component={Profile} />
-            <Route path={`${path}/security`} component={ChangePassword} />
-            <AdminRoute path={`${path}/create-user`} component={CreateUser} isAdmin={token.isAdmin} />
-            <AdminRoute path={`${path}/users`} component={Users} isAdmin={token.isAdmin} />
-            <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={token.isAdmin} />
-            <AdminRoute path={`${path}/regions`} component={RegionList} isAdmin={token.isAdmin} />
-            <AdminRoute path={`${path}/products`} component={ProductList} isAdmin={token.isAdmin} />
-            <Redirect to={`${path}/profile`} />
-          </Switch>
-        </div>
-      </>
-    )
-  }
   
   return (
-    <div className={classes.settings}>
-      { content }
-    </div>
+    <LoadingWrapper loading={userLoading || productsLoading || regionsLoading || farmsLoading}>
+      { loggedInUser && (
+        <div className={classes.settings}>
+          <div className={classes.settings__sidebar}>
+            <SettingsSidebar name={loggedInUser.name} isAdmin={token.isAdmin} />
+          </div>
+          <div className={classes.settings__main}>
+            <Switch>
+              <Route path={`${path}/profile`} component={Profile} />
+              <Route path={`${path}/security`} component={ChangePassword} />
+              <AdminRoute path={`${path}/create-user`} component={CreateUser} isAdmin={token.isAdmin} />
+              <AdminRoute path={`${path}/users`} component={Users} isAdmin={token.isAdmin} />
+              <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={token.isAdmin} />
+              <AdminRoute path={`${path}/regions`} component={RegionList} isAdmin={token.isAdmin} />
+              <AdminRoute path={`${path}/products`} component={ProductList} isAdmin={token.isAdmin} />
+              <Redirect to={`${path}/profile`} />
+            </Switch>
+          </div>
+        </div>
+      )}
+    </LoadingWrapper>
   );
 }
 

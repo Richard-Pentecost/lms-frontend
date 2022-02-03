@@ -39,7 +39,7 @@ export const fetchLoggedInUser = uuid => {
 
 export const logoutUser = () => {
   return dispatch => { 
-    removeToken();
     dispatch(authActions.logoutUser());
+    removeToken();
   }
 }
