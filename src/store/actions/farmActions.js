@@ -2,7 +2,8 @@ import axios from 'axios';
 import { farmActions } from '../slices/farmSlice';
 import { getToken } from '../../utils/token-manager';
 
-const URL = 'http://localhost:3000';
+// const URL = 'http://localhost:3000';
+const URL = 'https://lms-app-api.herokuapp.com';
 
 export const createFarm = (farm, products) => {
   return async dispatch => {

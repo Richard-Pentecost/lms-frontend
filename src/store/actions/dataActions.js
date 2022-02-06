@@ -2,7 +2,8 @@ import axios from 'axios';
 import { dataActions } from '../slices/dataSlice';
 import { getToken } from '../../utils/token-manager';
 
-const URL = 'http://localhost:3000';
+// const URL = 'http://localhost:3000';
+const URL = 'https://lms-app-api.herokuapp.com';
 
 export const addData = (data, previousDataUuid) => {
   return async dispatch => {

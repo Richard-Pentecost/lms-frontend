@@ -2,7 +2,8 @@ import axios from 'axios';
 import { userActions } from '../slices/userSlice';
 import { getToken } from '../../utils/token-manager';
 
-const URL = 'http://localhost:3000';
+// const URL = 'http://localhost:3000';
+const URL = 'https://lms-app-api.herokuapp.com';
 
 export const createUser = user => {
   const { name, email, password, confirmPassword } = user;

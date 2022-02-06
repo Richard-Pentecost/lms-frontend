@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farmActions';
@@ -10,8 +10,8 @@ import Select from '../components/Select';
 import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
 import ProductSelect from '../components/ProductSelect';
-import classes from '../style/FarmForm.module.scss';
 import LoadingWrapper from '../components/LoadingWrapper';
+import classes from '../style/FarmForm.module.scss';
 
 const CreateFarm = () => {
   const history = useHistory();

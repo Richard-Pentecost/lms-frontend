@@ -2,7 +2,8 @@ import axios from 'axios';
 import { setToken, getToken, getTokenPayload, removeToken } from '../../utils/token-manager';
 import { authActions } from '../slices/authSlice';
 
-const URL = 'http://localhost:3000';
+// const URL = 'http://localhost:3000';
+const URL = 'https://lms-app-api.herokuapp.com';
 
 export const loginUser = credentials => {
   return async dispatch => {

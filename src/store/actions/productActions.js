@@ -2,7 +2,8 @@ import axios from 'axios';
 import { productActions } from '../slices/productSlice';
 import { getToken } from '../../utils/token-manager';
 
-const URL = 'http://localhost:3000';
+// const URL = 'http://localhost:3000';
+const URL = 'https://lms-app-api.herokuapp.com';
 
 export const createProduct = product => {
   return async dispatch => {
