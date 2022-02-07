@@ -11,7 +11,7 @@ import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
 import ProductSelect from '../components/ProductSelect';
 import LoadingWrapper from '../components/LoadingWrapper';
-import classes from '../style/FarmForm.module.scss';
+import classes from '../style/AddProduct.module.scss';
 
 const CreateFarm = () => {
   const history = useHistory();

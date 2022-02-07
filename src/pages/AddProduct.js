@@ -6,8 +6,8 @@ import Input from '../components/Input';
 import FormButton from '../components/FormButton';
 import RadioButtons from '../components/RadioButtons';
 import { createProduct, editProduct, clearSuccessFlag, clearErrors, fetchProducts } from '../store/actions/productActions';
-import classes from '../style/FarmForm.module.scss';
 import LoadingWrapper from '../components/LoadingWrapper';
+import classes from '../style/AddProduct.module.scss';
 
 const AddProduct = () => {
   const { uuid } = useParams();
