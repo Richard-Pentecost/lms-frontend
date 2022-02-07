@@ -1,4 +1,4 @@
-@import './variables';
+@use './variables.scss';
 
 .dropDownLink {
   transition: 0.2s background-color linear;

@@ -1,4 +1,4 @@
-@import './variables';
+@use './variables.scss';
 
 .settings {
   padding: 2rem 2rem;
@@ -9,12 +9,12 @@
   @media only screen and (min-width: $bp-smallest) {
     padding: 2rem 10rem;
   }
- 
+
   @media only screen and (min-width: $bp-medium) {
     flex-direction: row;
     padding: 2rem 8rem;
   }
- 
+
   @media only screen and (min-width: $bp-largeSmall) {
     padding: 2rem 15rem;
   }

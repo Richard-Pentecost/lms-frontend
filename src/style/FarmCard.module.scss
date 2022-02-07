@@ -1,4 +1,4 @@
-@import './variables';
+@use './variables.scss';
 
 .farmCard {
   border: 1px solid $color-grey;

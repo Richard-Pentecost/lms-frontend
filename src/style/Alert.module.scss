@@ -1,5 +1,5 @@
 
-@import './variables.scss';
+@use './variables.scss';
 
 .alert {
     background-color: $alert-color-background;
