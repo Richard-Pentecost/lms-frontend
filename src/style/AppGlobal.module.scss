@@ -1,0 +1,30 @@
+@import './variables';
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 50%;
+  box-sizing: border-box;
+
+  @media only screen and (min-width: $bp-small) {
+    font-size: 62.5% /* defines  1rem as 10px */
+  }
+}
+
+body {
+  font-family: "Roboto", "Segoe UI", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+  font-weight: 300;
+  line-height: 1.5;
+  background: $color-grey-light-2;
+  color: $color-grey-dark-1;
+}
