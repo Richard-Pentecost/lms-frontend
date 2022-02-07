@@ -4,9 +4,9 @@ import { useDispatch, useSelector} from 'react-redux';
 import Alert from '../components/Alert';
 import Input from '../components/Input';
 import FormButton from '../components/FormButton';
-import classes from '../style/FarmForm.module.scss';
 import { createRegion, editRegion, fetchRegions, clearErrors, clearSuccessFlag } from '../store/actions/regionActions';
 import LoadingWrapper from '../components/LoadingWrapper';
+import classes from '../style/AddProduct.module.scss';
 
 const AddRegion = () => {
   const { uuid } = useParams();

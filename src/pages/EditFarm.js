@@ -9,9 +9,9 @@ import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
 import Select from '../components/Select';
-import classes from '../style/FarmForm.module.scss';
 import ProductSelect from '../components/ProductSelect';
 import LoadingWrapper from '../components/LoadingWrapper';
+import classes from '../style/AddProduct.module.scss';
 
 const EditFarm = () => {
   const { uuid } = useParams();
