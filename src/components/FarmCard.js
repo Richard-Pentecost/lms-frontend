@@ -76,10 +76,10 @@ const FarmCard = ({ farm }) => {
         >
           Edit Farm Details
         </Link>
-        <Button
+        {/* <Button
           styling='disable'
           handleClick={handleDelete}
-        >Delete Farm</Button>
+        >Delete Farm</Button> */}
       </div>
     </div>
   );
