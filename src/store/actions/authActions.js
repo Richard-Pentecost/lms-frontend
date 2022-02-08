@@ -17,7 +17,7 @@ export const loginUser = credentials => {
         const token = getTokenPayload();
         dispatch(authActions.loginUserSuccess({ token, user: response.data.user }));
       } catch (error) {
-        console.log(error);
+        console.error(error);
         dispatch(authActions.loginUserFail('Error'))
       };
     };

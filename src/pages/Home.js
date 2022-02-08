@@ -18,27 +18,17 @@ const Home = () => {
 
   const { loggedInUser, token, loading: userLoading } = useSelector(state => state.authState);
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
-  const { regions, loading: regionsLoading } = useSelector(state => state.regionState);
-  const { products, loading: productsLoading } = useSelector(state => state.productState);
 
   useEffect(() => {
-    farms.length === 0 && dispatch(fetchActiveFarms());
-  }, [dispatch, farms]);
-
-  useEffect(() => {
-    regions.length === 0 && dispatch(fetchRegions());
-  }, [dispatch, regions]);
-
-  useEffect(() => {
-    products.length === 0 && dispatch(fetchProducts());
-  }, [dispatch, products]);
+    dispatch(fetchActiveFarms());
+  }, [dispatch]);
 
   useEffect(() => {
     !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
   }, [dispatch, loggedInUser, token]);
 
   return (
-    <LoadingWrapper loading={regionsLoading || productsLoading || farmsLoading || userLoading}>
+    <LoadingWrapper loading={farmsLoading || userLoading}>
       <div className={classes.home}>
         {/* <div className={classes.homeSidebar}>
           <Sidebar />

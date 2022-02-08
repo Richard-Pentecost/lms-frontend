@@ -37,12 +37,12 @@ const EditFarm = () => {
   }, [dispatch, farm]);
 
   useEffect(() => {
-    regions.length === 0 && dispatch(fetchRegions());
-  }, [dispatch, regions]);
+    dispatch(fetchRegions());
+  }, [dispatch]);
 
   useEffect(() => {
-    products.length === 0 && dispatch(fetchProducts());
-  }, [dispatch, products]);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     if(addFarmSuccess) {

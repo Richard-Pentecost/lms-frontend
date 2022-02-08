@@ -22,8 +22,8 @@ const AddProduct = () => {
   const specificGravityRef = useRef();
 
   useEffect(() => {
-    products.length === 0 && dispatch(fetchProducts());
-  }, [dispatch, products]);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     if (productObj) {

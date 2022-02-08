@@ -31,12 +31,9 @@ const CreateFarm = () => {
   const productsRef = useRef([]);
 
   useEffect(() => {
-    regions.length === 0 && dispatch(fetchRegions());
-  }, [dispatch, regions, products]);
-
-  useEffect(() => {
-    products.length === 0 && dispatch(fetchProducts());
-  }, [dispatch, products]);
+    dispatch(fetchRegions());
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   useEffect(() => {
     if (addFarmSuccess) {

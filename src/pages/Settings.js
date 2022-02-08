@@ -24,30 +24,21 @@ const Settings = () => {
   const { path } = useRouteMatch();
 
   const { token, loggedInUser } = useSelector(state => state.authState);
-  const { users, loading: userLoading } = useSelector(state => state.userState);
-  const { products, loading: productsLoading } = useSelector(state => state.productState);
-  const { regions, loading: regionsLoading } = useSelector(state => state.regionState);
-  const { allFarms, loading: farmsLoading } = useSelector(state => state.farmState);
+  const { loading: userLoading } = useSelector(state => state.userState);
+  const { loading: productsLoading } = useSelector(state => state.productState);
+  const { loading: regionsLoading } = useSelector(state => state.regionState);
+  const { loading: farmsLoading } = useSelector(state => state.farmState);
 
   useEffect(() => {
-    allFarms.length === 0 && dispatch(fetchFarms());
-  }, [dispatch, allFarms]);
+    dispatch(fetchFarms());
+    dispatch(fetchUsers());
+    dispatch(fetchProducts());
+    dispatch(fetchRegions())
+  }, [dispatch]);
 
   useEffect(() => {
     !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
   }, [dispatch, loggedInUser, token.uuid]);
-
-  useEffect(() => {
-    users.length === 0 && dispatch(fetchUsers());
-  }, [dispatch, users]);
-
-  useEffect(() => {
-    products.length === 0 && dispatch(fetchProducts());
-  }, [dispatch, products]);
-
-  useEffect(() => {
-    regions.length === 0 && dispatch(fetchRegions());
-  }, [dispatch, regions]);
   
   return (
     <LoadingWrapper loading={userLoading || productsLoading || regionsLoading || farmsLoading}>
