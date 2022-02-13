@@ -9,14 +9,10 @@ import SearchBar from '../components/SearchBar';
 import Button from '../components/Button';
 import classes from '../style/Home.module.scss';
 import LoadingWrapper from '../components/LoadingWrapper';
-import { API_URL } from '../utils/get-api-url';
 
 const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-
-  console.log("************");
-  console.log('API_URL:', API_URL);
 
   const { loggedInUser, token, loading: userLoading } = useSelector(state => state.authState);
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
