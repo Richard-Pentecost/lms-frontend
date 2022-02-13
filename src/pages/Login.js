@@ -11,6 +11,7 @@ import classes from '../style/Login.module.scss';
 const Login = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   const { errorMessage, loading } = useSelector(state => state.authState);
 
   const emailRef = useRef();
@@ -24,8 +25,6 @@ const Login = () => {
     }));  
     history.push('/home');
   };
-
-  
 
   return (
     <div className={classes.login}>

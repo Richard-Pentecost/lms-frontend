@@ -11,7 +11,6 @@ import classes from '../style/Farm.module.scss';
 import LoadingWrapper from '../components/LoadingWrapper';
 
 const Farm = () => {
-  const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
   const { uuid } = useParams();
   const { pathname } = useLocation();
@@ -21,14 +20,17 @@ const Farm = () => {
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
   const { data, loading: dataLoading } = useSelector(state => state.dataState);
   const  { token, loading: userLoading } = useSelector(state => state.authState);
-  const farm = farms.find(farm => farm.uuid === uuid);
-  
+  const [showModal, setShowModal] = useState(false);
+
+  const farm = farms && farms.find(farm => farm.uuid === uuid);
+
   useEffect(() => {
-    if (!farm) {
-      dispatch(fetchActiveFarms());
-    }
+    !farms && dispatch(fetchActiveFarms());
+  }, [dispatch, farms]);
+
+  useEffect(() => {
     dispatch(fetchData(uuid));
-  }, [dispatch, uuid, farm]);
+  }, [dispatch, uuid]);
 
   const handleRowClick = input => {
     history.push(`${pathname}/edit-data/${input.uuid}`);
@@ -56,7 +58,7 @@ const Farm = () => {
     <LoadingWrapper loading={farmsLoading || dataLoading || userLoading}>
       <div className={classes.farm}>
         {
-          farm && (
+          farm && data && (
             <>
               <FarmHeading farm={farm} />
               <Button 

@@ -9,7 +9,7 @@ import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
 import Select from '../components/Select';
-import ProductSelect from '../components/ProductSelect';
+// import ProductSelect from '../components/ProductSelect';
 import LoadingWrapper from '../components/LoadingWrapper';
 import classes from '../style/AddProduct.module.scss';
 
@@ -18,10 +18,11 @@ const EditFarm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const farm = useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
-  const { errorMessage, loading: farmsLoading, addFarmSuccess } = useSelector(state => state.farmState);
+  const { farms, errorMessage, loading: farmsLoading, addFarmSuccess } = useSelector(state => state.farmState);
   const { regions, loading: regionsLoading } = useSelector(state => state.regionState);
   const { products, loading: productsLoading } = useSelector(state => state.productState);
+
+  const farm = farms && farms.find(farm => farm.uuid === uuid);
 
   const farmNameRef = useRef();
   const postcodeRef = useRef();
@@ -30,19 +31,19 @@ const EditFarm = () => {
   const accessCodesRef = useRef();
   const commentsRef = useRef();
   const regionRef = useRef();
-  const productsRef = useRef([]);
+  // const productsRef = useRef([]);
 
   useEffect(() => {
-    !farm && dispatch(fetchActiveFarms());
-  }, [dispatch, farm]);
+    !farms && dispatch(fetchActiveFarms());
+  }, [dispatch, farms]);
 
   useEffect(() => {
-    dispatch(fetchRegions());
-  }, [dispatch]);
+    !regions && dispatch(fetchRegions());
+  }, [dispatch, regions]);
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    !products && dispatch(fetchProducts());
+  }, [dispatch, products]);
 
   useEffect(() => {
     if(addFarmSuccess) {

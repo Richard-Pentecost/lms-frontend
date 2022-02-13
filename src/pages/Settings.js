@@ -13,7 +13,6 @@ import CreateUser from './CreateUser';
 import ChangePassword from './ChangePassword';
 import FarmList from './FarmList';
 import Users from './Users';
-import Spinner from '../components/Spinner';
 import RegionList from './RegionList';
 import ProductList from './ProductList';
 import classes from '../style/Settings.module.scss';
@@ -24,21 +23,30 @@ const Settings = () => {
   const { path } = useRouteMatch();
 
   const { token, loggedInUser } = useSelector(state => state.authState);
-  const { loading: userLoading } = useSelector(state => state.userState);
-  const { loading: productsLoading } = useSelector(state => state.productState);
-  const { loading: regionsLoading } = useSelector(state => state.regionState);
-  const { loading: farmsLoading } = useSelector(state => state.farmState);
+  const { users, loading: userLoading } = useSelector(state => state.userState);
+  const { products, loading: productsLoading } = useSelector(state => state.productState);
+  const { regions, loading: regionsLoading } = useSelector(state => state.regionState);
+  const { allFarms, loading: farmsLoading } = useSelector(state => state.farmState);
 
   useEffect(() => {
-    dispatch(fetchFarms());
-    dispatch(fetchUsers());
-    dispatch(fetchProducts());
-    dispatch(fetchRegions())
-  }, [dispatch]);
+    !allFarms && dispatch(fetchFarms());
+  }, [dispatch, allFarms]);
+
+  useEffect(() => {
+    !users && dispatch(fetchUsers());
+  }, [dispatch, users]);
+
+  useEffect(() => {
+    !products && dispatch(fetchProducts());
+  }, [dispatch, products]);
+
+  useEffect(() => {
+    !regions && dispatch(fetchRegions());
+  }, [dispatch, regions]);
 
   useEffect(() => {
     !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
-  }, [dispatch, loggedInUser, token.uuid]);
+  }, [dispatch, loggedInUser, token]);
   
   return (
     <LoadingWrapper loading={userLoading || productsLoading || regionsLoading || farmsLoading}>

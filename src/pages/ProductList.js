@@ -36,50 +36,56 @@ const ProductList = () => {
 
   return (
     <>
-      <HeaderSection>Products</HeaderSection>
-      <div className={classes.regions}>
-        <Button
-          handleClick={() => history.push('/create-product')}
-        >Add Products</Button>
-        <div className={classes.listContainer}>
-          <table className={classes.list}>
-            <thead className={classes.list__head}> 
-              <tr className={classes.listTitle}>
-                <th className={classes.listTitle__style}>Product</th>
-                <th className={classes.listTitle__style}>Specific Gravity</th>
-                <th className={classes.listTitle__style}></th>
-              </tr>
-            </thead>
-            <tbody className={classes.list__body}>
-              {
-                products.map(product => (
-                  <tr className={classes.listBody} key={product.uuid} onClick={() => handleRowClick(product)}>
-                    <td className={classes.listBody__cell}>{product.productName}</td>
-                    <td className={classes.listBody__cell}>{product.specificGravity}</td>
-                    <td className={classes.listBody__cell}>
-                      <Button
-                        styling='disable'
-                        handleClick={event => {
-                          event.stopPropagation();
-                          openModal(product);
-                        }}
-                      >Delete</Button>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
       {
-        showModal && (
-          <Modal
-            deleteHandler={handleDelete}
-            cancelHandler={hideModal}
-          >
-            Deleting the product will remove it from any farms that use this product, but will not affect any saved data using this product
-          </Modal>
+        products && (
+          <>
+            <HeaderSection>Products</HeaderSection>
+            <div className={classes.regions}>
+              <Button
+                handleClick={() => history.push('/create-product')}
+              >Add Products</Button>
+              <div className={classes.listContainer}>
+                <table className={classes.list}>
+                  <thead className={classes.list__head}> 
+                    <tr className={classes.listTitle}>
+                      <th className={classes.listTitle__style}>Product</th>
+                      <th className={classes.listTitle__style}>Specific Gravity</th>
+                      <th className={classes.listTitle__style}></th>
+                    </tr>
+                  </thead>
+                  <tbody className={classes.list__body}>
+                    {
+                      products.map(product => (
+                        <tr className={classes.listBody} key={product.uuid} onClick={() => handleRowClick(product)}>
+                          <td className={classes.listBody__cell}>{product.productName}</td>
+                          <td className={classes.listBody__cell}>{product.specificGravity}</td>
+                          <td className={classes.listBody__cell}>
+                            <Button
+                              styling='disable'
+                              handleClick={event => {
+                                event.stopPropagation();
+                                openModal(product);
+                              }}
+                            >Delete</Button>
+                          </td>
+                        </tr>
+                      ))
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {
+              showModal && (
+                <Modal
+                  deleteHandler={handleDelete}
+                  cancelHandler={hideModal}
+                >
+                  Deleting the product will remove it from any farms that use this product, but will not affect any saved data using this product
+                </Modal>
+              )
+            }
+          </>
         )
       }
     </>

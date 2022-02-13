@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  farms: [],
-  allFarms: [],
+  farms: null,
+  allFarms: null,
   loading: false,
   errorMessage: '',
   addFarmSuccess: false,

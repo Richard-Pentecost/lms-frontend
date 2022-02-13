@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { editUser, fetchUserByUuid , clearErrors, clearSuccessFlag } from '../store/actions/userActions';
+import { editUser, clearErrors, clearSuccessFlag } from '../store/actions/userActions';
 import { fetchLoggedInUser } from '../store/actions/authActions';
 import HeaderSection from '../components/HeaderSection';
 import Input from '../components/Input';
@@ -17,12 +17,13 @@ const Profile = () => {
   const emailRef = useRef();
 
   useEffect(() => {
-    dispatch(fetchLoggedInUser(loggedInUser.uuid));
+    addUserSuccess && dispatch(fetchLoggedInUser(loggedInUser.uuid));
+    
     return () => {
       dispatch(clearSuccessFlag());
       dispatch(clearErrors());
     };
-  }, [dispatch, addUserSuccess, loggedInUser.uuid])
+  }, [dispatch, addUserSuccess, loggedInUser])
 
   const formSubmit = event => {
     event.preventDefault(); 

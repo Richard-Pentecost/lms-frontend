@@ -5,20 +5,21 @@ import { editData, clearErrors, clearSuccessFlag, fetchData } from '../store/act
 import { fetchActiveFarms } from '../store/actions/farmActions';
 import DatePicker from 'react-datepicker';
 import Alert from '../components/Alert';
+import LoadingWrapper from '../components/LoadingWrapper';
 import classes from '../style/AddData.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
-import LoadingWrapper from '../components/LoadingWrapper';
 
 const EditData = () => {
   const history = useHistory()
   const dispatch = useDispatch();
   const { uuid, dataId } = useParams();
 
-  const [date, setDate] = useState();
-  const data = useSelector(state => state.dataState.data.find(data => data.uuid === dataId));
-  const { errorMessage, loading: dataLoading, addDataSuccess } = useSelector(state => state.dataState);
+  const { errorMessage, loading: dataLoading, addDataSuccess, data: farmData } = useSelector(state => state.dataState);
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
-  const farm = farms.find(farm => farm.uuid === uuid);
+  const [date, setDate] = useState();
+
+  const data = farmData && farmData.find(data => data.uuid === dataId);
+  const farm = farms && farms.find(farm => farm.uuid === uuid);
 
   const noOfCowsRef = useRef();
   const productRef = useRef();
@@ -33,19 +34,13 @@ const EditData = () => {
   const commentsRef = useRef();
 
   useEffect(() => {
-    if (!data) {
-      dispatch(fetchData(uuid));
-    }
-    
-    if (data) {
-      setDate(new Date(data.date));
-    }
-  }, [dispatch, data, uuid]);
+    farmData ? setDate(new Date(data.date)) : dispatch(fetchData(uuid));
+  }, [dispatch, farmData, data, uuid]);
 
   useEffect(() => {
-    !farm && dispatch(fetchActiveFarms());
-  }, [dispatch, farm]);
-
+    !farms && dispatch(fetchActiveFarms());
+  }, [dispatch, farms]);
+  
   useEffect(() => {
     if (addDataSuccess) {
       history.goBack();
@@ -84,7 +79,7 @@ const EditData = () => {
     <LoadingWrapper loading={farmsLoading || dataLoading}>
       <div className={classes.formContainer}>
         {
-          data && (
+          data && farm && (
             <>
               <form className={classes.dataForm} onSubmit={handleSubmit}>
                   <div className={classes.dataInput__container}>

@@ -20,8 +20,8 @@ const AddRegion = () => {
   const regionRef = useRef();
 
   useEffect(() => {
-    dispatch(fetchRegions());
-  }, [dispatch]);
+    !regions && dispatch(fetchRegions());
+  }, [dispatch, regions]);
 
   useEffect(() => {
     if (addRegionSuccess) {

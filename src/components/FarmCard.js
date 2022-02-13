@@ -1,13 +1,13 @@
 import { Link, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { deleteFarm } from '../store/actions/farmActions';
-import Button from './Button';
+// import { deleteFarm } from '../store/actions/farmActions';
+// import Button from './Button';
 import classes from '../style/FarmCard.module.scss';
 
 const FarmCard = ({ farm }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const {
     uuid,
     farmName,
@@ -19,10 +19,10 @@ const FarmCard = ({ farm }) => {
 
   const handleClick = () => history.push(`/farms/${uuid}`);
 
-  const handleDelete = event => {
-    event.stopPropagation();
-    dispatch(deleteFarm(uuid));
-  }
+  // const handleDelete = event => {
+  //   event.stopPropagation();
+  //   dispatch(deleteFarm(uuid));
+  // }
 
   return (
     <div className={classes.farmCard} onClick={handleClick}>

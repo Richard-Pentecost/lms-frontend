@@ -1,20 +1,24 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addData, clearErrors, clearSuccessFlag } from '../store/actions/dataActions';
+import { addData, fetchData, clearErrors, clearSuccessFlag } from '../store/actions/dataActions';
+import { fetchActiveFarms } from '../store/actions/farmActions';
 import DatePicker from 'react-datepicker';
 import Alert from '../components/Alert';
 import classes from '../style/AddData.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
+import LoadingWrapper from '../components/LoadingWrapper';
 
 const AddData = () => {
   const history = useHistory()
   const dispatch = useDispatch();
   const { uuid } = useParams();
   
+  const { errorMessage, loading: dataLoading, addDataSuccess, data } = useSelector(state => state.dataState);
+  const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
   const [date, setDate] = useState(new Date());
-  const { errorMessage, loading, addDataSuccess, data } = useSelector(state => state.dataState);
-  const { products }= useSelector(state => state.farmState.farms.find(farm => farm.uuid === uuid));
+
+  const farm = farms && farms.find(farm => farm.uuid === uuid);
 
   const noOfCowsRef = useRef();
   const productRef = useRef();
@@ -27,6 +31,14 @@ const AddData = () => {
   const targetFeedRateRef = useRef();
   const floatAfterRef = useRef();
   const commentsRef = useRef();
+
+  useEffect(() => {
+    !farms && dispatch(fetchActiveFarms());
+  }, [dispatch, farms]);
+
+  useEffect(() => {
+    !data && dispatch(fetchData(uuid));
+  }, [dispatch, data, uuid]);
 
   useEffect(() => {
     if (addDataSuccess) {
@@ -73,80 +85,88 @@ const AddData = () => {
   };
 
   return (
-    <div className={classes.formContainer}>
-      <form className={classes.dataForm} onSubmit={handleSubmit}>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Date:</label>
-            <DatePicker 
-              selected={date}
-              dateFormat='dd/MM/yyyy'
-              onChange={date => setDate(date)}
-              className={classes.dataInput__input}
-            />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Product:</label>
-            <select ref={productRef} className={classes.dataInput__input}>
-              <option value='blank'></option>
-              {
-                products.map((product, index) => <option value={product.productName} key={index}>{product.productName}</option>)
-              }
-            </select>
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Number of Cows:</label>
-            <input type='number' ref={noOfCowsRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Quantity:</label>
-            <input type='number' step='0.1' ref={quantityRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Meter Reading:</label>
-            <input type='number' step='0.1' ref={meterReadingRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Water Usage:</label>
-            <input type='number' ref={waterUsageRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Pump Dial:</label>
-            <input type='number' ref={pumpDialRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Float Before Delivery:</label>
-            <input type='number' ref={floatBeforeRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>kg Actual:</label>
-            <input type='number' step='0.01' ref={kgActualRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Target Feed Rate:</label>
-            <input type='number' ref={targetFeedRateRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Float After Delivery:</label>
-            <input type='number' ref={floatAfterRef} className={classes.dataInput__input} />
-          </div>
-          <div className={classes.dataInput__container}>
-            <label className={classes.dataInput__label}>Comments:</label>
-            <textarea className={classes.dataInput__comments} rows='3' ref={commentsRef} />
-          </div>
-          <div className={classes.btnContainer}>
-            <button 
-              type='submit' 
-              className={`${classes.addDataBtn} ${classes.btn}`}
-            >Add Data</button>
-            <button
-              type='button' 
-              onClick={handleCancel}
-              className={`${classes.cancelBtn} ${classes.btn}`}
-            >Cancel</button>
-          </div>
-      </form>
-      { errorMessage && <Alert>{errorMessage}</Alert>}
-    </div>
+    <LoadingWrapper loading={farmsLoading || dataLoading}>
+      <div className={classes.formContainer}>
+        {
+          farm && (
+            <>
+              <form className={classes.dataForm} onSubmit={handleSubmit}>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Date:</label>
+                  <DatePicker 
+                    selected={date}
+                    dateFormat='dd/MM/yyyy'
+                    onChange={date => setDate(date)}
+                    className={classes.dataInput__input}
+                  />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Product:</label>
+                  <select ref={productRef} className={classes.dataInput__input}>
+                    <option value='blank'></option>
+                    {
+                      farm && farm.products.map((product, index) => <option value={product.productName} key={index}>{product.productName}</option>)
+                    }
+                  </select>
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Number of Cows:</label>
+                  <input type='number' ref={noOfCowsRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Quantity:</label>
+                  <input type='number' step='0.1' ref={quantityRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Meter Reading:</label>
+                  <input type='number' step='0.1' ref={meterReadingRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Water Usage:</label>
+                  <input type='number' ref={waterUsageRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Pump Dial:</label>
+                  <input type='number' ref={pumpDialRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Float Before Delivery:</label>
+                  <input type='number' ref={floatBeforeRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>kg Actual:</label>
+                  <input type='number' step='0.01' ref={kgActualRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Target Feed Rate:</label>
+                  <input type='number' ref={targetFeedRateRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Float After Delivery:</label>
+                  <input type='number' ref={floatAfterRef} className={classes.dataInput__input} />
+                </div>
+                <div className={classes.dataInput__container}>
+                  <label className={classes.dataInput__label}>Comments:</label>
+                  <textarea className={classes.dataInput__comments} rows='3' ref={commentsRef} />
+                </div>
+                <div className={classes.btnContainer}>
+                  <button 
+                    type='submit' 
+                    className={`${classes.addDataBtn} ${classes.btn}`}
+                  >Add Data</button>
+                  <button
+                    type='button' 
+                    onClick={handleCancel}
+                    className={`${classes.cancelBtn} ${classes.btn}`}
+                  >Cancel</button>
+                </div>
+              </form>
+              { errorMessage && <Alert>{errorMessage}</Alert>}
+            </>
+          )
+        }
+      </div>
+    </LoadingWrapper>
   );
 };
 

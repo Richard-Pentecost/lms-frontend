@@ -1,16 +1,14 @@
 import axios from 'axios';
 import { productActions } from '../slices/productSlice';
 import { getToken } from '../../utils/token-manager';
-
-// const URL = 'http://localhost:3000';
-const URL = 'https://lms-app-api.herokuapp.com';
+import { API_URL } from '../../utils/get-api-url';
 
 export const createProduct = product => {
   return async dispatch => {
     try {
       dispatch(productActions.addProductStart());
       const headers = { Authorization: getToken() };
-      await axios.post(`${URL}/products`, { product }, { headers });
+      await axios.post(`${API_URL}/products`, { product }, { headers });
       dispatch(productActions.addProductSuccess());
       dispatch(fetchProducts());
     } catch (error) {
@@ -25,7 +23,7 @@ export const fetchProducts = () => {
     try {
       dispatch(productActions.fetchProductsStart());
       const headers = { Authorization: getToken() };
-      const { data: products } = await axios.get(`${URL}/products`, { headers });
+      const { data: products } = await axios.get(`${API_URL}/products`, { headers });
       dispatch(productActions.fetchProductsSuccess(products));
     } catch (error) {
       console.error(error);
@@ -39,7 +37,7 @@ export const editProduct = (product, uuid) => {
     try {
       dispatch(productActions.addProductStart());
       const headers = { Authorization: getToken() };
-      await axios.patch(`${URL}/products/${uuid}`, { product }, { headers });
+      await axios.patch(`${API_URL}/products/${uuid}`, { product }, { headers });
       dispatch(productActions.addProductSuccess());
       dispatch(fetchProducts())
     } catch (error) {
@@ -53,7 +51,7 @@ export const deleteProduct = uuid => {
   return async dispatch => {
     try {
       const headers = { Authorization: getToken() };
-      await axios.delete(`${URL}/products/${uuid}`, { headers });
+      await axios.delete(`${API_URL}/products/${uuid}`, { headers });
       dispatch(fetchProducts());
     } catch (error) {
       console.error(error);

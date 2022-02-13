@@ -12,7 +12,7 @@ const Users = (props) => {
   const [selectedId, setSelectedId] = useState('');
 
   const { users } = useSelector(state => state.userState);
-
+  
   const disableDeleteButton = props.isAdmin ? undefined : { display: 'none' };
 
   const openModal = uuid => {
@@ -30,7 +30,7 @@ const Users = (props) => {
     hideModal();
   }
 
-  const tableBody = users.map(user => (
+  const tableBody = users && users.map(user => (
     <tr className={classes.tableBody} key={user.uuid}>
       <td className={classes.tableBody__cell}>{user.name}</td>
       <td className={classes.tableBody__cell}>{user.email}</td>

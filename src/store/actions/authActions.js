@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { setToken, getToken, getTokenPayload, removeToken } from '../../utils/token-manager';
 import { authActions } from '../slices/authSlice';
-
-// const URL = 'http://localhost:3000';
-const URL = 'https://lms-app-api.herokuapp.com';
+import { API_URL } from '../../utils/get-api-url';
 
 export const loginUser = credentials => {
   return async dispatch => {
@@ -12,7 +10,7 @@ export const loginUser = credentials => {
     } else {
       try {
         dispatch(authActions.loginUserStart());
-        const response = await axios.post(`${URL}/login`, credentials);
+        const response = await axios.post(`${API_URL}/login`, credentials);
         setToken(response.data.token);
         const token = getTokenPayload();
         dispatch(authActions.loginUserSuccess({ token, user: response.data.user }));
@@ -29,7 +27,7 @@ export const fetchLoggedInUser = uuid => {
     try {
       dispatch(authActions.fetchLoggedInUserStart());
       const headers = { Authorization: getToken() };
-      const { data } = await axios.get(`${URL}/users/${uuid}`, { headers });
+      const { data } = await axios.get(`${API_URL}/users/${uuid}`, { headers });
       dispatch(authActions.fetchLoggedInUserSuccess(data.user));
     } catch (error) {
       console.error(error);

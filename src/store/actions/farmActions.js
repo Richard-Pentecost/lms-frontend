@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { farmActions } from '../slices/farmSlice';
 import { getToken } from '../../utils/token-manager';
+import { API_URL } from '../../utils/get-api-url';
 
-// const URL = 'http://localhost:3000';
-const URL = 'https://lms-app-api.herokuapp.com';
 
 export const createFarm = (farm, products) => {
   return async dispatch => {
@@ -11,7 +10,7 @@ export const createFarm = (farm, products) => {
       try {
         dispatch(farmActions.addFarmStart());
         const headers = { Authorization: getToken() };
-        await axios.post(`${URL}/farms`, { farm, products }, { headers });
+        await axios.post(`${API_URL}/farms`, { farm, products }, { headers });
         dispatch(farmActions.addFarmSuccess());
         dispatch(fetchActiveFarms());
       } catch (error) {
@@ -33,7 +32,7 @@ export const fetchActiveFarms = () => {
     try {
       dispatch(farmActions.fetchFarmsStart());
       const headers = { Authorization: getToken() };
-      const { data: farms } = await axios.get(`${URL}/farms/active`, { headers });
+      const { data: farms } = await axios.get(`${API_URL}/farms/active`, { headers });
       dispatch(farmActions.fetchFarmsSuccess(farms));
     } catch (error) {
       console.error(error);
@@ -48,7 +47,7 @@ export const fetchFarms = () => {
     try {
       dispatch(farmActions.fetchAllFarmsStart());
       const headers = { Authorization: getToken() };
-      const { data: farms } = await axios.get(`${URL}/farms`, { headers });
+      const { data: farms } = await axios.get(`${API_URL}/farms`, { headers });
       dispatch(farmActions.fetchAllFarmsSuccess(farms));
     } catch (error) {
       console.error(error);
@@ -62,7 +61,7 @@ export const editFarm = (farm, uuid) => {
     try {
       dispatch(farmActions.addFarmStart());
       const headers = { Authorization: getToken() };
-      await axios.patch(`${URL}/farms/${uuid}`, { farm }, { headers });
+      await axios.patch(`${API_URL}/farms/${uuid}`, { farm }, { headers });
       dispatch(farmActions.addFarmSuccess());
       dispatch(fetchActiveFarms());
     } catch (error) {
@@ -77,7 +76,7 @@ export const disableFarm = (farm, uuid) => {
     try {
       dispatch(farmActions.addFarmStart());
       const headers = { Authorization: getToken() };
-      await axios.patch(`${URL}/farms/${uuid}/disable`, { farm }, { headers } );
+      await axios.patch(`${API_URL}/farms/${uuid}/disable`, { farm }, { headers } );
       dispatch(farmActions.addFarmSuccess());
       dispatch(fetchActiveFarms());
       dispatch(fetchFarms());
@@ -92,7 +91,7 @@ export const deleteFarm = uuid => {
   return async dispatch => {
     try { 
       const headers = { Authorization: getToken() };
-      await axios.delete(`${URL}/farms/${uuid}`, { headers });
+      await axios.delete(`${API_URL}/farms/${uuid}`, { headers });
       dispatch(fetchActiveFarms());
     } catch (error) {
       console.error(error);
