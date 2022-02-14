@@ -64,7 +64,6 @@ export const editUser = (user, uuid) => {
       const headers = { Authorization: getToken() };
       await axios.patch(`${API_URL}/users/${uuid}`, { user }, { headers });
       dispatch(userActions.addUserSuccess());
-      dispatch(fetchUserByUuid(uuid));
       dispatch(fetchUsers());
     } catch (error) {
       console.error(error);
