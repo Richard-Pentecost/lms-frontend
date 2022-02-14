@@ -65,6 +65,7 @@ export const editUser = (user, uuid) => {
       await axios.patch(`${API_URL}/users/${uuid}`, { user }, { headers });
       dispatch(userActions.addUserSuccess());
       dispatch(fetchUserByUuid(uuid));
+      dispatch(fetchUsers());
     } catch (error) {
       console.error(error);
       dispatch(userActions.addUserFail('Error adding a user'));

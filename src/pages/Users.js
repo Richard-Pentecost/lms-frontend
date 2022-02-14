@@ -12,7 +12,7 @@ const Users = (props) => {
   const [selectedId, setSelectedId] = useState('');
 
   const { users } = useSelector(state => state.userState);
-  
+
   const disableDeleteButton = props.isAdmin ? undefined : { display: 'none' };
 
   const openModal = uuid => {

@@ -15,9 +15,11 @@ const Profile = () => {
 
   const nameRef = useRef();
   const emailRef = useRef();
-
+  
   useEffect(() => {
-    addUserSuccess && dispatch(fetchLoggedInUser(loggedInUser.uuid));
+    if (addUserSuccess) {
+      dispatch(fetchLoggedInUser(loggedInUser.uuid));
+    } 
     
     return () => {
       dispatch(clearSuccessFlag());
