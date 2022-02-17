@@ -29,8 +29,8 @@ const Login = () => {
   return (
     <div className={classes.login}>
       <form onSubmit={formSubmit}>
-        <Input type='text' ref={emailRef}>Email</Input>
-        <Input type='password' ref={passwordRef}>Password</Input>
+        <Input type='text' id="email" ref={emailRef}>Email</Input>
+        <Input type='password' id="passowrd" ref={passwordRef}>Password</Input>
         <FormButton type='submit' loading={loading}>Login</FormButton>
       </form>
       { errorMessage && <Alert>{errorMessage}</Alert> }
