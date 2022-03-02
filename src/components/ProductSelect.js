@@ -9,8 +9,8 @@ const ProductSelect = React.forwardRef(({ children, options, defaultValues }, re
   const [noOfSelects, setNoOfSelects] = useState(['product0']);
 
   useEffect(() => {
-
     let noOfSelectsArray;
+
     if (defaultValues) {
       noOfSelectsArray = defaultValues.map((defaultValue, index) => {
         return `product${index}`;
@@ -42,7 +42,7 @@ const ProductSelect = React.forwardRef(({ children, options, defaultValues }, re
             <select 
               className={classes.selectInput__field}
               ref={element => (refs.current[index] = element)}
-              defaultValue={defaultValues && defaultValues[index].uuid}
+              defaultValue={defaultValues && defaultValues[index] && defaultValues[index].uuid}
             >
               <option></option>
               {

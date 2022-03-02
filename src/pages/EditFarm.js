@@ -9,7 +9,7 @@ import FormButton from '../components/FormButton';
 import TextArea from '../components/TextArea';
 import Alert from '../components/Alert';
 import Select from '../components/Select';
-// import ProductSelect from '../components/ProductSelect';
+import ProductSelect from '../components/ProductSelect';
 import LoadingWrapper from '../components/LoadingWrapper';
 import classes from '../style/AddProduct.module.scss';
 
@@ -31,7 +31,7 @@ const EditFarm = () => {
   const accessCodesRef = useRef();
   const commentsRef = useRef();
   const regionRef = useRef();
-  // const productsRef = useRef([]);
+  const productsRef = useRef([]);
 
   useEffect(() => {
     !farms && dispatch(fetchActiveFarms());
@@ -69,11 +69,11 @@ const EditFarm = () => {
       regionFk: regionRef.current.value,
     };
 
-    // const products = productsRef.current
-    //   .filter(product => product && product.value)
-    //   .map(product => product.value);
+    const products = productsRef.current
+      .filter(product => product && product.value)
+      .map(product => product.value);
 
-    dispatch(editFarm(farm, uuid));
+    dispatch(editFarm(farm, products, uuid));
   }
 
   return (
@@ -97,7 +97,7 @@ const EditFarm = () => {
                 <Select options={regions} ref={regionRef} defaultValue={farm.regionFk}>Region:</Select>
                 <Link to={'/create-region'} className={classes.farmFormRegion__link}>Add new region</Link>
               </div>
-              {/* <ProductSelect options={products} ref={productsRef} defaultValues={farm.products}>Products:</ProductSelect> */}
+              <ProductSelect options={products} ref={productsRef} defaultValues={farm.products}>Products:</ProductSelect>
               <FormButton type='submit' loading={farmsLoading}>Edit Farm</FormButton> 
             </form>
             { errorMessage && <Alert>{errorMessage}</Alert> }
