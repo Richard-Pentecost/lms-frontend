@@ -56,12 +56,12 @@ export const fetchFarms = () => {
   };
 };
 
-export const editFarm = (farm, uuid) => {
+export const editFarm = (farm, products, uuid) => {
   return async dispatch => {
     try {
       dispatch(farmActions.addFarmStart());
       const headers = { Authorization: getToken() };
-      await axios.patch(`${API_URL}/farms/${uuid}`, { farm }, { headers });
+      await axios.patch(`${API_URL}/farms/${uuid}`, { farm, products }, { headers });
       dispatch(farmActions.addFarmSuccess());
       dispatch(fetchActiveFarms());
     } catch (error) {
