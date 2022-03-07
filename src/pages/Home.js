@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchActiveFarms } from '../store/actions/farmActions';
 import { fetchLoggedInUser } from '../store/actions/authActions';
@@ -11,6 +11,7 @@ import classes from '../style/Home.module.scss';
 import LoadingWrapper from '../components/LoadingWrapper';
 
 const Home = () => {
+  const { search } = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -18,8 +19,14 @@ const Home = () => {
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
 
   useEffect(() => {
+    console.log("******* top useEffect **********");
     !farms && dispatch(fetchActiveFarms());
   }, [dispatch, farms]);
+
+  useEffect(() => {
+    console.log("second useEffect *********");
+    dispatch(fetchActiveFarms(search));
+  }, [dispatch, search]);
 
   useEffect(() => {
     !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
