@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchActiveFarms } from '../store/actions/farmActions';
@@ -18,15 +18,14 @@ const Home = () => {
   const { loggedInUser, token, loading: userLoading } = useSelector(state => state.authState);
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
 
-  useEffect(() => {
-    console.log("******* top useEffect **********");
-    !farms && dispatch(fetchActiveFarms());
-  }, [dispatch, farms]);
+  const prevSearchRef = useRef();  
 
   useEffect(() => {
-    console.log("second useEffect *********");
-    dispatch(fetchActiveFarms(search));
-  }, [dispatch, search]);
+    if (!farms || prevSearchRef.current !== search) {
+      dispatch(fetchActiveFarms(search));
+      prevSearchRef.current = search;
+    }
+  }, [dispatch, farms, search]);
 
   useEffect(() => {
     !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));

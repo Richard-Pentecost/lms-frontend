@@ -13,15 +13,15 @@ const SearchBar = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const searchValue = searchRef.current.value;
-    const url = searchValue ? buildQueryString('query', { searchString: searchValue }) : '/';
+    const url = searchValue ? buildQueryString('query', searchValue) : '/'; 
     history.push(url);
   };
 
-  const buildQueryString = (operation, searchObj) => {
+  const buildQueryString = (operation, value) => {
     const currentQueryParams = qs.parse(search, { ignoreQueryPrefix: true });
     const newQueryParams = {
       ...currentQueryParams,
-      [operation]: JSON.stringify(searchObj),
+      [operation]: value,
     };
     return qs.stringify(newQueryParams, { addQueryPrefix: true, encode: false });
   };
