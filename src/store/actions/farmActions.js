@@ -27,12 +27,12 @@ export const createFarm = (farm, products) => {
   };
 };
 
-export const fetchActiveFarms = () => {
+export const fetchActiveFarms = (search = '') => {
   return async dispatch => {
     try {
       dispatch(farmActions.fetchFarmsStart());
       const headers = { Authorization: getToken() };
-      const { data: farms } = await axios.get(`${API_URL}/farms/active`, { headers });
+      const { data: farms } = await axios.get(`${API_URL}/farms/active/${search}`, { headers });
       dispatch(farmActions.fetchFarmsSuccess(farms));
     } catch (error) {
       console.error(error);

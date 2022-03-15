@@ -30,7 +30,9 @@ const ProductSelect = React.forwardRef(({ children, options, defaultValues }, re
     const selectArray = noOfSelects.filter(selectNo => {
       return selectNo !== select;
     });
+
     setNoOfSelects(selectArray);
+    setSelectNo(selectNo - 1);
   };
 
   return (
