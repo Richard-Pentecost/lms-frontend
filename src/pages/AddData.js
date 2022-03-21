@@ -62,7 +62,6 @@ const AddData = () => {
       waterUsage: +waterUsageRef.current.value,
       pumpDial: +pumpDialRef.current.value,
       floatBeforeDelivery: +floatBeforeRef.current.value,
-      kgActual: +kgActualRef.current.value,
       targetFeedRate: +targetFeedRateRef.current.value,
       floatAfterDelivery: +floatAfterRef.current.value,
       comments: commentsRef.current.value,
@@ -132,10 +131,6 @@ const AddData = () => {
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Float Before Delivery:</label>
                   <input type='number' ref={floatBeforeRef} className={classes.dataInput__input} />
-                </div>
-                <div className={classes.dataInput__container}>
-                  <label className={classes.dataInput__label}>kg Actual:</label>
-                  <input type='number' step='0.01' ref={kgActualRef} className={classes.dataInput__input} />
                 </div>
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Target Feed Rate:</label>
