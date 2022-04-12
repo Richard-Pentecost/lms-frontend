@@ -28,7 +28,6 @@ const EditData = () => {
   const waterUsageRef = useRef();
   const pumpDialRef = useRef();
   const floatBeforeRef = useRef();
-  const kgActualRef = useRef();
   const targetFeedRateRef = useRef();
   const floatAfterRef = useRef();
   const commentsRef = useRef();
@@ -63,12 +62,26 @@ const EditData = () => {
       waterUsage: +waterUsageRef.current.value,
       pumpDial: +pumpDialRef.current.value,
       floatBeforeDelivery: +floatBeforeRef.current.value,
-      kgActual: +kgActualRef.current.value,
       targetFeedRate: +targetFeedRateRef.current.value,
       floatAfterDelivery: +floatAfterRef.current.value,
       comments: commentsRef.current.value,
     }
-    dispatch(editData(data, dataId))
+
+    const previousData = farmData
+      .filter(d => d.product === productRef.current.value)
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB > dateA ? 1 : -1;
+      });
+    
+    let previousDataUuid;
+
+    if (previousData.length > 0) {
+      const index = previousData.findIndex(data => data.uuid === dataId);
+      previousDataUuid = index < previousData.length - 1 && previousData[index + 1].uuid;
+    } 
+    dispatch(editData(data, dataId, previousDataUuid));
   }
 
   const handleCancel = () => {
@@ -123,10 +136,6 @@ const EditData = () => {
                   <div className={classes.dataInput__container}>
                     <label className={classes.dataInput__label}>Float Before Delivery:</label>
                     <input type='number' ref={floatBeforeRef} defaultValue={data.floatBeforeDelivery} className={classes.dataInput__input} />
-                  </div>
-                  <div className={classes.dataInput__container}>
-                    <label className={classes.dataInput__label}>kg Actual:</label>
-                    <input type='number' step='0.01' ref={kgActualRef} defaultValue={data.kgActual} className={classes.dataInput__input} />
                   </div>
                   <div className={classes.dataInput__container}>
                     <label className={classes.dataInput__label}>Target Feed Rate:</label>

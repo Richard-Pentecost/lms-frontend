@@ -19,7 +19,7 @@ const Farm = () => {
   
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
   const { data, loading: dataLoading } = useSelector(state => state.dataState);
-  const  { token, loading: userLoading } = useSelector(state => state.authState);
+  const { token, loading: userLoading } = useSelector(state => state.authState);
   const [showModal, setShowModal] = useState(false);
 
   const farm = farms && farms.find(farm => farm.uuid === uuid);

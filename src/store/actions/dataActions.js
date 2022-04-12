@@ -19,13 +19,13 @@ export const addData = (data, previousDataUuid) => {
   };
 };
 
-export const editData = (data, dataId) => {
+export const editData = (data, dataId, previousDataUuid) => {
   return async dispatch => {
     try {
       const { farmFk: farmId } = data;
       dispatch(dataActions.addDataStart());
       const headers = { Authorization: getToken() };
-      await axios.patch(`${API_URL}/farms/${farmId}/data/${dataId}`, { data }, { headers });
+      await axios.patch(`${API_URL}/farms/${farmId}/data/${dataId}`, { data, previousDataUuid }, { headers });
       dispatch(dataActions.addDataSuccess());
       dispatch(fetchData(farmId));
     } catch (error) {
