@@ -74,7 +74,7 @@ const AddData = () => {
         return dateB > dateA ? 1 : -1;
       });
 
-    const previousDataUuid = previousDataUuids.length > 0 && previousDataUuids[0].uuid
+    const previousDataUuid = previousDataUuids.length > 0 && previousDataUuids[0].uuid;
     dispatch(addData(newData, previousDataUuid))
   }
 

@@ -66,7 +66,22 @@ const EditData = () => {
       floatAfterDelivery: +floatAfterRef.current.value,
       comments: commentsRef.current.value,
     }
-    dispatch(editData(data, dataId))
+
+    const previousData = farmData
+      .filter(d => d.product === productRef.current.value)
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateB > dateA ? 1 : -1;
+      });
+    
+    let previousDataUuid;
+
+    if (previousData.length > 0) {
+      const index = previousData.findIndex(data => data.uuid === dataId);
+      previousDataUuid = index < previousData.length - 1 && previousData[index + 1].uuid;
+    } 
+    dispatch(editData(data, dataId, previousDataUuid));
   }
 
   const handleCancel = () => {
