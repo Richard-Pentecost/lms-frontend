@@ -28,7 +28,6 @@ const EditData = () => {
   const waterUsageRef = useRef();
   const pumpDialRef = useRef();
   const floatBeforeRef = useRef();
-  const kgActualRef = useRef();
   const targetFeedRateRef = useRef();
   const floatAfterRef = useRef();
   const commentsRef = useRef();
@@ -63,7 +62,6 @@ const EditData = () => {
       waterUsage: +waterUsageRef.current.value,
       pumpDial: +pumpDialRef.current.value,
       floatBeforeDelivery: +floatBeforeRef.current.value,
-      kgActual: +kgActualRef.current.value,
       targetFeedRate: +targetFeedRateRef.current.value,
       floatAfterDelivery: +floatAfterRef.current.value,
       comments: commentsRef.current.value,
@@ -123,10 +121,6 @@ const EditData = () => {
                   <div className={classes.dataInput__container}>
                     <label className={classes.dataInput__label}>Float Before Delivery:</label>
                     <input type='number' ref={floatBeforeRef} defaultValue={data.floatBeforeDelivery} className={classes.dataInput__input} />
-                  </div>
-                  <div className={classes.dataInput__container}>
-                    <label className={classes.dataInput__label}>kg Actual:</label>
-                    <input type='number' step='0.01' ref={kgActualRef} defaultValue={data.kgActual} className={classes.dataInput__input} />
                   </div>
                   <div className={classes.dataInput__container}>
                     <label className={classes.dataInput__label}>Target Feed Rate:</label>

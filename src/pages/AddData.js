@@ -27,7 +27,6 @@ const AddData = () => {
   const waterUsageRef = useRef();
   const pumpDialRef = useRef();
   const floatBeforeRef = useRef();
-  const kgActualRef = useRef();
   const targetFeedRateRef = useRef();
   const floatAfterRef = useRef();
   const commentsRef = useRef();
