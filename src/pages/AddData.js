@@ -17,6 +17,10 @@ const AddData = () => {
   const { errorMessage, loading: dataLoading, addDataSuccess, data } = useSelector(state => state.dataState);
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
   const [date, setDate] = useState(new Date());
+  const [defaultCows, setDefaultCows] = useState();
+  const [defaultMeterReading, setDefaultMeterReading] = useState();
+  const [defaultPumpDial, setDefaultPumpDial] = useState();
+  const [defaultWaterUsage, setDefaultWaterUsage] = useState();
 
   const farm = farms && farms.find(farm => farm.uuid === uuid);
 
@@ -30,6 +34,27 @@ const AddData = () => {
   const targetFeedRateRef = useRef();
   const floatAfterRef = useRef();
   const commentsRef = useRef();
+
+  useEffect(() => {
+    if (data && data.length > 0) {  
+      const previousDataWithSameDate = data.find(d => {
+        return new Date(d.date).setHours(0, 0, 0, 0) === date.setHours(0, 0, 0, 0);
+      })
+
+      if (previousDataWithSameDate) {
+        const { noOfCows, meterReading, pumpDial, waterUsage } = previousDataWithSameDate;
+        setDefaultCows(noOfCows);
+        setDefaultMeterReading(meterReading);
+        setDefaultPumpDial(pumpDial);
+        setDefaultWaterUsage(waterUsage);
+      } else { 
+        setDefaultCows(null);
+        setDefaultMeterReading(null);
+        setDefaultPumpDial(null);
+        setDefaultWaterUsage(null)
+      }
+    }
+  }, [date, data])
 
   useEffect(() => {
     !farms && dispatch(fetchActiveFarms());
@@ -109,7 +134,7 @@ const AddData = () => {
                 </div>
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Number of Cows:</label>
-                  <input type='number' ref={noOfCowsRef} className={classes.dataInput__input} />
+                  <input type='number' ref={noOfCowsRef} className={classes.dataInput__input} defaultValue={defaultCows} />
                 </div>
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Quantity:</label>
@@ -117,15 +142,15 @@ const AddData = () => {
                 </div>
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Meter Reading:</label>
-                  <input type='number' step='0.1' ref={meterReadingRef} className={classes.dataInput__input} />
+                  <input type='number' step='0.1' ref={meterReadingRef} className={classes.dataInput__input} defaultValue={defaultMeterReading} />
                 </div>
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Water Usage:</label>
-                  <input type='number' ref={waterUsageRef} className={classes.dataInput__input} />
+                  <input type='number' ref={waterUsageRef} className={classes.dataInput__input} defaultValue={defaultWaterUsage} />
                 </div>
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Pump Dial:</label>
-                  <input type='number' ref={pumpDialRef} className={classes.dataInput__input} />
+                  <input type='number' ref={pumpDialRef} className={classes.dataInput__input} defaultValue={defaultPumpDial} />
                 </div>
                 <div className={classes.dataInput__container}>
                   <label className={classes.dataInput__label}>Float Before Delivery:</label>
