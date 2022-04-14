@@ -12,10 +12,10 @@ const DataTable = ({ data, clickHandler, openModalHandler, isAdmin }) => {
       <tr className={classes.tableBody} key={rowData.uuid} onClick={() => clickHandler(rowData)}>
         {
           objectKeys.map(inputKey => {
-            if (inputKey === 'date') {
-              return <td className={classes.tableBody__cell} key={`${inputKey}-${rowData.uuid}`}>{ dayjs(rowData[inputKey]).format('ddd, DD-MM-YYYY') }</td>
+            if (inputKey === 'date' || inputKey === 'deliveryDate') {
+              return <td className={`${classes.tableBody__cell} ${classes.tableDate}`} key={`${inputKey}-${rowData.uuid}`}>{ rowData[inputKey] && dayjs(rowData[inputKey]).format('ddd, DD-MM-YYYY') }</td>
             } else {
-              return <td className={classes.tableBody__cell} key={`${inputKey}-${rowData.uuid}`}>{ rowData[inputKey] }</td>
+              return <td className={inputKey === 'comments' ? `${classes.tableBody__cell} ${classes.tableComment}` : `${classes.tableBody__cell}`} key={`${inputKey}-${rowData.uuid}`}>{ rowData[inputKey] }</td>
             }
           })
         }
@@ -51,6 +51,7 @@ const DataTable = ({ data, clickHandler, openModalHandler, isAdmin }) => {
             <th className={classes.tableTitle__style}>Target Feed Rate</th>
             <th className={classes.tableTitle__style}>Actual Feed Rate</th>
             <th className={classes.tableTitle__style}>Float After Delivery</th>
+            <th className={classes.tableTitle__style}>Delivery Date</th>
             <th className={classes.tableTitle__style}>Comments</th>
             <th className={classes.tableTitle__style}></th>
           </tr>
