@@ -1,20 +1,24 @@
 import { Link, useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { deleteFarm } from '../store/actions/farmActions';
 // import Button from './Button';
+import dayjs from 'dayjs';
 import classes from '../style/FarmCard.module.scss';
 
 const FarmCard = ({ farm }) => {
   const history = useHistory();
   // const dispatch = useDispatch();
+  const [recentData, setRecentData] = useState([]);
+
   const {
     uuid,
     farmName,
     postcode,
     contactName,
     contactNumber,
-    comments
+    comments,
   } = farm;
 
   const handleClick = () => history.push(`/farms/${uuid}`);
@@ -23,6 +27,19 @@ const FarmCard = ({ farm }) => {
   //   event.stopPropagation();
   //   dispatch(deleteFarm(uuid));
   // }
+
+  useEffect(() => {
+    if (farm.data) {
+      let relevantData = [];
+      farm.products.forEach(product => {
+        const index = farm.data.findIndex(d => {
+          return d.product === product.productName;
+        });
+        index >= 0 && relevantData.push(farm.data[index]);
+      })
+      setRecentData(relevantData);
+    }
+  }, [farm]);
 
   return (
     <div className={classes.farmCard} onClick={handleClick}>
@@ -56,12 +73,14 @@ const FarmCard = ({ farm }) => {
             <span className={classes.farmCard__text}>{farm.region ? farm.region.regionName : 'No region'}</span>
           </div>
           <div className={classes.farmCard__item}>
-            <span className={classes.farmCard__label}>Products:</span>
-            {
-              farm.products && farm.products.map(product => (
-                <span key={product.productName} className={classes.farmCard__text}>{product.productName}</span>
-              ))
-            }
+            <span className={classes.farmCard__label}>Next Delivery:</span>
+            <ul className={classes.farmCard__list}>
+              {
+                recentData.map(data => (
+                  <li key={data.product}>{`${data.product} - ${dayjs(data.deliveryDate).format('ddd, DD-MM-YYYY')}`}</li>
+                ))
+              }
+            </ul>
           </div>
         </div>
       </div>
