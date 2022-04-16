@@ -61,9 +61,12 @@ const Farm = () => {
           farm && data && (
             <>
               <FarmHeading farm={farm} />
-              <Button 
-                handleClick={() => history.push(`${pathname}/add-data`)}
-              >Add Data</Button>
+              <div className={classes.buttons}>
+                <span className={classes.buttons__backlink} onClick={() => history.goBack()}>Back to Home Page</span>
+                <Button 
+                  handleClick={() => history.push(`${pathname}/add-data`)}
+                >Add Data</Button>
+              </div>
               { 
                 data.length === 0 ? 
                   <p>No data found</p> :    
