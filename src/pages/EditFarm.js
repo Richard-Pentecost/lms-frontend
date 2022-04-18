@@ -59,7 +59,7 @@ const EditFarm = () => {
   const formSubmit = event => {
     event.preventDefault();
 
-    const farm = {
+    const farmObj = {
       farmName: farmNameRef.current.value,
       postcode: postcodeRef.current.value,
       contactName: contactNameRef.current.value,
@@ -73,7 +73,7 @@ const EditFarm = () => {
       .filter(product => product && product.value)
       .map(product => product.value);
 
-    dispatch(editFarm(farm, products, uuid));
+    dispatch(editFarm(farmObj, products, uuid));
   }
 
   return (

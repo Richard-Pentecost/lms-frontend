@@ -5,21 +5,26 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from '../style/ProductSelect.module.scss';
 
 const ProductSelect = React.forwardRef(({ children, options, defaultValues }, refs) => {
-  const [selectNo, setSelectNo] = useState(1);
-  const [noOfSelects, setNoOfSelects] = useState(['product0']);
+  const [selectNo, setSelectNo] = useState(0);
+  const [noOfSelects, setNoOfSelects] = useState([]);
+  const [selectDefaultValues, setSelectDefaultValues] = useState();
 
   useEffect(() => {
-    let noOfSelectsArray;
+    let noOfSelectsArray = [];
 
     if (defaultValues) {
       noOfSelectsArray = defaultValues.map((defaultValue, index) => {
         return `product${index}`;
       });
-      setSelectNo(noOfSelectsArray.length);
-      setNoOfSelects(noOfSelectsArray);
+      setSelectDefaultValues(defaultValues);
+    } else {
+      noOfSelectsArray.push('product0');
     }
-  }, [defaultValues]);
 
+    setNoOfSelects(noOfSelectsArray);
+    setSelectNo(noOfSelectsArray.length);
+  }, [defaultValues]);
+  
   const handleAddProduct = () => {
     setNoOfSelects([ ...noOfSelects, `product${selectNo}`]);  
     setSelectNo(selectNo + 1);
@@ -27,12 +32,14 @@ const ProductSelect = React.forwardRef(({ children, options, defaultValues }, re
 
   const handleRemoveSelect = (select, index) => {;
     refs.current.splice(index, 1);
+
     const selectArray = noOfSelects.filter(selectNo => {
       return selectNo !== select;
     });
 
+    selectDefaultValues && setSelectDefaultValues([...selectDefaultValues.slice(0, index), ...selectDefaultValues.slice(index + 1, selectDefaultValues.length)]);
+    
     setNoOfSelects(selectArray);
-    setSelectNo(selectNo - 1);
   };
 
   return (
@@ -44,7 +51,7 @@ const ProductSelect = React.forwardRef(({ children, options, defaultValues }, re
             <select 
               className={classes.selectInput__field}
               ref={element => (refs.current[index] = element)}
-              defaultValue={defaultValues && defaultValues[index] && defaultValues[index].uuid}
+              defaultValue={selectDefaultValues && selectDefaultValues[index] && selectDefaultValues[index].uuid}
             >
               <option></option>
               {
