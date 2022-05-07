@@ -68,7 +68,9 @@ const CreateFarm = () => {
 
     const products = productsRef.current
       .filter(product => product && product.value)
-      .map(product => product.value);
+      .map((product, index) => {
+        return { uuid: product.value, order: index + 1 }
+      });
 
     dispatch(createFarm(farm, products));
   };

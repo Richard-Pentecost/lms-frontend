@@ -67,11 +67,13 @@ const Farm = () => {
                   handleClick={() => history.push(`${pathname}/add-data`)}
                 >Add Data</Button>
               </div>
-              { 
-                data.length === 0 ? 
-                  <p>No data found</p> :    
-                  <DataTable data={data} clickHandler={handleRowClick} openModalHandler={openModal} isAdmin={token.isAdmin} />
-              }
+              <div className={classes.farmData}>
+                { 
+                  data.length === 0 ? 
+                    <p className={classes.farmData__text}>No data found</p> :    
+                    <DataTable data={data} clickHandler={handleRowClick} openModalHandler={openModal} isAdmin={token.isAdmin} />
+                }
+              </div>
               {
                 showModal && 
                   <Modal 

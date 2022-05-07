@@ -71,7 +71,9 @@ const EditFarm = () => {
 
     const products = productsRef.current
       .filter(product => product && product.value)
-      .map(product => product.value);
+      .map((product, index) => {
+        return { uuid: product.value, order: index + 1 }
+      });
 
     dispatch(editFarm(farmObj, products, uuid));
   }
