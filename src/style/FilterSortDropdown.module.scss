@@ -1,0 +1,72 @@
+@import './variables';
+
+.container {
+  // border: 1px solid black;
+  position:relative;
+}
+
+.btn {
+  height: 100%;
+  padding: 1rem;
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  color: $color-grey-dark-2;
+  background: inherit;
+  border: none;
+  cursor: pointer;
+  display: flex;
+
+  &__text {
+    align-self: center;
+    padding-right: 0.5rem;
+  }
+
+  &__icon {
+    align-self: center;
+    font-size: 1rem;
+    // transition: all 1s ease;
+    // &:active {
+    //   transform: rotate(180deg);
+    // }
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.dropdown {
+  position: absolute;
+  width: 30rem;
+  transform: translateX(2%);
+  background-color: $color-white;
+  box-shadow: -1rem 2rem 6rem rgba(black, 0.2);
+  padding: 1rem;
+  display: flex;
+
+  &__list {
+    flex: 1;
+    list-style-type: none;
+  }
+}
+
+.dropdownLink {
+  font-weight: 400;
+  padding: 0.5rem;
+  
+  &__title {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    text-decoration: underline;
+  }
+
+  &__link {
+    font-size: 1.4rem;
+    text-decoration: none;
+    color: inherit;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }  
+}
+
