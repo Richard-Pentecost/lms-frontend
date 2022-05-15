@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData, deleteData } from '../store/actions/dataActions';
 import { fetchActiveFarms } from '../store/actions/farmActions';
@@ -14,7 +14,7 @@ const Farm = () => {
   const [selectedId, setSelectedId] = useState('');
   const { uuid } = useParams();
   const { pathname } = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
   const dispatch = useDispatch();
   
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);

@@ -1,4 +1,4 @@
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
 const AdminRoute = ({ exact, path, isAdmin, component, ...props }) => {
   const Component = component;
@@ -9,7 +9,7 @@ const AdminRoute = ({ exact, path, isAdmin, component, ...props }) => {
       path={path}
       render={routeProps => isAdmin ?
         <Component {...routeProps} {...props} isAdmin={isAdmin} /> :
-        <Redirect to='/' />
+        <Route path="*" element={<Navigate to="/"/>}/>
       }
     />
   )

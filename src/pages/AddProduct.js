@@ -1,4 +1,4 @@
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
 import Alert from '../components/Alert';
@@ -12,7 +12,7 @@ import classes from '../style/AddProduct.module.scss';
 const AddProduct = () => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
   const { errorMessage, showButtonSpinner, addProductSuccess, products, loading } = useSelector(state => state.productState);
   const productObj = products.find(product => product.uuid === uuid);
   const title = productObj ? 'Edit Product' : 'Add Product'

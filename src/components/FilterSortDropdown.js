@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, NavLink } from 'react-router-dom';
+import { useLocation, NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'qs';
 import classes from '../style/FilterSortDropdown.module.scss';
+import '../style/NavLink.css';
 
 const FilterSortDropdown = ({ regions }) => {
   const { search } = useLocation();
+  const history = useNavigate();
   const filterDropdownRef = useRef();
   const [isActive, setIsActive] = useState(false);
 
-  // console.log(search);
   useEffect(() => {
     const pageClickEvent = event => {
       if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
@@ -28,15 +29,50 @@ const FilterSortDropdown = ({ regions }) => {
     setIsActive(!isActive);
   };
 
-
-  const buildQueryString = (operation, value) => {
+  const buildSortQueryString = (operation, value) => {
     const currentQueryParams = qs.parse(search, { ignoreQueryPrefix: true });
-    // const existingFilterValue = currentQueryParams[operation];
-    // const newValue = existingFilterValue && operation === 'filter' ? `${currentQueryParams[operation]},${value}`: value;
-    const newQueryParams = {
-      ...currentQueryParams,
-      [operation]: value,
+
+    let newQueryParams;
+    if (Object.keys(currentQueryParams).includes(operation)) {
+      const { sort, ...queryWithoutSort } = currentQueryParams;
+      newQueryParams = queryWithoutSort;
+    } else {
+      newQueryParams = {
+        ...currentQueryParams,
+        [operation]: value,
+      };
+    }
+    
+    return qs.stringify(newQueryParams, { addQueryPrefix: true, encode: false });
+  };
+
+
+  const buildFilterQueryString = (operation, value) => {
+    const currentQueryParams = qs.parse(search, { ignoreQueryPrefix: true });
+    
+    const removeFilter = () => {
+      const filterArr = currentQueryParams[operation].split(',');
+      const index = filterArr.indexOf(value);
+      filterArr.splice(index, 1);
+      return filterArr.join(',')
     };
+
+    let newValue = value;
+    if (currentQueryParams[operation] && operation === 'filter') {
+      const existingFilterValue = currentQueryParams[operation].includes(value);
+      newValue = existingFilterValue ? removeFilter() : `${currentQueryParams[operation]},${value}`;
+    }
+
+    let newQueryParams;
+    if (newValue) {
+      newQueryParams = {
+        ...currentQueryParams,
+        [operation]: newValue,
+      };
+    } else {
+      const { filter, ...queryWithoutFilter } = currentQueryParams;
+      newQueryParams = queryWithoutFilter;
+    }
 
     return qs.stringify(newQueryParams, { addQueryPrefix: true, encode: false });
   };
@@ -53,6 +89,9 @@ const FilterSortDropdown = ({ regions }) => {
         </span>
       </button>
       {
+        search && <span onClick={() => history.push('/home')} className={classes.clearLink}>Clear Filters and Search</span>
+      }
+      {
         isActive && (
           <nav className={classes.dropdown} ref={filterDropdownRef}>
             <ul className={classes.dropdown__list}>
@@ -62,7 +101,7 @@ const FilterSortDropdown = ({ regions }) => {
               {
                 regions && regions.map(region => (
                   <li key={region.uuid} onClick={handleClick} className={classes.dropdownLink}>
-                    <NavLink to={buildQueryString('filter', region.regionName)} className={classes.dropdownLink__link}>
+                    <NavLink to={buildFilterQueryString('filter', region.regionName)} className={classes.dropdownLink__link}>
                       {region.regionName}
                     </NavLink>
                   </li>
@@ -74,12 +113,7 @@ const FilterSortDropdown = ({ regions }) => {
                 <span className={classes.dropdownLink__title}>Sort</span>
               </li>
               <li onClick={handleClick} className={classes.dropdownLink}>
-                <NavLink to={buildQueryString('sort', 'a-z')} className={classes.dropdownLink__link} activeClassName="active">
-                  A - Z
-                </NavLink>
-              </li>
-              <li onClick={handleClick} className={classes.dropdownLink}>
-                <NavLink to={buildQueryString('sort', 'z-a')} className={classes.dropdownLink__link}>
+                <NavLink to={buildSortQueryString('sort', 'z-a')} className={classes.dropdownLink__link} activeClassName="is-active">
                   Z - A
                 </NavLink>
               </li>

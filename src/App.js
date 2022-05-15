@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -45,7 +45,7 @@ const App = () => {
   return (
     <>
       <Layout>
-        <Switch>
+        <Routes>
           <Route 
             exact
             path='/'
@@ -115,8 +115,9 @@ const App = () => {
             component={AddProduct}
             isAdmin={token && token.isAdmin}
           />
-          <Redirect to='/' />
-        </Switch>
+          <Route path="*" element={<Navigate to="/"/>}/>
+          {/* <Redirect to='/' /> */}
+        </Routes>
       </Layout>   
     </>
   );

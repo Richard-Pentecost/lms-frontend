@@ -1,4 +1,4 @@
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
 const AuthRoute = ({ exact, path, authenticate, component, ...props }) => {
   const Component = component;
@@ -9,7 +9,7 @@ const AuthRoute = ({ exact, path, authenticate, component, ...props }) => {
       path={path}
       render={routeProps => (authenticate() ? 
         <Component {...routeProps} {...props} /> :
-        <Redirect to='/' />  
+        <Route path="*" element={<Navigate to="/"/>}/>
       )}
     />
   );

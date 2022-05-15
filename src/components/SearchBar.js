@@ -1,12 +1,12 @@
 import { useRef } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'qs';
 import classes from '../style/SearchBar.module.scss';
 
 const SearchBar = () => {
   const { search } = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
 
   const searchRef = useRef();
   

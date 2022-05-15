@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import classes from '../style/FarmCard.module.scss';
 
 const FarmCard = ({ farm }) => {
-  const history = useHistory();
+  const history = useNavigate();
   // const dispatch = useDispatch();
   const [recentData, setRecentData] = useState([]);
 

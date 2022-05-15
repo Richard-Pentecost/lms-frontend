@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { editFarm, clearSuccessFlag, clearErrors, fetchActiveFarms } from '../store/actions/farmActions';
 import { fetchProducts } from '../store/actions/productActions';
@@ -15,7 +15,7 @@ import classes from '../style/AddProduct.module.scss';
 
 const EditFarm = () => {
   const { uuid } = useParams();
-  const history = useHistory();
+  const history = useNavigate();
   const dispatch = useDispatch();
 
   const { farms, errorMessage, loading: farmsLoading, addFarmSuccess } = useSelector(state => state.farmState);

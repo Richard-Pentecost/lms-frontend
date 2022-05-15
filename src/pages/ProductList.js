@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteProduct } from '../store/actions/productActions';
 import Button from "../components/Button";
 import HeaderSection from "../components/HeaderSection";
@@ -8,7 +8,7 @@ import Modal from '../components/Modal';
 import classes from '../style/RegionList.module.scss';
 
 const ProductList = () => {
-  const history = useHistory();
+  const history = useNavigate();
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);

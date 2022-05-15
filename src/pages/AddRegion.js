@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 import Alert from '../components/Alert';
 import Input from '../components/Input';
@@ -11,7 +11,7 @@ import classes from '../style/AddProduct.module.scss';
 const AddRegion = () => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const history = useNavigate();
   const { errorMessage, showButtonSpinner, addRegionSuccess, regions, loading } = useSelector(state => state.regionState);
   const regionObj = regions.find(region => region.uuid === uuid);
   const title = regionObj ? 'Edit Region' : 'Add Region';

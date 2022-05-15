@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchActiveFarms } from '../store/actions/farmActions';
 import { fetchLoggedInUser } from '../store/actions/authActions';
@@ -14,7 +14,7 @@ import { fetchRegions } from '../store/actions/regionActions';
 
 const Home = () => {
   const { search } = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
   const dispatch = useDispatch();
 
   const { loggedInUser, token, loading: userLoading } = useSelector(state => state.authState);

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { Route, useRouteMatch, Routes, Navigate } from 'react-router-dom';
 import { fetchLoggedInUser } from '../store/actions/authActions';
 import { fetchUsers } from '../store/actions/userActions';
 import { fetchFarms } from '../store/actions/farmActions';
@@ -56,7 +56,7 @@ const Settings = () => {
             <SettingsSidebar name={loggedInUser.name} isAdmin={token.isAdmin} />
           </div>
           <div className={classes.settings__main}>
-            <Switch>
+            <Routes>
               <Route path={`${path}/profile`} component={Profile} />
               <Route path={`${path}/security`} component={ChangePassword} />
               <AdminRoute path={`${path}/create-user`} component={CreateUser} isAdmin={token.isAdmin} />
@@ -64,8 +64,9 @@ const Settings = () => {
               <AdminRoute path={`${path}/farms`} component={FarmList} isAdmin={token.isAdmin} />
               <AdminRoute path={`${path}/regions`} component={RegionList} isAdmin={token.isAdmin} />
               <AdminRoute path={`${path}/products`} component={ProductList} isAdmin={token.isAdmin} />
-              <Redirect to={`${path}/profile`} />
-            </Switch>
+              <Route path="*" element={<Navigate to="/"/>}/>
+              {/* <Redirect to={`${path}/profile`} /> */}
+            </Routes>
           </div>
         </div>
       )}

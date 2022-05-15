@@ -3,6 +3,7 @@
 .container {
   // border: 1px solid black;
   position:relative;
+  display: flex;
 }
 
 .btn {
@@ -30,6 +31,19 @@
     // }
   }
   &:hover {
+    text-decoration: underline;
+  }
+}
+
+.clearLink {
+  align-self: center;
+  color: $color-blue-1;
+  cursor: pointer;
+  font-size: 1.4rem;
+  margin-left: 2rem;
+  
+  &:hover {
+    color: $color-blue-2;
     text-decoration: underline;
   }
 }

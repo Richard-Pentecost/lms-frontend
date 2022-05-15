@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData, fetchData, clearErrors, clearSuccessFlag } from '../store/actions/dataActions';
 import { fetchActiveFarms } from '../store/actions/farmActions';
@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import LoadingWrapper from '../components/LoadingWrapper';
 
 const AddData = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const dispatch = useDispatch();
   const { uuid } = useParams();
   
