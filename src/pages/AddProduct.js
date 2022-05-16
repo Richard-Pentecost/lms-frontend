@@ -12,7 +12,7 @@ import classes from '../style/AddProduct.module.scss';
 const AddProduct = () => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const { errorMessage, showButtonSpinner, addProductSuccess, products, loading } = useSelector(state => state.productState);
   const productObj = products.find(product => product.uuid === uuid);
   const title = productObj ? 'Edit Product' : 'Add Product'
@@ -34,13 +34,13 @@ const AddProduct = () => {
 
   useEffect(() => {
     if (addProductSuccess) {
-      history.goBack();
+      navigate(-1);
     }
     return () => {
       dispatch(clearSuccessFlag());
       dispatch(clearErrors());
     }
-  }, [dispatch, history, addProductSuccess]);
+  }, [dispatch, navigate, addProductSuccess]);
 
   const formSubmit = event => {
     event.preventDefault();
@@ -64,7 +64,7 @@ const AddProduct = () => {
       <div className={classes.farmForm}>
         <div className={classes.farmFormHeading}>
           <span className={classes.farmFormHeading__title}>{title}</span>
-          <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
+          <span className={classes.farmFormHeading__backLink} onClick={() => navigate(-1)}>Go Back</span>
         </div>
         <form onSubmit={formSubmit}>
           <Input type='text' ref={productNameRef} defaultValue={productName}>Product</Input>

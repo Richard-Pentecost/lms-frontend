@@ -1,7 +1,6 @@
 @import './variables';
 
 .container {
-  // border: 1px solid black;
   position:relative;
   display: flex;
 }
@@ -80,6 +79,10 @@
     
     &:hover {
       text-decoration: underline;
+    }
+
+    &.active {
+      color: red
     }
   }  
 }

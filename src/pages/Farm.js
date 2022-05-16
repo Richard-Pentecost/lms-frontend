@@ -14,7 +14,7 @@ const Farm = () => {
   const [selectedId, setSelectedId] = useState('');
   const { uuid } = useParams();
   const { pathname } = useLocation();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
@@ -33,7 +33,7 @@ const Farm = () => {
   }, [dispatch, uuid]);
 
   const handleRowClick = input => {
-    history.push(`${pathname}/edit-data/${input.uuid}`);
+    navigate(`${pathname}/edit-data/${input.uuid}`);
   };
 
   const openModal = uuid => {
@@ -62,9 +62,9 @@ const Farm = () => {
             <>
               <FarmHeading farm={farm} />
               <div className={classes.buttons}>
-                <span className={classes.buttons__backlink} onClick={() => history.goBack()}>Back to Home Page</span>
+                <span className={classes.buttons__backlink} onClick={() => navigate(-1)}>Back to Home Page</span>
                 <Button 
-                  handleClick={() => history.push(`${pathname}/add-data`)}
+                  handleClick={() => navigate(`${pathname}/add-data`)}
                 >Add Data</Button>
               </div>
               <div className={classes.farmData}>

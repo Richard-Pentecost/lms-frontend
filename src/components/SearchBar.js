@@ -6,7 +6,7 @@ import classes from '../style/SearchBar.module.scss';
 
 const SearchBar = () => {
   const { search } = useLocation();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const searchRef = useRef();
   
@@ -14,7 +14,7 @@ const SearchBar = () => {
     event.preventDefault();
     const searchValue = searchRef.current.value;
     const url = searchValue ? buildQueryString('query', searchValue) : '/'; 
-    history.push(url);
+    navigate(url);
   };
 
   const buildQueryString = (operation, value) => {

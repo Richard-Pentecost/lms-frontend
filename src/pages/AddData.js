@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import LoadingWrapper from '../components/LoadingWrapper';
 
 const AddData = () => {
-  const history = useNavigate()
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { uuid } = useParams();
   
@@ -66,13 +66,13 @@ const AddData = () => {
 
   useEffect(() => {
     if (addDataSuccess) {
-      history.goBack();
+      navigate(-1);
     }
     return () => {
       dispatch(clearSuccessFlag());
       dispatch(clearErrors());
     }
-  }, [dispatch, history, addDataSuccess]);
+  }, [dispatch, navigate, addDataSuccess]);
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
@@ -104,7 +104,7 @@ const AddData = () => {
   }
 
   const handleCancel = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   return (

@@ -89,7 +89,7 @@ const FilterSortDropdown = ({ regions }) => {
         </span>
       </button>
       {
-        search && <span onClick={() => history.push('/home')} className={classes.clearLink}>Clear Filters and Search</span>
+        search && <span onClick={() => history('/home')} className={classes.clearLink}>Clear Filters and Search</span>
       }
       {
         isActive && (
@@ -101,7 +101,11 @@ const FilterSortDropdown = ({ regions }) => {
               {
                 regions && regions.map(region => (
                   <li key={region.uuid} onClick={handleClick} className={classes.dropdownLink}>
-                    <NavLink to={buildFilterQueryString('filter', region.regionName)} className={classes.dropdownLink__link}>
+                    <NavLink 
+                      to={buildFilterQueryString('filter', region.regionName)} 
+                      className={({ isActive }) => 
+                        isActive ? `${classes.dropdownLink__link} ${classes.active}`: classes.dropdownLink__link}
+                    >
                       {region.regionName}
                     </NavLink>
                   </li>
@@ -113,7 +117,7 @@ const FilterSortDropdown = ({ regions }) => {
                 <span className={classes.dropdownLink__title}>Sort</span>
               </li>
               <li onClick={handleClick} className={classes.dropdownLink}>
-                <NavLink to={buildSortQueryString('sort', 'z-a')} className={classes.dropdownLink__link} activeClassName="is-active">
+                <NavLink to={buildSortQueryString('sort', 'z-a')} className={classes.dropdownLink__link}>
                   Z - A
                 </NavLink>
               </li>

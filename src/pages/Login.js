@@ -9,7 +9,7 @@ import classes from '../style/Login.module.scss';
 // import Form from '../components/Form';
 
 const Login = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { errorMessage, loading } = useSelector(state => state.authState);
@@ -23,7 +23,7 @@ const Login = () => {
       email: emailRef.current.value,
       password: passwordRef.current.value, 
     }));  
-    history.push('/home');
+    navigate('/home');
   };
 
   return (

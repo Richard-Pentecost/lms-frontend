@@ -14,7 +14,7 @@ import { fetchRegions } from '../store/actions/regionActions';
 
 const Home = () => {
   const { search } = useLocation();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { loggedInUser, token, loading: userLoading } = useSelector(state => state.authState);
@@ -53,7 +53,7 @@ const Home = () => {
             </div>
             <div className={classes.header__btn}>
               <Button
-                handleClick={() => history.push('/farms/create-farm')}
+                handleClick={() => navigate('/farms/create-farm')}
                 icon='plus'
               >
                 Create Farm
