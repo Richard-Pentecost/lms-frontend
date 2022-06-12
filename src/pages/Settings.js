@@ -12,8 +12,6 @@ import LoadingWrapper from '../components/LoadingWrapper';
 
 const Settings = () => {
   const dispatch = useDispatch();
-  // const { path } = useMatch();
-  // console.log(path);
   const { token, loggedInUser } = useSelector(state => state.authState);
   const { users, loading: userLoading } = useSelector(state => state.userState);
   const { products, loading: productsLoading } = useSelector(state => state.productState);
@@ -22,11 +20,11 @@ const Settings = () => {
 
   useEffect(() => {
     !allFarms && dispatch(fetchFarms());
-  }, [dispatch, allFarms]);
+  }, [dispatch, allFarms, token]);
 
   useEffect(() => {
-    !users && dispatch(fetchUsers());
-  }, [dispatch, users]);
+    !users && token.isAdmin && dispatch(fetchUsers());
+  }, [dispatch, users, token]);
 
   useEffect(() => {
     !products && dispatch(fetchProducts());

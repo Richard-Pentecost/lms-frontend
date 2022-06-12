@@ -16,8 +16,8 @@ import Layout from './components/Layout';
 import LoginRedirectRoute from './components/LoginRedirectRoute';
 import { isTokenValid } from './utils/token-manager';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner, faTimesCircle, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
+import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner, faTimesCircle, faChevronDown, faChevronUp, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt} from '@fortawesome/free-regular-svg-icons';
 import './style/App.module.scss';
 import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword';
@@ -41,6 +41,7 @@ library.add(
   faTimesCircle,
   faChevronDown,
   faChevronUp,
+  faCheck,
 );
 
 const App = () => {
@@ -104,11 +105,11 @@ const App = () => {
           >
             <Route path='profile' element={<Profile />} />
             <Route path='security' element={<ChangePassword />} />
-            <Route path='create-user' element={<AdminRoute isAdmin={token && token.isAdmin}><CreateUser /></AdminRoute>} />
-            <Route path='users' element={<AdminRoute isAdmin={token && token.isAdmin}><Users /></AdminRoute>} />
-            <Route path='farms' element={<AdminRoute isAdmin={token && token.isAdmin}><FarmList /></AdminRoute>} />
-            <Route path='regions' element={<AdminRoute isAdmin={token && token.isAdmin}><RegionList /></AdminRoute>} />
-            <Route path='products' element={<AdminRoute isAdmin={token && token.isAdmin}><ProductList /></AdminRoute>} />
+            <Route path='create-user' element={<AdminRoute isAdmin={token && token.isAdmin}><CreateUser isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='users' element={<AdminRoute isAdmin={token && token.isAdmin}><Users isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='farms' element={<AdminRoute isAdmin={token && token.isAdmin}><FarmList isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='regions' element={<AdminRoute isAdmin={token && token.isAdmin}><RegionList isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='products' element={<AdminRoute isAdmin={token && token.isAdmin}><ProductList isAdmin={token && token.isAdmin} /></AdminRoute>} />
             <Route path='' element={<Navigate to='profile' />} />
           </Route>
           <Route 

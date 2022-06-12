@@ -50,6 +50,7 @@
 .dropdown {
   position: absolute;
   width: 30rem;
+  top: 4rem;
   transform: translateX(2%);
   background-color: $color-white;
   box-shadow: -1rem 2rem 6rem rgba(black, 0.2);
@@ -62,7 +63,7 @@
   }
 }
 
-.dropdownLink {
+.dropdownHeading {
   font-weight: 400;
   padding: 0.5rem;
   
@@ -71,19 +72,5 @@
     letter-spacing: 0.5px;
     text-decoration: underline;
   }
-
-  &__link {
-    font-size: 1.4rem;
-    text-decoration: none;
-    color: inherit;
-    
-    &:hover {
-      text-decoration: underline;
-    }
-
-    &.active {
-      color: red
-    }
-  }  
 }
 

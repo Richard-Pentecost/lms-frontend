@@ -21,13 +21,12 @@ const DataTable = ({ data, clickHandler, openModalHandler, isAdmin }) => {
         }
         <td 
           className={classes.tableBody__cell}
-          style={disableDeleteButton}
           onClick={event => {
             event.stopPropagation();
-            openModalHandler(rowData.uuid);
+            isAdmin && openModalHandler(rowData.uuid);
           }}
         >
-          <div className={classes.tableIcon}><FontAwesomeIcon icon={[ 'far', 'trash-alt' ]}/></div>
+          <div style={disableDeleteButton} className={classes.tableIcon}><FontAwesomeIcon icon={[ 'far', 'trash-alt' ]}/></div>
         </td>
       </tr>
     )

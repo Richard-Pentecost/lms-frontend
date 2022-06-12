@@ -8,7 +8,7 @@ import Modal from '../components/Modal';
 import classes from '../style/RegionList.module.scss';
 
 const ProductList = () => {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +31,7 @@ const ProductList = () => {
   };
 
   const handleRowClick = product => {
-    history.push(`/edit-product/${product.uuid}`);
+    navigate(`/edit-product/${product.uuid}`);
   }
 
   return (
@@ -42,7 +42,7 @@ const ProductList = () => {
             <HeaderSection>Products</HeaderSection>
             <div className={classes.regions}>
               <Button
-                handleClick={() => history.push('/create-product')}
+                handleClick={() =>navigate('/create-product')}
               >Add Products</Button>
               <div className={classes.listContainer}>
                 <table className={classes.list}>

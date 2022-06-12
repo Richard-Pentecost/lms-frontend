@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, NavLink, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'qs';
+import FilterSortDropdownLink from './FilterSortDropdownLink';
 import classes from '../style/FilterSortDropdown.module.scss';
-import '../style/NavLink.css';
 
 const FilterSortDropdown = ({ regions }) => {
   const { search } = useLocation();
-  const history = useNavigate();
+  const navigate = useNavigate();
   const filterDropdownRef = useRef();
   const [isActive, setIsActive] = useState(false);
-
+  
   useEffect(() => {
     const pageClickEvent = event => {
       if (filterDropdownRef.current && !filterDropdownRef.current.contains(event.target)) {
@@ -28,7 +28,7 @@ const FilterSortDropdown = ({ regions }) => {
   const handleClick = () => {
     setIsActive(!isActive);
   };
-
+  
   const buildSortQueryString = (operation, value) => {
     const currentQueryParams = qs.parse(search, { ignoreQueryPrefix: true });
 
@@ -89,38 +89,33 @@ const FilterSortDropdown = ({ regions }) => {
         </span>
       </button>
       {
-        search && <span onClick={() => history('/home')} className={classes.clearLink}>Clear Filters and Search</span>
+        search && <span onClick={() => navigate('/home')} className={classes.clearLink}>Clear Filters and Search</span>
       }
       {
         isActive && (
           <nav className={classes.dropdown} ref={filterDropdownRef}>
             <ul className={classes.dropdown__list}>
-              <li className={classes.dropdownLink}>
-                <span className={classes.dropdownLink__title}>Filter</span>
+              <li className={classes.dropdownHeading}>
+                <span className={classes.dropdownHeading__title}>Filter</span>
               </li>
               {
                 regions && regions.map(region => (
-                  <li key={region.uuid} onClick={handleClick} className={classes.dropdownLink}>
-                    <NavLink 
-                      to={buildFilterQueryString('filter', region.regionName)} 
-                      className={({ isActive }) => 
-                        isActive ? `${classes.dropdownLink__link} ${classes.active}`: classes.dropdownLink__link}
-                    >
-                      {region.regionName}
-                    </NavLink>
-                  </li>
+                  <FilterSortDropdownLink 
+                    key={region.uuid}
+                    handleClick={handleClick} 
+                    link={buildFilterQueryString('filter', region.regionName)}
+                  >{region.regionName}</FilterSortDropdownLink>
                 ))
               }
             </ul>
             <ul className={classes.dropdown__list}>
-              <li className={classes.dropdownLink}>
-                <span className={classes.dropdownLink__title}>Sort</span>
+              <li className={classes.dropdownHeading}>
+                <span className={classes.dropdownHeading__title}>Sort</span>
               </li>
-              <li onClick={handleClick} className={classes.dropdownLink}>
-                <NavLink to={buildSortQueryString('sort', 'z-a')} className={classes.dropdownLink__link}>
-                  Z - A
-                </NavLink>
-              </li>
+              <FilterSortDropdownLink 
+                handleClick={handleClick} 
+                link={buildSortQueryString('sort', 'z-a')}
+              >Z - A</FilterSortDropdownLink>
             </ul>
           </nav>
         )
