@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchActiveFarms } from '../store/actions/farmActions';
 import { fetchLoggedInUser } from '../store/actions/authActions';
@@ -9,15 +9,17 @@ import SearchBar from '../components/SearchBar';
 import Button from '../components/Button';
 import classes from '../style/Home.module.scss';
 import LoadingWrapper from '../components/LoadingWrapper';
+import FilterSortDropdown from '../components/FilterSortDropdown';
+import { fetchRegions } from '../store/actions/regionActions';
 
 const Home = () => {
   const { search } = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { loggedInUser, token, loading: userLoading } = useSelector(state => state.authState);
   const { farms, loading: farmsLoading } = useSelector(state => state.farmState);
-
+  const { regions } = useSelector(state => state.regionState);
   const prevSearchRef = useRef();  
 
   useEffect(() => {
@@ -26,6 +28,10 @@ const Home = () => {
       prevSearchRef.current = search;
     }
   }, [dispatch, farms, search]);
+
+  useEffect(() => {
+    !regions && dispatch(fetchRegions());
+  }, [dispatch, regions]);
 
   useEffect(() => {
     !loggedInUser && dispatch(fetchLoggedInUser(token.uuid));
@@ -39,13 +45,15 @@ const Home = () => {
         </div> */}
         <div className={classes.homeBody}>
           <div className={classes.header}>
-            <div className={classes.header__sort}></div>
+            <div className={classes.header__sort}>
+              <FilterSortDropdown regions={regions} />
+            </div>
             <div className={classes.header__search}>
               <SearchBar />
             </div>
             <div className={classes.header__btn}>
               <Button
-                handleClick={() => history.push('/farms/create-farm')}
+                handleClick={() => navigate('/farms/create-farm')}
                 icon='plus'
               >
                 Create Farm

@@ -1,12 +1,12 @@
 import { useRef } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'qs';
 import classes from '../style/SearchBar.module.scss';
 
 const SearchBar = () => {
   const { search } = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const searchRef = useRef();
   
@@ -14,7 +14,7 @@ const SearchBar = () => {
     event.preventDefault();
     const searchValue = searchRef.current.value;
     const url = searchValue ? buildQueryString('query', searchValue) : '/'; 
-    history.push(url);
+    navigate(url);
   };
 
   const buildQueryString = (operation, value) => {

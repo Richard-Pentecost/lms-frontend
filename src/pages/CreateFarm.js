@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createFarm, clearSuccessFlag, clearErrors } from '../store/actions/farmActions';
 import { fetchProducts } from '../store/actions/productActions';
@@ -14,7 +14,7 @@ import LoadingWrapper from '../components/LoadingWrapper';
 import classes from '../style/AddProduct.module.scss';
 
 const CreateFarm = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { errorMessage,loading, addFarmSuccess } = useSelector(state => state.farmState);
@@ -40,13 +40,13 @@ const CreateFarm = () => {
 
   useEffect(() => {
     if (addFarmSuccess) {
-      history.goBack();
+      navigate(-1);
     }
     return () => {
       dispatch(clearSuccessFlag());
       dispatch(clearErrors());
     }
-  }, [dispatch, history, addFarmSuccess]);
+  }, [dispatch, navigate, addFarmSuccess]);
 
   const formSubmit = event => {
     event.preventDefault();
@@ -80,7 +80,7 @@ const CreateFarm = () => {
       <div className={classes.farmForm}>
         <div className={classes.farmFormHeading}>
           <span className={classes.farmFormHeading__title}>Create Farm</span>
-          <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
+          <span className={classes.farmFormHeading__backLink} onClick={() => navigate(-1)}>Go Back</span>
         </div>
         <form onSubmit={formSubmit}>
           <Input type='text' ref={farmNameRef}>Farm Name:</Input>

@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 import Alert from '../components/Alert';
 import Input from '../components/Input';
@@ -11,7 +11,7 @@ import classes from '../style/AddProduct.module.scss';
 const AddRegion = () => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { errorMessage, showButtonSpinner, addRegionSuccess, regions, loading } = useSelector(state => state.regionState);
   const regionObj = regions.find(region => region.uuid === uuid);
   const title = regionObj ? 'Edit Region' : 'Add Region';
@@ -25,13 +25,13 @@ const AddRegion = () => {
 
   useEffect(() => {
     if (addRegionSuccess) {
-      history.goBack();
+      navigate(-1);
     }
     return () => {
       dispatch(clearSuccessFlag());
       dispatch(clearErrors());
     }
-  }, [dispatch, history, addRegionSuccess]);
+  }, [dispatch, navigate, addRegionSuccess]);
 
   const formSubmit = event => {
     event.preventDefault(); 
@@ -47,7 +47,7 @@ const AddRegion = () => {
       <div className={classes.farmForm}>
         <div className={classes.farmFormHeading}>
           <span className={classes.farmFormHeading__title}>{title}</span>
-          <span className={classes.farmFormHeading__backLink} onClick={() => history.goBack()}>Go Back</span>
+          <span className={classes.farmFormHeading__backLink} onClick={() => navigate(-1)}>Go Back</span>
         </div>
         <form onSubmit={formSubmit}>
           <Input type="text" ref={regionRef} defaultValue={region}>Region</Input>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addData, fetchData, clearErrors, clearSuccessFlag } from '../store/actions/dataActions';
 import { fetchActiveFarms } from '../store/actions/farmActions';
@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import LoadingWrapper from '../components/LoadingWrapper';
 
 const AddData = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { uuid } = useParams();
   
@@ -66,13 +66,13 @@ const AddData = () => {
 
   useEffect(() => {
     if (addDataSuccess) {
-      history.goBack();
+      navigate(-1);
     }
     return () => {
       dispatch(clearSuccessFlag());
       dispatch(clearErrors());
     }
-  }, [dispatch, history, addDataSuccess]);
+  }, [dispatch, navigate, addDataSuccess]);
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
@@ -104,7 +104,7 @@ const AddData = () => {
   }
 
   const handleCancel = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   return (

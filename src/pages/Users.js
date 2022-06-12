@@ -6,14 +6,14 @@ import HeaderSection from '../components/HeaderSection';
 import Modal from '../components/Modal';
 import classes from '../style/Users.module.scss';
 
-const Users = (props) => {
+const Users = ({ isAdmin }) => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
 
   const { users } = useSelector(state => state.userState);
 
-  const disableDeleteButton = props.isAdmin ? undefined : { display: 'none' };
+  const disableDeleteButton = isAdmin ? undefined : { display: 'none' };
 
   const openModal = uuid => {
     setSelectedId(uuid);
@@ -37,13 +37,12 @@ const Users = (props) => {
       <td className={classes.tableBody__cell}>{user.isAdmin ? 'Admin' : 'User'}</td>
       <td 
         className={classes.tableBody__cell}
-        style={disableDeleteButton}
         onClick={event => {
           event.stopPropagation();
-          openModal(user.uuid);
+          isAdmin && openModal(user.uuid);
         }}
       >
-        <div className={classes.tableIcon}><FontAwesomeIcon icon={[ 'far', 'trash-alt' ]} /></div>
+        <div className={classes.tableIcon}  style={disableDeleteButton}><FontAwesomeIcon icon={[ 'far', 'trash-alt' ]} /></div>
       </td>
     </tr> 
   ));

@@ -6,7 +6,7 @@ const FarmHeading = ({ farm }) => (
   <div className={classes.farmHeader}>
     <div className={classes.farmHeader__title}>
       <span className={classes.farmHeader__text}>{farm.farmName}</span>
-      <Link to={`${farm.uuid}/edit-farm`}>
+      <Link to={`edit-farm`}>
         <span className={classes.farmHeader__link}>
           <FontAwesomeIcon icon={[ 'far', 'edit' ]} />
         </span>

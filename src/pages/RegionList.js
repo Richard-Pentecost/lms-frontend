@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteRegion } from '../store/actions/regionActions';
 import HeaderSection from '../components/HeaderSection';
@@ -8,7 +8,7 @@ import Modal from '../components/Modal';
 import classes from '../style/RegionList.module.scss';
 
 const RegionList = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +31,7 @@ const RegionList = () => {
   }
 
   const handleRowClick = region => {
-    history.push(`/edit-region/${region.uuid}`);
+    navigate(`/edit-region/${region.uuid}`);
   }
 
   return (
@@ -42,7 +42,7 @@ const RegionList = () => {
             <HeaderSection>Regions</HeaderSection>
             <div className={classes.regions}>
               <Button
-                handleClick={() => history.push('/create-region')}
+                handleClick={() => navigate('/create-region')}
               >Add Region</Button>
               <div className={classes.listContainer}>
                 <table className={classes.list}>

@@ -1,4 +1,4 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 // import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import classes from '../style/FarmCard.module.scss';
 
 const FarmCard = ({ farm }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   // const dispatch = useDispatch();
   const [recentData, setRecentData] = useState([]);
 
@@ -21,7 +21,7 @@ const FarmCard = ({ farm }) => {
     comments,
   } = farm;
 
-  const handleClick = () => history.push(`/farms/${uuid}`);
+  const handleClick = () => navigate(`/farms/${uuid}`);
 
   // const handleDelete = event => {
   //   event.stopPropagation();
@@ -87,7 +87,7 @@ const FarmCard = ({ farm }) => {
       <div className={classes.farmCard__btnContainer}>
         <Link
           to={{
-            pathname: `farms/${farm.uuid}/edit-farm`,
+            pathname: `/farms/${farm.uuid}/edit-farm`,
             state: { selectedFarm: farm },
           }}
           onClick={event => event.stopPropagation()}

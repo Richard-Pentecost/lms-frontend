@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -13,13 +13,36 @@ import AddProduct from './pages/AddProduct';
 import AuthRoute from './components/AuthRoute';
 import AdminRoute from './components/AdminRoute';
 import Layout from './components/Layout';
+import LoginRedirectRoute from './components/LoginRedirectRoute';
 import { isTokenValid } from './utils/token-manager';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt } from '@fortawesome/free-regular-svg-icons';
+import { faUser, faPhoneSquare, faPlus, faSearch, faCaretDown, faSpinner, faTimesCircle, faChevronDown, faChevronUp, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faEdit, faTrashAlt, faCalendarAlt} from '@fortawesome/free-regular-svg-icons';
 import './style/App.module.scss';
+import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword';
+import Users from './pages/Users';
+import CreateUser from './pages/CreateUser';
+import FarmList from './pages/FarmList';
+import RegionList from './pages/RegionList';
+import ProductList from './pages/ProductList';
 
-library.add(faAddressCard, faUser, faPhoneSquare, faEdit, faPlus, faSearch, faTrashAlt, faCalendarAlt, faCaretDown, faSpinner, faTimesCircle);
+library.add(
+  faAddressCard, 
+  faUser, 
+  faPhoneSquare, 
+  faEdit, 
+  faPlus, 
+  faSearch, 
+  faTrashAlt, 
+  faCalendarAlt, 
+  faCaretDown, 
+  faSpinner, 
+  faTimesCircle,
+  faChevronDown,
+  faChevronUp,
+  faCheck,
+);
 
 const App = () => {
   const { token } = useSelector(state => state.authState);
@@ -31,78 +54,90 @@ const App = () => {
   return (
     <>
       <Layout>
-        <Switch>
+        <Routes>
           <Route 
-            exact
             path='/'
-            render={props => (isLoggedIn() ?
-              <Redirect to='/home' /> :
-              <Login { ...props }/>  
-            )}
+            element={
+              <LoginRedirectRoute authenticate={isLoggedIn}><Login /></LoginRedirectRoute> 
+            }
           />
-          <AuthRoute 
-            exact
-            path='/home'
-            component={Home}
-            authenticate={isLoggedIn}
+          <Route 
+            path="/home"
+            element={
+              <AuthRoute authenticate={isLoggedIn}><Home /></AuthRoute>
+            }
           />
-          <AuthRoute
-            exact
+          <Route
             path='/farms/create-farm'
-            component={CreateFarm}
-            authenticate={isLoggedIn}
+            element={
+              <AuthRoute authenticate={isLoggedIn}><CreateFarm /></AuthRoute>
+            }
           />
-          <AuthRoute
-            exact
+          <Route
             path='/farms/:uuid'
-            component={Farm}
-            authenticate={isLoggedIn}
+            element={
+              <AuthRoute authenticate={isLoggedIn}><Farm /></AuthRoute>
+            }
           />
-          <AuthRoute 
-            exact
+          <Route 
             path='/farms/:uuid/edit-farm'
-            component={EditFarm}
-            authenticate={isLoggedIn}
+            element={
+              <AuthRoute authenticate={isLoggedIn}><EditFarm /></AuthRoute>
+            }
           />
-          <AuthRoute 
-            exact
+          <Route 
             path='/farms/:uuid/add-data'
-            component={AddData}
-            authenticate={isLoggedIn}
+            element={
+              <AuthRoute authenticate={isLoggedIn}><AddData /></AuthRoute>
+            }
           />
-          <AuthRoute 
-            exact
+          <Route 
             path='/farms/:uuid/edit-data/:dataId'
-            component={EditData}
-            authenticate={isLoggedIn}
+            element={
+              <AuthRoute authenticate={isLoggedIn}><EditData /></AuthRoute>
+            }
           />
-          <AuthRoute 
+          <Route 
             path='/settings'
-            component={Settings}
-            authenticate={isLoggedIn}
-          />
-          <AdminRoute 
+            element={
+              <AuthRoute authenticate={isLoggedIn}><Settings /></AuthRoute>
+            }
+          >
+            <Route path='profile' element={<Profile />} />
+            <Route path='security' element={<ChangePassword />} />
+            <Route path='create-user' element={<AdminRoute isAdmin={token && token.isAdmin}><CreateUser isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='users' element={<AdminRoute isAdmin={token && token.isAdmin}><Users isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='farms' element={<AdminRoute isAdmin={token && token.isAdmin}><FarmList isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='regions' element={<AdminRoute isAdmin={token && token.isAdmin}><RegionList isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='products' element={<AdminRoute isAdmin={token && token.isAdmin}><ProductList isAdmin={token && token.isAdmin} /></AdminRoute>} />
+            <Route path='' element={<Navigate to='profile' />} />
+          </Route>
+          <Route 
             path='/create-region'
-            component={AddRegion}
-            isAdmin={token && token.isAdmin}
+            element={
+              <AdminRoute isAdmin={token && token.isAdmin}><AddRegion /></AdminRoute>
+            }
           />
-          <AdminRoute  
+          <Route 
             path='/edit-region/:uuid'
-            component={AddRegion} 
-            isAdmin={token && token.isAdmin}
+            element={
+              <AdminRoute isAdmin={token && token.isAdmin}><AddRegion /></AdminRoute>
+            }
           />
-          <AdminRoute 
+          <Route 
             path='/create-product'
-            component={AddProduct}
-            isAdmin={token && token.isAdmin}
+            element={
+              <AdminRoute isAdmin={token && token.isAdmin}><AddProduct /></AdminRoute>
+            }
           />
-          <AdminRoute 
+          <Route 
             path='/edit-product/:uuid'
-            component={AddProduct}
-            isAdmin={token && token.isAdmin}
+            element={
+              <AdminRoute isAdmin={token && token.isAdmin}><AddProduct /></AdminRoute>
+            }
           />
-          <Redirect to='/' />
-        </Switch>
+          <Route path='*' element={<Navigate to='/' />} />
+        </Routes>
       </Layout>   
     </>
   );
